@@ -7,9 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //jflaskdjlfksadlkfjlkasdjflkasd
 //jflaskdjlfksadlkfjlkasdjflkasd
 @SpringBootApplication
-public class DemoApplication {
+public class Main {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+
+        SpringApplication.run(Main.class, args);
+
+    }
+
 }
