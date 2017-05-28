@@ -4,26 +4,20 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Template repo
+* 1
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Open repo in Intellij
+* Install Postman Chrome Extension for http requests
+* https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop/related?hl=en
+* localhost:8081
 
 ### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+* Do not merge until 29th May 10:00 pm
 
 ### Who do I talk to? ###
 
 * Repo owner or admin
-* Other community or team contact
