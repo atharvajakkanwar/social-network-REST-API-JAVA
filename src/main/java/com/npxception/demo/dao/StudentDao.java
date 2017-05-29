@@ -14,4 +14,8 @@ public interface StudentDao {
     void updateStudent(Student student);
 
     void insertStudentToDb(Student student);
+
+    Student getStudentByCourse(String course);
+
+    void removeStudentByCourse(String course);
 }
