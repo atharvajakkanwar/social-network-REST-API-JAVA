@@ -46,11 +46,31 @@ public class FakeStudentDaoImpl implements StudentDao {
         Student s = students.get(student.getId());
         s.setCourse(student.getCourse());
         s.setName(student.getName());
+        s.setCourse(student.getCourse());
         students.put(student.getId(), student);
     }
 
     @Override
     public void insertStudentToDb(Student student) {
         this.students.put(student.getId(), student);
+    }
+
+    @Override
+    public Student getStudentByCourse(String course) {
+        for (Map.Entry<Integer, Student> entry : students.entrySet()){
+            if (entry.getValue().getCourse().equals(course)){
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void removeStudentByCourse(String course) {
+        for (Map.Entry<Integer, Student> entry : students.entrySet()){
+            if (entry.getValue().getCourse().equals(course)){
+                this.students.remove(entry.getKey());
+            }
+        }
     }
 }

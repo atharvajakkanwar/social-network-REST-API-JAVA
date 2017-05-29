@@ -39,4 +39,20 @@ public class StudentController {
     public void insertStudent(@RequestBody Student student){
         studentService.insertStudent(student);
     }
+
+    @RequestMapping(value = "/{course}", method = RequestMethod.GET)
+    public Student getStudentByCourse(@PathVariable("course") String course){
+        return studentService.getStudentByCourse(course);
+    }
+
+    @RequestMapping(value = "/{course}", method = RequestMethod.DELETE)
+    public void deleteStudentByCourse(@PathVariable("course") String course){
+        studentService.removeStudentByCourse(course);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteStudentByCourse(@RequestBody Student student){
+        studentService.updateStudent(student);
+    }
+
 }
