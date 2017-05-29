@@ -35,4 +35,12 @@ public class StudentService {
     public void insertStudent(Student student) {
         this.studentDao.insertStudentToDb(student);
     }
+
+    public Student getStudentByCourse(String course){
+        return this.studentDao.getStudentByCourse(course);
+    }
+
+    public void removeStudentByCourse(String course){
+        this.studentDao.removeStudentByCourse(course);
+    }
 }
