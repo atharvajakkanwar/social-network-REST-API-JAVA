@@ -40,4 +40,14 @@ public class MongoStudentDaoImpl implements StudentDao {
     public void insertStudentToDb(Student student) {
 
     }
+
+    @Override
+    public Student getStudentByCourse(String course) {
+        return null;
+    }
+
+    @Override
+    public void removeStudentByCourse(String course) {
+
+    }
 }
