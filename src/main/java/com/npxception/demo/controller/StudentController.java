@@ -30,7 +30,7 @@ public class StudentController {
         studentService.removeStudentById(id);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, params = "id",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteStudentById(@RequestBody Student student){
         studentService.updateStudent(student);
     }
@@ -50,7 +50,7 @@ public class StudentController {
         studentService.removeStudentByCourse(course);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.PUT, params = "course",consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteStudentByCourse(@RequestBody Student student){
         studentService.updateStudent(student);
     }
