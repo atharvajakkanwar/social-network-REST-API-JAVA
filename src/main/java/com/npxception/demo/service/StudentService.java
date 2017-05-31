@@ -44,11 +44,7 @@ public class StudentService {
         this.studentDao.removeStudentByCourse(course);
     }
 
-<<<<<<< HEAD
-    public Collection<Student> getStudentInCourseByName(String course, String name) {
-=======
     public Collection<Student> getStudentInCourseByName(String course, String name ){
->>>>>>> master
         return this.studentDao.getStudentInCourseByName(course, name);
     }
 }
