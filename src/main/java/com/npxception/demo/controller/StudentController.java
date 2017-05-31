@@ -20,12 +20,12 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
     public Student getStudentById(@PathVariable("id") int id){
         return studentService.getStudentById(id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
     public void deleteStudentById(@PathVariable("id") int id){
         studentService.removeStudentById(id);
     }
@@ -40,12 +40,12 @@ public class StudentController {
         studentService.insertStudent(student);
     }
 
-    @RequestMapping(value = "/{course}", method = RequestMethod.GET)
+    @RequestMapping(value = "/course = {course}", method = RequestMethod.GET)
     public Student getStudentByCourse(@PathVariable("course") String course){
         return studentService.getStudentByCourse(course);
     }
 
-    @RequestMapping(value = "/{course}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/course = {course}", method = RequestMethod.DELETE)
     public void deleteStudentByCourse(@PathVariable("course") String course){
         studentService.removeStudentByCourse(course);
     }
@@ -54,5 +54,4 @@ public class StudentController {
     public void deleteStudentByCourse(@RequestBody Student student){
         studentService.updateStudent(student);
     }
-
 }
