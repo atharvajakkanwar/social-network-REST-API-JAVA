@@ -51,6 +51,5 @@ public class ClassDaoImpl implements ClassDao {
   public void insertClassToDb(Class classes) {
     this.classMap.put(classes.getClassID(), classes);
 
-
-  }
+}
 }
