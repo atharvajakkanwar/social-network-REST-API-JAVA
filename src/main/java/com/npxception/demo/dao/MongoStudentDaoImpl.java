@@ -50,4 +50,9 @@ public class MongoStudentDaoImpl implements StudentDao {
     public void removeStudentByCourse(String course) {
 
     }
+
+    @Override
+    public Collection<Student> getStudentInCourseByName(String course, String name) {
+        return null;
+    }
 }

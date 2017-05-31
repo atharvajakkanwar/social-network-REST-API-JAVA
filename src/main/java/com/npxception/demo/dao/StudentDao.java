@@ -18,4 +18,6 @@ public interface StudentDao {
     Collection<Student> getStudentByCourse(String course);
 
     void removeStudentByCourse(String course);
+
+    Collection<Student> getStudentInCourseByName(String course, String name );
 }
