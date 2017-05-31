@@ -20,6 +20,10 @@ public interface StudentDao {
 
     void removeStudentByCourse(String course);
 
+<<<<<<< HEAD
     // get students in course by name, return a list of students
     Collection<Student> getStudentInCourseByName(String course, String name);
+=======
+    Collection<Student> getStudentInCourseByName(String course, String name );
+>>>>>>> master
 }
