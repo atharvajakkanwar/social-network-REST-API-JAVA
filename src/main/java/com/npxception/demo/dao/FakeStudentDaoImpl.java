@@ -21,7 +21,7 @@ public class FakeStudentDaoImpl implements StudentDao {
             {
                 put(1, new Student(1, "Said", "Computer Science"));
                 put(2, new Student(2, "Alex U", "Finance"));
-                put(3, new Student(3, "Anna", "Maths"));
+                put(3, new Student(3, "Anna", "Finance"));
             }
         };
     }
