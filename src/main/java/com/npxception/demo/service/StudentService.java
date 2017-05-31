@@ -43,4 +43,8 @@ public class StudentService {
     public void removeStudentByCourse(String course){
         this.studentDao.removeStudentByCourse(course);
     }
+
+    public Collection<Student> getStudentInCourseByName(String course, String name) {
+        return this.studentDao.getStudentInCourseByName(course, name);
+    }
 }

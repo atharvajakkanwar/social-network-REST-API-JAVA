@@ -54,4 +54,10 @@ public class StudentController {
     public void deleteStudentByCourse(@RequestBody Student student){
         studentService.updateStudent(student);
     }
+
+    @RequestMapping(value = "/{course}/{name}", method = RequestMethod.GET)
+    public Collection<Student> getStudentInCourseByName(@PathVariable("course") String course,
+                                         @PathVariable("name") String name){
+        return studentService.getStudentInCourseByName(course, name);
+    }
 }

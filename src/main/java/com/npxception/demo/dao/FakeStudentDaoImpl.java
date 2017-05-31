@@ -4,6 +4,7 @@ import com.npxception.demo.entity.Student;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +66,7 @@ public class FakeStudentDaoImpl implements StudentDao {
         }
         return studentsByCourse.values();
     }
+
     @Override
     public void removeStudentByCourse(String course) {
         for (Map.Entry<Integer, Student> entry : students.entrySet()){
@@ -72,5 +74,17 @@ public class FakeStudentDaoImpl implements StudentDao {
                 this.students.remove(entry.getKey());
             }
         }
+    }
+
+    @Override
+    public Collection<Student> getStudentInCourseByName(String course, String name) {
+        HashMap<Integer, Student> studentsByCourseAndName = new HashMap<>();
+        for (Map.Entry<Integer, Student> entry : students.entrySet()){
+            if (entry.getValue().getCourse().equals(course)
+                && entry.getValue().getName().equals(name)){
+                studentsByCourseAndName.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return studentsByCourseAndName.values();
     }
 }
