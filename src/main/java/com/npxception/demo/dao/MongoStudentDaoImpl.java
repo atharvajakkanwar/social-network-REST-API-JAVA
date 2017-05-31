@@ -42,7 +42,7 @@ public class MongoStudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student getStudentByCourse(String course) {
+    public Collection<Student> getStudentByCourse(String course) {
         return null;
     }
 

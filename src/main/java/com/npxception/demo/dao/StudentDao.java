@@ -15,7 +15,7 @@ public interface StudentDao {
 
     void insertStudentToDb(Student student);
 
-    Student getStudentByCourse(String course);
+    Collection<Student> getStudentByCourse(String course);
 
     void removeStudentByCourse(String course);
 }
