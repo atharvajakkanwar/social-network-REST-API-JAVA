@@ -1,5 +1,6 @@
 package com.npxception.demo.entity;
 
+
 public class Student {
 
     private int id;
