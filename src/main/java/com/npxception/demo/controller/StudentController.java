@@ -41,7 +41,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/course = {course}", method = RequestMethod.GET)
-    public Student getStudentByCourse(@PathVariable("course") String course){
+    public Collection<Student> getStudentByCourse(@PathVariable("course") String course){
         return studentService.getStudentByCourse(course);
     }
 

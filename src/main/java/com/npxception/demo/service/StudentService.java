@@ -36,7 +36,7 @@ public class StudentService {
         this.studentDao.insertStudentToDb(student);
     }
 
-    public Student getStudentByCourse(String course){
+    public Collection<Student> getStudentByCourse(String course){
         return this.studentDao.getStudentByCourse(course);
     }
 

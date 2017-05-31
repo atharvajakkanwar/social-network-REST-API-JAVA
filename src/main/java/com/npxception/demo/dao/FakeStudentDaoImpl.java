@@ -56,15 +56,15 @@ public class FakeStudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student getStudentByCourse(String course) {
+    public Collection<Student> getStudentByCourse(String course) {
+        HashMap<Integer, Student> studentsByCourse = new HashMap<>();
         for (Map.Entry<Integer, Student> entry : students.entrySet()){
             if (entry.getValue().getCourse().equals(course)){
-                return entry.getValue();
+                studentsByCourse.put(entry.getKey(), entry.getValue());
             }
         }
-        return null;
+        return studentsByCourse.values();
     }
-
     @Override
     public void removeStudentByCourse(String course) {
         for (Map.Entry<Integer, Student> entry : students.entrySet()){
