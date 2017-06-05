@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Repository
 @Qualifier("fakeData")
-public class FakeAssignmentDaoImpl implements AssignmentDao{
+public class FakeAssignmentDaoImpl implements AssignmentDao {
 
   private static Map<Integer, Assignment> assignments;
 
@@ -61,12 +61,12 @@ public class FakeAssignmentDaoImpl implements AssignmentDao{
 
   @Override
   public void insertAssignmentToDb(Assignment assignment) {
-    this.assignments.put(assignment.getId(),assignment);
+    this.assignments.put(assignment.getId(), assignment);
   }
 
   @Override
   public Collection<Assignment> getAssignmentByCourse(String course) {
-    HashMap<Integer, Assignment> assignmentByCourse= new HashMap<>();
+    HashMap<Integer, Assignment> assignmentByCourse = new HashMap<>();
     for (Map.Entry<Integer, Assignment> entry : assignments.entrySet()) {
       if (entry.getValue().getCourse().equals(course)) {
         assignmentByCourse.put(entry.getKey(), entry.getValue());
@@ -77,7 +77,7 @@ public class FakeAssignmentDaoImpl implements AssignmentDao{
 
   @Override
   public Collection<Assignment> getAssignmentByContent(String content) {
-    HashMap<Integer, Assignment> assignmentByContent= new HashMap<>();
+    HashMap<Integer, Assignment> assignmentByContent = new HashMap<>();
     for (Map.Entry<Integer, Assignment> entry : assignments.entrySet()) {
       if (entry.getValue().getContent().equals(content)) {
         assignmentByContent.put(entry.getKey(), entry.getValue());

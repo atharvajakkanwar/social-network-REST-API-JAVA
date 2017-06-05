@@ -16,7 +16,8 @@ public class Course {
     this.size = size;
   }
 
-  public Course() {}
+  public Course() {
+  }
 
   public int getId() {
     return id;

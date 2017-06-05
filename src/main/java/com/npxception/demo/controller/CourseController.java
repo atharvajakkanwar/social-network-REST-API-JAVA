@@ -22,7 +22,9 @@ public class CourseController {
   private CourseService courseService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Course> getAllCourse() { return courseService.getAllCourses();}
+  public Collection<Course> getAllCourse() {
+    return courseService.getAllCourses();
+  }
 
   @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
   public Course getCourseById(@PathVariable("id") int id) {
@@ -48,6 +50,7 @@ public class CourseController {
   public Collection<Course> getCourseByTitle(@PathVariable("title") String title) {
     return courseService.getCourseByTitle(title);
   }
+
   @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
   public Collection<Course> getStudentsByName(@PathVariable("size") int size) {
     return courseService.getCourseBySize(size);

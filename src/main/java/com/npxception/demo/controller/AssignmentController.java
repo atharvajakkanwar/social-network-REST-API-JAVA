@@ -22,7 +22,9 @@ public class AssignmentController {
   private AssignmentService assignmentService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Assignment> getAllAssingment() { return assignmentService.getAllAssignment();}
+  public Collection<Assignment> getAllAssingment() {
+    return assignmentService.getAllAssignment();
+  }
 
   @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
   public Assignment getAssignmentById(@PathVariable("id") int id) {

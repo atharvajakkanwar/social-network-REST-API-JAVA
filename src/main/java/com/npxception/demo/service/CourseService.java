@@ -21,11 +21,26 @@ public class CourseService {
   @Qualifier("fakeData")
   private CourseDao courseDao;
 
-  public Collection<Course> getAllCourses() { return this.courseDao.getAllCourses();}
-  public Course getCourseById(int id) {return this.courseDao.getCourseById(id);}
-  public void removeCourseById(int id) {this.courseDao.removeCourseById(id);}
-  public void updateCourse(Course course) {this.courseDao.updateCourse(course);}
-  public void insertCourse(Course course) {this.courseDao.insertCourseToDb(course);}
+  public Collection<Course> getAllCourses() {
+    return this.courseDao.getAllCourses();
+  }
+
+  public Course getCourseById(int id) {
+    return this.courseDao.getCourseById(id);
+  }
+
+  public void removeCourseById(int id) {
+    this.courseDao.removeCourseById(id);
+  }
+
+  public void updateCourse(Course course) {
+    this.courseDao.updateCourse(course);
+  }
+
+  public void insertCourse(Course course) {
+    this.courseDao.insertCourseToDb(course);
+  }
+
   public Collection<Course> getCourseByProf(String prof) {
     return this.courseDao.getCourseByProf(prof);
   }

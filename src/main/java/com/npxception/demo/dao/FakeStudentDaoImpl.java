@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Repository
 @Qualifier("fakeData")
-public class  FakeStudentDaoImpl implements StudentDao {
+public class FakeStudentDaoImpl implements StudentDao {
 
   private static Map<Integer, Student> students;
 
@@ -73,9 +73,9 @@ public class  FakeStudentDaoImpl implements StudentDao {
   @Override
   public Collection<Student> getStudentsByName(String name) {
     HashMap<Integer, Student> studentsByName = new HashMap<>();
-    for (Map.Entry<Integer, Student> entry: students.entrySet()) {
+    for (Map.Entry<Integer, Student> entry : students.entrySet()) {
       if (entry.getValue().getName().equals(name)) {
-        studentsByName.put(entry.getKey(),entry.getValue());
+        studentsByName.put(entry.getKey(), entry.getValue());
       }
     }
     return studentsByName.values();
@@ -84,9 +84,9 @@ public class  FakeStudentDaoImpl implements StudentDao {
   @Override
   public Collection<Student> getStudentsByAge(int age) {
     HashMap<Integer, Student> studentsByAge = new HashMap<>();
-    for (Map.Entry<Integer, Student> entry: students.entrySet()) {
-      if (entry.getValue().getAge()== age) {
-        studentsByAge.put(entry.getKey(),entry.getValue());
+    for (Map.Entry<Integer, Student> entry : students.entrySet()) {
+      if (entry.getValue().getAge() == age) {
+        studentsByAge.put(entry.getKey(), entry.getValue());
       }
     }
     return studentsByAge.values();
@@ -95,9 +95,9 @@ public class  FakeStudentDaoImpl implements StudentDao {
   @Override
   public Collection<Student> getStudentsByGender(String gender) {
     HashMap<Integer, Student> studentsByGender = new HashMap<>();
-    for (Map.Entry<Integer, Student> entry: students.entrySet()) {
+    for (Map.Entry<Integer, Student> entry : students.entrySet()) {
       if (entry.getValue().getGender().equals(gender)) {
-        studentsByGender.put(entry.getKey(),entry.getValue());
+        studentsByGender.put(entry.getKey(), entry.getValue());
       }
     }
     return studentsByGender.values();

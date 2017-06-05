@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Repository
 @Qualifier("fakeData")
-public class FakeCourseDaoImpl implements CourseDao{
+public class FakeCourseDaoImpl implements CourseDao {
 
   private static Map<Integer, Course> courses;
 
@@ -31,6 +31,7 @@ public class FakeCourseDaoImpl implements CourseDao{
       }
     };
   }
+
   @Override
   public Collection<Course> getAllCourses() {
     return this.courses.values();
@@ -89,7 +90,7 @@ public class FakeCourseDaoImpl implements CourseDao{
   public Collection<Course> getCourseBySize(int size) {
     HashMap<Integer, Course> courseBySize = new HashMap<>();
     for (Map.Entry<Integer, Course> entry : courses.entrySet()) {
-      if (entry.getValue().getSize()== size) {
+      if (entry.getValue().getSize() == size) {
         courseBySize.put(entry.getKey(), entry.getValue());
       }
     }

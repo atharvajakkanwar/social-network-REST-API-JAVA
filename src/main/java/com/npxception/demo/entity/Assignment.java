@@ -14,7 +14,8 @@ public class Assignment {
     this.content = content;
   }
 
-  public Assignment(){}
+  public Assignment() {
+  }
 
   public int getId() {
     return id;

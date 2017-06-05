@@ -21,11 +21,26 @@ public class AssignmentService {
   @Qualifier("fakeData")
   private AssignmentDao assignmentDao;
 
-  public Collection<Assignment> getAllAssignment() { return this.assignmentDao.getAllAssignment();}
-  public Assignment getAssignmentById(int id) {return this.assignmentDao.getAssignmentById(id);}
-  public void removeAssignmentById(int id) {this.assignmentDao.removeAssignmentById(id);}
-  public void updateAssignment(Assignment assignment) {this.assignmentDao.updateAssignment(assignment);}
-  public void insertAssignment(Assignment assignment) {this.assignmentDao.insertAssignmentToDb(assignment);}
+  public Collection<Assignment> getAllAssignment() {
+    return this.assignmentDao.getAllAssignment();
+  }
+
+  public Assignment getAssignmentById(int id) {
+    return this.assignmentDao.getAssignmentById(id);
+  }
+
+  public void removeAssignmentById(int id) {
+    this.assignmentDao.removeAssignmentById(id);
+  }
+
+  public void updateAssignment(Assignment assignment) {
+    this.assignmentDao.updateAssignment(assignment);
+  }
+
+  public void insertAssignment(Assignment assignment) {
+    this.assignmentDao.insertAssignmentToDb(assignment);
+  }
+
   public Collection<Assignment> getAssignmentByCourse(String course) {
     return this.assignmentDao.getAssignmentByCourse(course);
   }
