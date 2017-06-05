@@ -1,7 +1,6 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.Course;
-import com.npxception.demo.entity.Student;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
