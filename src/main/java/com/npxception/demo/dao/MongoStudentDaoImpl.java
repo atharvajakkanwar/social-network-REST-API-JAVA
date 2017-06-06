@@ -1,74 +1,54 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.entity.Student;
+import com.npxception.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Repository
 @Qualifier("mongoData")
-public class MongoStudentDaoImpl implements StudentDao {
+public class MongoStudentDaoImpl implements UserDao {
 
 
   @Override
-  public Collection<Student> getAllStudents() {
-    return new ArrayList<Student>() {
-      {
-        add(new Student(1, "Mario", "Nothing", "M", 5));
-      }
-    };
-  }
-
-  @Override
-  public Student getStudentById(int id) {
+  public Collection<User> getAllUser() {
     return null;
   }
 
   @Override
-  public void removeStudentById(int id) {
-
-  }
-
-  @Override
-  public void updateStudent(Student student) {
-
-  }
-
-  @Override
-  public void insertStudentToDb(Student student) {
-
-  }
-
-  @Override
-  public Collection<Student> getStudentsByCourse(String course) {
+  public User getUserById(int id) {
     return null;
   }
 
   @Override
-  public Collection<Student> getStudentsByName(String name) {
+  public void removeUserById(int id) {
+
+  }
+
+  @Override
+  public void updateUser(User user) {
+
+  }
+
+  @Override
+  public void insertUserToDb(User user) {
+
+  }
+
+  @Override
+  public Collection<User> getUserByName(String name) {
     return null;
   }
 
   @Override
-  public Collection<Student> getStudentsByAge(int age) {
+  public Collection<User> getUserByAge(int age) {
     return null;
   }
 
   @Override
-  public Collection<Student> getStudentsByGender(String gender) {
-    return null;
-  }
-
-  @Override
-  public void removeStudentByCourse(String course) {
-
-  }
-
-  @Override
-  public Collection<Student> getStudentInCourseByName(String course, String name) {
+  public Collection<User> getUserByGender(String gender) {
     return null;
   }
 }
