@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.entity.Course;
-import com.npxception.demo.service.CourseService;
+import com.npxception.demo.entity.Group;
+import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,46 +14,46 @@ import java.util.Collection;
  */
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/group")
 
-public class CourseController {
+public class GroupController {
 
   @Autowired
-  private CourseService courseService;
+  private GroupService courseService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Course> getAllCourse() {
-    return courseService.getAllCourses();
+  public Collection<Group> getAllCourse() {
+    return courseService.getAllGroup();
   }
 
   @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
-  public Course getCourseById(@PathVariable("id") int id) {
-    return courseService.getCourseById(id);
+  public Group getCourseById(@PathVariable("id") int id) {
+    return courseService.getGroupById(id);
   }
 
   @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
-  public void deleteCourseById(@PathVariable("id") int id) {
-    courseService.removeCourseById(id);
+  public void deleteGroupById(@PathVariable("id") int id) {
+    courseService.removeGroupById(id);
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertCourse(@RequestBody Course course) {
-    courseService.insertCourse(course);
+  public void insertGroup(@RequestBody Group group) {
+    courseService.insertGroup(group);
   }
 
-  @RequestMapping(value = "/professor = {professor}", method = RequestMethod.GET)
-  public Collection<Course> getCourseByProf(@PathVariable("professor") String professor) {
-    return courseService.getCourseByProf(professor);
-  }
+//  @RequestMapping(value = "/professor = {professor}", method = RequestMethod.GET)
+//  public Collection<Group> getGroupByProf(@PathVariable("professor") String professor) {
+//    return courseService.getGroupByProf(professor);
+//  }
 
   @RequestMapping(value = "/title = {title}", method = RequestMethod.GET)
-  public Collection<Course> getCourseByTitle(@PathVariable("title") String title) {
-    return courseService.getCourseByTitle(title);
+  public Collection<Group> getCourseByTitle(@PathVariable("title") String title) {
+    return courseService.getGroupByGroupName(title);
   }
 
-  @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
-  public Collection<Course> getStudentsByName(@PathVariable("size") int size) {
-    return courseService.getCourseBySize(size);
-  }
+//  @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
+//  public Collection<Group> getGroupByName(@PathVariable("size") int size) {
+//    return courseService.getGroupBySize(size);
+//  }
 
 }

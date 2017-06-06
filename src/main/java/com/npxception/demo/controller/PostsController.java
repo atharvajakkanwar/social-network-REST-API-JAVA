@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.entity.Assignment;
-import com.npxception.demo.service.AssignmentService;
+import com.npxception.demo.entity.Posts;
+import com.npxception.demo.service.PostsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,41 +14,37 @@ import java.util.Collection;
  */
 
 @RestController
-@RequestMapping("/assignment")
+@RequestMapping("/posts")
 
-public class AssignmentController {
+public class PostsController {
 
   @Autowired
-  private AssignmentService assignmentService;
+  private PostsService assignmentService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Assignment> getAllAssingment() {
-    return assignmentService.getAllAssignment();
+  public Collection<Posts> getAllAssingment() {
+    return assignmentService.getAllPosts();
   }
 
   @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
-  public Assignment getAssignmentById(@PathVariable("id") int id) {
-    return assignmentService.getAssignmentById(id);
+  public Posts getAssignmentById(@PathVariable("id") int id) {
+    return assignmentService.getPostsById(id);
   }
 
   @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
   public void deleteAssignmentById(@PathVariable("id") int id) {
-    assignmentService.removeAssignmentById(id);
+    assignmentService.removePostsById(id);
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertAssignment(@RequestBody Assignment assignment) {
-    assignmentService.insertAssignment(assignment);
+  public void insertAssignment(@RequestBody Posts assignment) {
+    assignmentService.insertPosts(assignment);
   }
 
-  @RequestMapping(value = "/course = {course}", method = RequestMethod.GET)
-  public Collection<Assignment> getAssignmentByCourse(@PathVariable("course") String course) {
-    return assignmentService.getAssignmentByCourse(course);
-  }
 
   @RequestMapping(value = "/content = {content}", method = RequestMethod.GET)
-  public Collection<Assignment> getAssignmentByContent(@PathVariable("content") String content) {
-    return assignmentService.getAssignmentByContent(content);
+  public Collection<Posts> getAssignmentByContent(@PathVariable("content") String content) {
+    return assignmentService.getPostsByContent(content);
   }
 
 }

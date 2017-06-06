@@ -1,7 +1,7 @@
 package com.npxception.demo.service;
 
-import com.npxception.demo.dao.AssignmentDao;
-import com.npxception.demo.entity.Assignment;
+import com.npxception.demo.dao.PostsDao;
+import com.npxception.demo.entity.Posts;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,38 +15,36 @@ import java.util.Collection;
  */
 
 @Service
-public class AssignmentService {
+public class PostsService {
 
   @Autowired
   @Qualifier("fakeData")
-  private AssignmentDao assignmentDao;
+  private PostsDao assignmentDao;
 
-  public Collection<Assignment> getAllAssignment() {
-    return this.assignmentDao.getAllAssignment();
+  public Collection<Posts> getAllPosts() {
+    return this.assignmentDao.getAllPosts();
   }
 
-  public Assignment getAssignmentById(int id) {
-    return this.assignmentDao.getAssignmentById(id);
+  public Posts getPostsById(int id) {
+    return this.assignmentDao.getPostsById(id);
   }
 
-  public void removeAssignmentById(int id) {
-    this.assignmentDao.removeAssignmentById(id);
+  public void removePostsById(int id) {
+    this.assignmentDao.removePostsById(id);
   }
 
-  public void updateAssignment(Assignment assignment) {
-    this.assignmentDao.updateAssignment(assignment);
+  public void updatePosts (Posts assignment) {
+    this.assignmentDao.updatePosts(assignment);
   }
 
-  public void insertAssignment(Assignment assignment) {
-    this.assignmentDao.insertAssignmentToDb(assignment);
+  public void insertPosts(Posts assignment) {
+    this.assignmentDao.insertPostsToDb(assignment);
   }
 
-  public Collection<Assignment> getAssignmentByCourse(String course) {
-    return this.assignmentDao.getAssignmentByCourse(course);
-  }
 
-  public Collection<Assignment> getAssignmentByContent(String content) {
-    return this.assignmentDao.getAssignmentByContent(content);
+
+  public Collection<Posts> getPostsByContent(String content) {
+    return this.assignmentDao.getPostsByContent(content);
   }
 
 

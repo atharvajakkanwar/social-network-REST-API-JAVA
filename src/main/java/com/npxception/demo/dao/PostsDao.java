@@ -1,22 +1,32 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.entity.Assignment;
+import com.npxception.demo.entity.Posts;
 
 import java.util.Collection;
 
-public interface AssignmentDao {
-  Collection<Assignment> getAllAssignment();
+public interface PostsDao {
+  Collection<Posts> getAllPosts();
 
-  Assignment getAssignmentById(int id);
+  Posts getPostsById(int id);
 
-  void removeAssignmentById(int id);
+  void removePostsById(int id);
 
-  void updateAssignment(Assignment assignment);
+  void updatePosts(Posts assignment);
 
-  void insertAssignmentToDb(Assignment assignment);
+  void insertPostsToDb(Posts assignment);
 
-  Collection<Assignment> getAssignmentByCourse(String course);
+  Collection<Posts> getPostsByContent(String content);
 
-  Collection<Assignment> getAssignmentByContent(String content);
+  Collection<Posts> getPostsByAuthor(int authorID);
+
+  Collection<Posts> getPostsByLikes(int likes);
+
+  Collection<Posts> getPostsByLikedBy(int likedBy);
+
+  Collection<Posts> getPostsByTime(int time);
+
+
+
+
 
 }

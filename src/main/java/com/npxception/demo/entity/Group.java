@@ -3,51 +3,51 @@ package com.npxception.demo.entity;
 /**
  * Created by bryan on 6/2/2017.
  */
-public class Course {
-  private int id;
-  private String professor;
-  private String title;
-  private int size;
+public class Group {
+  private int groupID;
+  private int adminID;
+  private String groupName;
+  private int memberID;
 
-  public Course(int id, String professor, String title, int size) {
-    this.id = id;
-    this.professor = professor;
-    this.title = title;
-    this.size = size;
+  public Group(int groupID, int adminID, String groupName, int memberID) {
+    this.groupID = groupID;
+    this.adminID = adminID;
+    this.groupName = groupName;
+    this.memberID = memberID;
   }
 
-  public Course() {
+  public Group() {
   }
 
-  public int getId() {
-    return id;
+  public int getGroupID() {
+    return groupID;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setGroupID(int groupID) {
+    this.groupID = groupID;
   }
 
-  public String getProfessor() {
-    return professor;
+  public int getAdminID() {
+    return adminID;
   }
 
-  public void setProfessor(String professor) {
-    this.professor = professor;
+  public void setAdminID(int adminID) {
+    this.adminID = adminID;
   }
 
-  public String getTitle() {
-    return title;
+  public String getGroupName() {
+    return groupName;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setGroupName(String groupName) {
+    this.groupName = groupName;
   }
 
-  public int getSize() {
-    return size;
+  public int getMemberID() {
+    return memberID;
   }
 
-  public void setSize(int size) {
-    this.size = size;
+  public void setMemberID(int memberID) {
+    this.memberID = memberID;
   }
 }

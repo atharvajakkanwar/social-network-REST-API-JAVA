@@ -1,28 +1,27 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.entity.Course;
+import com.npxception.demo.entity.Group;
 
 import java.util.Collection;
 
 /**
  * Created by bryan on 6/2/2017.
  */
-public interface CourseDao {
-  Collection<Course> getAllCourses();
+public interface GroupDao {
+  Collection<Group> getAllGroup();
 
-  Course getCourseById(int id);
+  Group getGroupById(int id);
 
-  void removeCourseById(int id);
+  void removeGroupById(int id);
 
-  void updateCourse(Course course);
+  void updateGroup(Group course);
 
-  void insertCourseToDb(Course course);
+  void insertGroupToDb(Group course);
 
-  Collection<Course> getCourseByProf(String prof);
 
-  Collection<Course> getCourseByTitle(String title);
+  Collection<Group> getGroupByGroupName(String groupName);
 
-  Collection<Course> getCourseBySize(int size);
+
 
 
 }
