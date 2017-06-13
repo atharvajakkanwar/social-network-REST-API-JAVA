@@ -18,24 +18,10 @@ import java.util.List;
  * Created by Robert on 6/5/2017.
  */
 @Repository("Postgre")
-public class PostreSQLUserDaoImpl implements UserDao {
-
+public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
-  public PostreSQLUserDaoImpl() {
-//    insertUserToDb(new User(1, "A", "Said", "asaid@gmail.com",21, "M", "USA", "Seattle", "123456"));
-//    insertUserToDb(new User(2, "Alex", "U", "alexu@gmail.com",22, "M", "USA", "Seattle", "123456"));
-//    insertUserToDb(new User(3, "Anna", "McAnna", "annamcanna@gmail.com",23, "F", "XYZ", "QWE", "asdf"));
-//    insertUserToDb(new User(4, "Anna", "Said", "annasaid@gmail.com",21, "F", "XYZ", "Seattle", "qwer"));
-
-  }
-
-  public Connection connect() throws SQLException {
-    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
-  }
-
 
   private static class UserRowMapper implements RowMapper<User> {
     @Override
@@ -65,7 +51,7 @@ public class PostreSQLUserDaoImpl implements UserDao {
 
   @Override
   public User getUserById(int id) {
-    final String sql = "SELECT * FROM users WHERE userid = ?";
+    final String sql = "SELECT * FROM users WHERE userid=1";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), id);
 
     return user;
