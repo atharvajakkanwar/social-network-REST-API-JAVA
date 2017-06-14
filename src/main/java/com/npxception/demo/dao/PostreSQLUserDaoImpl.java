@@ -67,7 +67,6 @@ public class PostreSQLUserDaoImpl implements UserDao {
   public User getUserById(int id) {
     final String sql = "SELECT * FROM users WHERE userid = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), id);
-
     return user;
   }
 

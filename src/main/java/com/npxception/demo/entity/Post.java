@@ -3,15 +3,15 @@ package com.npxception.demo.entity;
 /**
  * Created by bryan on 6/2/2017.
  */
-public class Posts {
+public class Post {
   private int id;
   private int author;
   private String content;
   private int likes;
   private int likedBy;
-  private String time;
+  private int time;
 
-  public Posts(int id, int author, String content, int likes, int likedBy, String time) {
+  public Post(int id, int author, String content, int likes, int likedBy, int time) {
     this.id = id;
     this.author = author;
     this.content = content;
@@ -19,6 +19,8 @@ public class Posts {
     this.likedBy = likedBy;
     this.time = time;
   }
+
+  public Post() {}
 
   public int getId() {
     return id;
@@ -60,11 +62,11 @@ public class Posts {
     this.likedBy = likedBy;
   }
 
-  public String getTime() {
+  public int getTime() {
     return time;
   }
 
-  public void setTime(String time) {
+  public void setTime(int time) {
     this.time = time;
   }
 }
