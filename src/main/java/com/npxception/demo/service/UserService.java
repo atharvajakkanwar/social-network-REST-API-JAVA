@@ -20,8 +20,8 @@ public class UserService {
     return this.userDao.getAllUser();
   }
 
-  public User getUserById(int id) {
-    return this.userDao.getUserById(id);
+  public User getUserById(int userid) {
+    return this.userDao.getUserById(userid);
   }
 
 

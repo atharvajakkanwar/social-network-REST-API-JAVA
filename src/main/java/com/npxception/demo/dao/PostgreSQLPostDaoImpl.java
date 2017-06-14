@@ -18,13 +18,13 @@ import java.util.List;
  * Created by Robert on 6/13/2017.
  */
 @Repository("Postgre1")
-public class PostreSQLPostDaoImpl implements PostDao {
+public class PostgreSQLPostDaoImpl implements PostDao {
 
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public PostreSQLPostDaoImpl() {}
+  public PostgreSQLPostDaoImpl() {}
 
   public Connection connect() throws SQLException {
     return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");

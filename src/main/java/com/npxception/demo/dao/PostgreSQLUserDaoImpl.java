@@ -26,8 +26,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   private JdbcTemplate jdbcTemplate;
 
   public PostgreSQLUserDaoImpl() {
-    User Joe = getUserById(1);
-  }
+      }
 
   public Connection connect() throws SQLException {
     return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
@@ -60,40 +59,10 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public User getUserById(int id) {
-<<<<<<< HEAD:src/main/java/com/npxception/demo/dao/PostreSQLUserDaoImpl.java
+  public User getUserById(int userid) {
     final String sql = "SELECT * FROM users WHERE userid = ?";
-    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), id);
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), userid);
     return user;
-=======
-    String SQL = "SELECT * "
-        + "FROM users "
-        + "WHERE userid=?";
-
-    ResultSet rs = null;
-    Object user = null;
-
-    Connection x;
-    try {
-      x = connect();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    int s = 5;
-
-    try (Connection conn = connect();
-         PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-
-      pstmt.setInt(1, id);
-      rs = pstmt.executeQuery();
-      user = rs.getObject(1);
-    } catch (SQLException ex) {
-      System.out.println(ex.getMessage());
-    }
-
-    User result = (User) user;
-    return result;
->>>>>>> origin/master:src/main/java/com/npxception/demo/dao/PostgreSQLUserDaoImpl.java
   }
 
   @Override
