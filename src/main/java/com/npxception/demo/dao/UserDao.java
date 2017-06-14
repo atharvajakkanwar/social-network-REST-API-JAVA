@@ -2,6 +2,7 @@ package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface UserDao {

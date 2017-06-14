@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,6 +24,14 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
+
+  public PostgreSQLUserDaoImpl() {
+    User Joe = getUserById(1);
+  }
+
+  public Connection connect() throws SQLException {
+    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
+  }
 
   private static class UserRowMapper implements RowMapper<User> {
     @Override
@@ -51,10 +61,33 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public User getUserById(int id) {
-    final String sql = "SELECT * FROM users WHERE userid=1";
-    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), id);
+    String SQL = "SELECT * "
+        + "FROM users "
+        + "WHERE userid=?";
 
-    return user;
+    ResultSet rs = null;
+    Object user = null;
+
+    Connection x;
+    try {
+      x = connect();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    int s = 5;
+
+    try (Connection conn = connect();
+         PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+
+      pstmt.setInt(1, id);
+      rs = pstmt.executeQuery();
+      user = rs.getObject(1);
+    } catch (SQLException ex) {
+      System.out.println(ex.getMessage());
+    }
+
+    User result = (User) user;
+    return result;
   }
 
   @Override
