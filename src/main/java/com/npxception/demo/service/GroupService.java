@@ -18,7 +18,7 @@ import java.util.Collection;
 public class GroupService {
 
   @Autowired
-  @Qualifier("fakeData")
+  @Qualifier("PostgreGroup")
   private GroupDao courseDao;
 
   public Collection<Group> getAllGroup() {

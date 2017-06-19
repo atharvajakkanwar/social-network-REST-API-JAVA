@@ -24,7 +24,6 @@ public class UserService {
     return this.userDao.getUserById(id);
   }
 
-
   public void removeUserById(int id) {
     this.userDao.removeUserById(id);
   }

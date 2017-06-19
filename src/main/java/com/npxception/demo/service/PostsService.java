@@ -18,7 +18,7 @@ import java.util.Collection;
 public class PostsService {
 
   @Autowired
-  @Qualifier("fakeData")
+  @Qualifier("PostgrePosts")
   private PostsDao assignmentDao;
 
   public Collection<Posts> getAllPosts() {
