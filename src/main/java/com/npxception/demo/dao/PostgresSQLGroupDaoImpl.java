@@ -66,12 +66,12 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
   public void insertGroupToDb(FbGroup group) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO groups (groupID, groupName, adminID, memberID) VALUES (?, ?, ?, ?)";
+    final String sql = "INSERT INTO groups (groupID, adminID, groupName, memberID) VALUES (?, ?, ?, ?)";
 
     jdbcTemplate.update(sql, new Object[]{
         group.getGroupID(),
-        group.getGroupName(),
         group.getAdminID(),
+        group.getGroupName(),
         group.getMemberID(),
         "PASS"
     });
@@ -88,9 +88,9 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
     @Override
     public FbGroup mapRow(ResultSet resultSet, int i) throws SQLException {
       FbGroup group = new FbGroup();
-      group.setAdminID(resultSet.getInt("userID"));
-      group.setGroupName(resultSet.getString("groupname"));
+      group.setGroupID(resultSet.getInt("groupID"));
       group.setAdminID(resultSet.getInt("adminID"));
+      group.setGroupName(resultSet.getString("groupname"));
       group.setMemberID(resultSet.getInt("memberID"));
       return group;
     }
