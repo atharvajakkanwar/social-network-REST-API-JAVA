@@ -22,23 +22,23 @@ public class FriendsService {
     return this.dao.listByUserId(id);
   }
 
-  public void removeAllFriends(User user) {
-    this.dao.removeAllFriends(user);
+  public void removeAllFriends(int id) {
+    this.dao.removeAllFriends(id);
   }
 
-  public void unFriend(User user1, User user2) {
-    this.dao.unFriend(user1, user2);
+  public void unFriend(int id1, int id2) {
+    this.dao.unFriend(id1, id2);
   }
 
-  public int countFriends(User user) {
-    return this.dao.countFriends(user);
+  public int countFriends(int id) {
+    return this.dao.countFriends(id);
   }
 
-  public void sendRequest(User user1, User user2) {
-    this.dao.sendRequest(user1, user2);
+  public void sendRequest(int id1, int id2) {
+    this.dao.sendRequest(id1, id2);
   }
 
-  public void acceptRequest(User user1, User user2) {
-    this.dao.acceptRequest(user1, user2);
+  public void acceptRequest(int id1, int id2) {
+    this.dao.acceptRequest(id1, id2);
   }
 }

@@ -22,7 +22,7 @@ import java.util.List;
 public class PostreSQLFriendsDaoImpl implements FriendsDao {
 
   final String LIST_BY_USER_ID = "SELECT u.* FROM users u," +
-      "friends f  WHERE u.userid = f.userid_two_id AND f.userid_one_id = ?";
+      "friends f  WHERE u.userid = f.userid_two_id AND f.userid_one_id = ? AND f.status = 1";
   final String REMOVE_ALL_FRIENDS = "DELETE f.* FROM users u, " +
       "friends f WHERE (u.userid = f.userid_one_id AND f.userid_one_id = ?)" +
       " OR (u.userid = f.userid_two_id AND f.userid_two_id = ?)";
@@ -45,47 +45,44 @@ public class PostreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-  public void removeAllFriends(User user) {
-    jdbcTemplate.update(REMOVE_ALL_FRIENDS, user.getId());
+  public void removeAllFriends(int id) {
+    jdbcTemplate.update(REMOVE_ALL_FRIENDS, id);
   }
 
   @Override
-  public void unFriend(User user1, User user2) {
-    if (user1.getId() > user2.getId()) {
-      unFriend(user2, user1);
-    }
-    jdbcTemplate.update(UN_FRIENDS,
-        new Object[]{user1.getId(), user2.getId()});
+  public void unFriend(int id1, int id2) {
+    swap(id1, id2);
+    jdbcTemplate.update(UN_FRIENDS, new Object[]{id1, id2});
   }
 
   @Override
-  public int countFriends(User user) {
-    return listByUserId(user.getId()).size();
+  public int countFriends(int id) {
+    return listByUserId(id).size();
   }
 
   @Override
-  public void sendRequest(User user1, User user2) {
-    if (user1.getId() > user2.getId()) {
-      sendRequest(user2, user1);
-    }
+  public void sendRequest(int id1, int id2) {
+    swap(id1, id2);
     int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{user1.getId(), user2.getId()}, Integer.class);
+        new Object[]{id1, id2}, Integer.class);
     if (currentStatus == 0) {
-      jdbcTemplate.update(SEND_REQUEST,
-          new Object[]{user1.getId(), user2.getId()});
+      jdbcTemplate.update(SEND_REQUEST, new Object[]{id1, id2});
     }
   }
 
   @Override
-  public void acceptRequest(User user1, User user2) {
-    if (user1.getId() > user2.getId()) {
-      acceptRequest(user2, user1);
-    }
+  public void acceptRequest(int id1, int id2) {
+    swap(id1, id2);
     int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{user1.getId(), user2.getId()}, Integer.class);
+        new Object[]{id1, id2}, Integer.class);
     if (currentStatus == 3) {
-      jdbcTemplate.update(ACCEPT_REQUEST,
-          new Object[]{user1.getId(), user2.getId()});
+      jdbcTemplate.update(ACCEPT_REQUEST, new Object[]{id1, id2});
     }
+  }
+
+  public void swap(int id1, int id2) {
+    id1 = id1 + id2;//id1 becomes the sum
+    id2 = id1 - id2;// id2 becomes id1
+    id1 = id1 - id2;//id1 becomes id2
   }
 }

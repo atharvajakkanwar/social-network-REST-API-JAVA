@@ -12,13 +12,13 @@ public interface FriendsDao {
 
   Collection<User> listByUserId(int id);
 
-  void removeAllFriends(User user);
+  void removeAllFriends(int id);
 
-  void unFriend(User user1, User user2);
+  void unFriend(int id1, int id2);
 
-  int countFriends(User user);
+  int countFriends(int id);
 
-  void sendRequest(User user1, User user2);
+  void sendRequest(int id1, int id2);
 
-  void acceptRequest(User user1, User user2);
+  void acceptRequest(int id1, int id2);
 }
