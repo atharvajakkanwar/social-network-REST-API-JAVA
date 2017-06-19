@@ -1,7 +1,7 @@
 package com.npxception.demo.service;
 
 import com.npxception.demo.dao.GroupDao;
-import com.npxception.demo.entity.Group;
+import com.npxception.demo.entity.FbGroup;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,14 +18,14 @@ import java.util.Collection;
 public class GroupService {
 
   @Autowired
-  @Qualifier("fakeData")
+  @Qualifier("PostgresGroup")
   private GroupDao courseDao;
 
-  public Collection<Group> getAllGroup() {
+  public Collection<FbGroup> getAllGroup() {
     return this.courseDao.getAllGroup();
   }
 
-  public Group getGroupById(int id) {
+  public FbGroup getGroupById(int id) {
     return this.courseDao.getGroupById(id);
   }
 
@@ -33,16 +33,16 @@ public class GroupService {
     this.courseDao.removeGroupById(id);
   }
 
-  public void updateGroup(Group course) {
+  public void updateGroup(FbGroup course) {
     this.courseDao.updateGroup(course);
   }
 
-  public void insertGroup(Group course) {
+  public void insertGroup(FbGroup course) {
     this.courseDao.insertGroupToDb(course);
   }
 
 
-  public Collection<Group> getGroupByGroupName(String title) {
+  public Collection<FbGroup> getGroupByGroupName(String title) {
     return this.courseDao.getGroupByGroupName(title);
   }
 

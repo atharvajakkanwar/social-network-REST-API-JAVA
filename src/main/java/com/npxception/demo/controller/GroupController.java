@@ -1,6 +1,6 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.entity.Group;
+import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 
 @RestController
-@RequestMapping("/group")
+@RequestMapping("/Fbgroup")
 
 public class GroupController {
 
@@ -22,12 +22,12 @@ public class GroupController {
   private GroupService courseService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Group> getAllCourse() {
+  public Collection<FbGroup> getAllCourse() {
     return courseService.getAllGroup();
   }
 
   @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
-  public Group getCourseById(@PathVariable("id") int id) {
+  public FbGroup getCourseById(@PathVariable("id") int id) {
     return courseService.getGroupById(id);
   }
 
@@ -37,7 +37,7 @@ public class GroupController {
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertGroup(@RequestBody Group group) {
+  public void insertGroup(@RequestBody FbGroup group) {
     courseService.insertGroup(group);
   }
 
@@ -47,7 +47,7 @@ public class GroupController {
 //  }
 
   @RequestMapping(value = "/title = {title}", method = RequestMethod.GET)
-  public Collection<Group> getCourseByTitle(@PathVariable("title") String title) {
+  public Collection<FbGroup> getCourseByTitle(@PathVariable("title") String title) {
     return courseService.getGroupByGroupName(title);
   }
 

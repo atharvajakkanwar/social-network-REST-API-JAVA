@@ -3,20 +3,20 @@ package com.npxception.demo.entity;
 /**
  * Created by bryan on 6/2/2017.
  */
-public class Group {
+public class FbGroup {
   private int groupID;
   private int adminID;
   private String groupName;
   private int memberID;
 
-  public Group(int groupID, int adminID, String groupName, int memberID) {
+  public FbGroup(int groupID, int adminID, String groupName, int memberID) {
     this.groupID = groupID;
     this.adminID = adminID;
     this.groupName = groupName;
     this.memberID = memberID;
   }
 
-  public Group() {
+  public FbGroup() {
   }
 
   public int getGroupID() {
