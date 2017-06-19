@@ -45,7 +45,7 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
   @Override
   public FbGroup getGroupById(int id) {
 
-    final String sql = "SELECT * FROM users WHERE userid = ?";
+    final String sql = "SELECT * FROM groups WHERE groupid = ?";
     FbGroup group = jdbcTemplate.queryForObject(sql, new GroupRowMapper(), id);
 
     return group;
@@ -89,9 +89,9 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
     public FbGroup mapRow(ResultSet resultSet, int i) throws SQLException {
       FbGroup group = new FbGroup();
       group.setGroupID(resultSet.getInt("groupid"));
-      group.setAdminID(resultSet.getInt("adminid"));
-      group.setGroupName(resultSet.getString("groupname"));
-      group.setMemberID(resultSet.getInt("memberid"));
+      group.setGroupName(resultSet.getString("name"));
+      group.setAdminID(resultSet.getInt("admin"));
+      group.setMemberID(resultSet.getInt("member"));
       return group;
     }
   }

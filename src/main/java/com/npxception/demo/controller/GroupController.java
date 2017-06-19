@@ -26,13 +26,13 @@ public class GroupController {
     return groupService.getAllGroup();
   }
 
-  @RequestMapping(value = "/groupID={groupID}", method = RequestMethod.GET)
-  public FbGroup getGroupById(@PathVariable("groupID") int id) {
+  @RequestMapping(value = "/groupid={groupid}", method = RequestMethod.GET)
+  public FbGroup getGroupById(@PathVariable("groupid") int id) {
     return groupService.getGroupById(id);
   }
 
-  @RequestMapping(value = "/groupID = {groupID}", params = "groupID", method = RequestMethod.DELETE)
-  public void deleteGroupById(@PathVariable("groupID") int groupid) {
+  @RequestMapping(value = "/groupid = {groupid}", params = "groupid", method = RequestMethod.DELETE)
+  public void deleteGroupById(@PathVariable("groupid") int groupid) {
     groupService.removeGroupById(groupid);
   }
 
@@ -46,9 +46,9 @@ public class GroupController {
 //    return groupService.getGroupByProf(professor);
 //  }
 
-  @RequestMapping(value = "/groupName={groupName}", method = RequestMethod.GET)
-  public Collection<FbGroup> getGroupByGroupName(@PathVariable("groupName") String groupName) {
-    return groupService.getGroupByGroupName(groupName);
+  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
+  public Collection<FbGroup> getGroupByGroupName(@PathVariable("name") String name) {
+    return groupService.getGroupByGroupName(name);
   }
 
 //  @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
