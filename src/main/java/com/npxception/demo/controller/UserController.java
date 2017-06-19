@@ -43,10 +43,6 @@ public class UserController {
     userService.insertUser(user);
   }
 
-//  @RequestMapping(value = "/course = {course}", method = RequestMethod.GET)
-//  public Collection<User> getUsersByCourse(@PathVariable("course") String course) {
-//    return userService.getUserByCourse(course);
-//  }
 
   @RequestMapping(value = "/name = {name}", method = RequestMethod.GET)
   public Collection<User> getUsersByName(@PathVariable("name") String name) {
@@ -54,7 +50,7 @@ public class UserController {
   }
 
   @RequestMapping(value = "/gender = {gender}", method = RequestMethod.GET)
-  public Collection<User> getUsersByGender(@PathVariable("gender") String gender) {
+  public Collection<User> getStudentsByGender(@PathVariable("gender") String gender) {
     return userService.getUserByGender(gender);
   }
 
@@ -63,19 +59,10 @@ public class UserController {
     return userService.getUserByAge(age);
   }
 
-//  @RequestMapping(value = "/course = {course}", method = RequestMethod.DELETE)
-//  public void deleteUserByCourse(@PathVariable("course") String course) {
-//    userService.removeUserByCourse(course);
-//  }
 
   @RequestMapping(method = RequestMethod.PUT, params = "course", consumes = MediaType.APPLICATION_JSON_VALUE)
   public void deleteUserByCourse(@RequestBody User user) {
     userService.updateUser(user);
   }
 
-//  @RequestMapping(value = "/{course}/{name}", method = RequestMethod.GET)
-//  public Collection<User> getUserInCourseByName(@PathVariable("course") String course,
-//                                                      @PathVariable("name") String name) {
-//    return userService.getUserInCourseByName(course, name);
-//  }
 }
