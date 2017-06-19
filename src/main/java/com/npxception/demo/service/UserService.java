@@ -36,10 +36,6 @@ public class UserService {
     this.userDao.insertUserToDb(user);
   }
 
-//  public Collection<User> getUserByCourse(String course) {
-//    return this.userDao.getUserByCourse(course);
-//  }
-
   public Collection<User> getUserByName(String name) {
     return this.userDao.getUserByName(name);
   }
@@ -51,13 +47,5 @@ public class UserService {
   public Collection<User> getUserByAge(int age) {
     return this.userDao.getUserByAge(age);
   }
-
-//  public void removeUserByCourse(String course) {
-//    this.userDao.removeUserByCourse(course);
-//  }
-//
-//  public Collection<User> getUserInCourseByName(String course, String name) {
-//    return this.userDao.getUserInCourseByName(course, name);
-//  }
 
 }

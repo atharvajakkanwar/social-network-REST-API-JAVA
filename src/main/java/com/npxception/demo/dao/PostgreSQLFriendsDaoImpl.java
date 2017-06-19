@@ -19,7 +19,7 @@ import java.util.List;
  * Created by RachelDi on 13/06/2017.
  */
 @Repository("PostgreFriends")
-public class PostreSQLFriendsDaoImpl implements FriendsDao {
+public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String LIST_BY_USER_ID = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.userid_two_id AND f.userid_one_id = ? AND f.status = 1";
