@@ -88,10 +88,10 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
     @Override
     public FbGroup mapRow(ResultSet resultSet, int i) throws SQLException {
       FbGroup group = new FbGroup();
-      group.setGroupID(resultSet.getInt("groupID"));
-      group.setAdminID(resultSet.getInt("adminID"));
+      group.setGroupID(resultSet.getInt("groupid"));
+      group.setAdminID(resultSet.getInt("adminid"));
       group.setGroupName(resultSet.getString("groupname"));
-      group.setMemberID(resultSet.getInt("memberID"));
+      group.setMemberID(resultSet.getInt("memberid"));
       return group;
     }
   }

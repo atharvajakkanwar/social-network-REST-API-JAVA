@@ -19,31 +19,31 @@ public class GroupService {
 
   @Autowired
   @Qualifier("PostgresGroup")
-  private GroupDao courseDao;
+  private GroupDao groupDao;
 
   public Collection<FbGroup> getAllGroup() {
-    return this.courseDao.getAllGroup();
+    return this.groupDao.getAllGroup();
   }
 
   public FbGroup getGroupById(int id) {
-    return this.courseDao.getGroupById(id);
+    return this.groupDao.getGroupById(id);
   }
 
   public void removeGroupById(int id) {
-    this.courseDao.removeGroupById(id);
+    this.groupDao.removeGroupById(id);
   }
 
   public void updateGroup(FbGroup course) {
-    this.courseDao.updateGroup(course);
+    this.groupDao.updateGroup(course);
   }
 
   public void insertGroup(FbGroup course) {
-    this.courseDao.insertGroupToDb(course);
+    this.groupDao.insertGroupToDb(course);
   }
 
 
   public Collection<FbGroup> getGroupByGroupName(String title) {
-    return this.courseDao.getGroupByGroupName(title);
+    return this.groupDao.getGroupByGroupName(title);
   }
 
 
