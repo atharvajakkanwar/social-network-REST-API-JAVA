@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.entity.Group;
+import com.npxception.demo.entity.FbGroup;
+
 
 import java.util.Collection;
 
@@ -8,18 +9,18 @@ import java.util.Collection;
  * Created by bryan on 6/2/2017.
  */
 public interface GroupDao {
-  Collection<Group> getAllGroup();
+  Collection<FbGroup> getAllGroup();
 
-  Group getGroupById(int id);
+  FbGroup getGroupById(int id);
 
   void removeGroupById(int id);
 
-  void updateGroup(Group course);
+  void updateGroup(FbGroup course);
 
-  void insertGroupToDb(Group course);
+  void insertGroupToDb(FbGroup course);
 
 
-  Collection<Group> getGroupByGroupName(String groupName);
+  Collection<FbGroup> getGroupByGroupName(String groupName);
 
 
 

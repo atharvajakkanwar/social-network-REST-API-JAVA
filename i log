@@ -1,0 +1,138 @@
+[1mdiff --git a/pom.xml b/pom.xml[m
+[1mindex 9f71d95..aea77e9 100644[m
+[1m--- a/pom.xml[m
+[1m+++ b/pom.xml[m
+[36m@@ -62,6 +62,14 @@[m
+ 			<groupId>org.springframework.boot</groupId>[m
+ 			<artifactId>spring-boot-starter-jdbc</artifactId>[m
+ 		</dependency>[m
+[32m+[m[32m        <dependency>[m
+[32m+[m[32m            <groupId>org.springframework.boot</groupId>[m
+[32m+[m[32m            <artifactId>spring-boot-starter-jdbc</artifactId>[m
+[32m+[m[32m        </dependency>[m
+[32m+[m		[32m<dependency>[m
+[32m+[m			[32m<groupId>org.springframework.boot</groupId>[m
+[32m+[m			[32m<artifactId>spring-boot-starter-jdbc</artifactId>[m
+[32m+[m		[32m</dependency>[m
+ 	</dependencies>[m
+ [m
+ 	<build>[m
+[1mdiff --git a/src/main/java/com/npxception/demo/dao/PostgresSQLGroupDaoImpl.java b/src/main/java/com/npxception/demo/dao/PostgresSQLGroupDaoImpl.java[m
+[1mindex 206a38a..bd80389 100644[m
+[1m--- a/src/main/java/com/npxception/demo/dao/PostgresSQLGroupDaoImpl.java[m
+[1m+++ b/src/main/java/com/npxception/demo/dao/PostgresSQLGroupDaoImpl.java[m
+[36m@@ -1,7 +1,99 @@[m
+ package com.npxception.demo.dao;[m
+ [m
+[32m+[m[32mimport com.npxception.demo.entity.Group;[m
+[32m+[m
+[32m+[m[32mimport org.springframework.beans.factory.annotation.Autowired;[m
+[32m+[m[32mimport org.springframework.jdbc.core.JdbcTemplate;[m
+[32m+[m[32mimport org.springframework.jdbc.core.RowMapper;[m
+[32m+[m[32mimport org.springframework.stereotype.Repository;[m
+[32m+[m
+[32m+[m[32mimport java.sql.Connection;[m
+[32m+[m[32mimport java.sql.DriverManager;[m
+[32m+[m[32mimport java.sql.ResultSet;[m
+[32m+[m[32mimport java.sql.SQLException;[m
+[32m+[m[32mimport java.util.Collection;[m
+[32m+[m[32mimport java.util.List;[m
+[32m+[m
+[32m+[m
+ /**[m
+[31m- * Created by bryan on 6/13/2017.[m
+[32m+[m[32m * Created by Robert on 6/5/2017.[m
+  */[m
+[31m-public class PostgresSQLGroupDaoImpl {[m
+[32m+[m[32m@Repository("PostgresGroup")[m
+[32m+[m[32mpublic class PostgresSQLGroupDaoImpl implements GroupDao {[m
+[32m+[m
+[32m+[m
+[32m+[m[32m  @Autowired[m
+[32m+[m[32m  private JdbcTemplate jdbcTemplate;[m
+[32m+[m
+[32m+[m[32m  public PostgresSQLGroupDaoImpl() {[m
+[32m+[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  public Connection connect() throws SQLException {[m
+[32m+[m[32m    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public Collection<Group> getAllGroup() {[m
+[32m+[m[32m    //SELECT column_name(s) FROM table_name[m
+[32m+[m[32m    final String sql = "SELECT * FROM groups";[m
+[32m+[m[32m    List<Group> groups = jdbcTemplate.query(sql, new PostgresSQLGroupDaoImpl.GroupRowMapper());[m
+[32m+[m
+[32m+[m[32m    return groups;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public Group getGroupById(int id) {[m
+[32m+[m
+[32m+[m[32m    final String sql = "SELECT * FROM users WHERE userid = ?";[m
+[32m+[m[32m    Group group = jdbcTemplate.queryForObject(sql, new GroupRowMapper(), id);[m
+[32m+[m
+[32m+[m[32m    return group;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public void removeGroupById(int id) {[m
+[32m+[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public void updateGroup(Group course) {[m
+[32m+[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public void insertGroupToDb(Group group) {[m
+[32m+[m[32m    //INSERT INTO table_name (column1, column2, column3,...)[m
+[32m+[m[32m    //VALUES (value1, value2, value3,...)[m
+[32m+[m[32m    final String sql = "INSERT INTO groups (groupID, groupName, adminID, memberID) VALUES (?, ?, ?, ?)";[m
+[32m+[m
+[32m+[m[32m    jdbcTemplate.update(sql, new Object[]{[m
+[32m+[m[32m        group.getGroupID(),[m
+[32m+[m[32m        group.getGroupName(),[m
+[32m+[m[32m        group.getAdminID(),[m
+[32m+[m[32m        group.getMemberID(),[m
+[32m+[m[32m        "PASS"[m
+[32m+[m[32m    });[m
+[32m+[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  @Override[m
+[32m+[m[32m  public Collection<Group> getGroupByGroupName(String groupName) {[m
+[32m+[m[32m    return null;[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m  private static class GroupRowMapper implements RowMapper<Group> {[m
+[32m+[m[32m    @Override[m
+[32m+[m[32m    public Group mapRow(ResultSet resultSet, int i) throws SQLException {[m
+[32m+[m[32m      Group group = new Group();[m
+[32m+[m[32m      group.setAdminID(resultSet.getInt("userID"));[m
+[32m+[m[32m      group.setGroupName(resultSet.getString("groupname"));[m
+[32m+[m[32m      group.setAdminID(resultSet.getInt("adminID"));[m
+[32m+[m[32m      group.setMemberID(resultSet.getInt("memberID"));[m
+[32m+[m[32m      return group;[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+ }[m
+[1mdiff --git a/src/main/java/com/npxception/demo/service/GroupService.java b/src/main/java/com/npxception/demo/service/GroupService.java[m
+[1mindex 48d102e..b1dda1b 100644[m
+[1m--- a/src/main/java/com/npxception/demo/service/GroupService.java[m
+[1m+++ b/src/main/java/com/npxception/demo/service/GroupService.java[m
+[36m@@ -18,7 +18,7 @@[m [mimport java.util.Collection;[m
+ public class GroupService {[m
+ [m
+   @Autowired[m
+[31m-  @Qualifier("fakeData")[m
+[32m+[m[32m  @Qualifier("PostgresGroup")[m
+   private GroupDao courseDao;[m
+ [m
+   public Collection<Group> getAllGroup() {[m

@@ -1,6 +1,6 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.entity.Group;
+import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,46 +14,46 @@ import java.util.Collection;
  */
 
 @RestController
-@RequestMapping("/group")
+@RequestMapping("/Fbgroup")
 
 public class GroupController {
 
   @Autowired
-  private GroupService courseService;
+  private GroupService groupService;
 
   @RequestMapping(method = RequestMethod.GET)
-  public Collection<Group> getAllCourse() {
-    return courseService.getAllGroup();
+  public Collection<FbGroup> getAllGroups() {
+    return groupService.getAllGroup();
   }
 
-  @RequestMapping(value = "/id = {id}", method = RequestMethod.GET)
-  public Group getCourseById(@PathVariable("id") int id) {
-    return courseService.getGroupById(id);
+  @RequestMapping(value = "/groupid={groupid}", method = RequestMethod.GET)
+  public FbGroup getGroupById(@PathVariable("groupid") int id) {
+    return groupService.getGroupById(id);
   }
 
-  @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
-  public void deleteGroupById(@PathVariable("id") int id) {
-    courseService.removeGroupById(id);
+  @RequestMapping(value = "/groupid = {groupid}", params = "groupid", method = RequestMethod.DELETE)
+  public void deleteGroupById(@PathVariable("groupid") int groupid) {
+    groupService.removeGroupById(groupid);
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertGroup(@RequestBody Group group) {
-    courseService.insertGroup(group);
+  public void insertGroup(@RequestBody FbGroup group) {
+    groupService.insertGroup(group);
   }
 
 //  @RequestMapping(value = "/professor = {professor}", method = RequestMethod.GET)
 //  public Collection<Group> getGroupByProf(@PathVariable("professor") String professor) {
-//    return courseService.getGroupByProf(professor);
+//    return groupService.getGroupByProf(professor);
 //  }
 
-  @RequestMapping(value = "/title = {title}", method = RequestMethod.GET)
-  public Collection<Group> getCourseByTitle(@PathVariable("title") String title) {
-    return courseService.getGroupByGroupName(title);
+  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
+  public Collection<FbGroup> getGroupByGroupName(@PathVariable("name") String name) {
+    return groupService.getGroupByGroupName(name);
   }
 
 //  @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
 //  public Collection<Group> getGroupByName(@PathVariable("size") int size) {
-//    return courseService.getGroupBySize(size);
+//    return groupService.getGroupBySize(size);
 //  }
 
 }
