@@ -3,7 +3,6 @@ package com.npxception.demo.dao;
 import com.npxception.demo.entity.User;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by RachelDi on 13/06/2017.

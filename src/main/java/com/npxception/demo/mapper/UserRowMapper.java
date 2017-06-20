@@ -13,17 +13,17 @@ import java.sql.SQLException;
 public class UserRowMapper implements RowMapper<User> {
   @Override
   public User mapRow(ResultSet resultSet, int i) throws SQLException {
-    User user = new User();
-    user.setId(resultSet.getInt("userid"));
-    user.setFirstName(resultSet.getString("firstname"));
-    user.setLastName(resultSet.getString("lastname"));
-    user.setEmail(resultSet.getString("email"));
-    user.setAge(resultSet.getInt("age"));
-    user.setGender(resultSet.getString("gender"));
-    user.setCountry(resultSet.getString("country"));
-    user.setCity(resultSet.getString("city"));
-    user.setPassword(resultSet.getString("password"));
-    return user;
+
+    return new User(
+    resultSet.getInt("userid"),
+    resultSet.getString("firstname"),
+    resultSet.getString("lastname"),
+    resultSet.getString("email"),
+    resultSet.getInt("age"),
+    resultSet.getString("gender"),
+    resultSet.getString("country"),
+    resultSet.getString("city"),
+    resultSet.getString("password"));
   }
 }
 

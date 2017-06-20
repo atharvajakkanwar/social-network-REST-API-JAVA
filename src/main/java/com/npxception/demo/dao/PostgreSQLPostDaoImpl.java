@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -17,18 +15,12 @@ import java.util.List;
 /**
  * Created by Robert on 6/13/2017.
  */
-@Repository("Postgre1")
+@Repository("PostgresPostRepo")
 public class PostgreSQLPostDaoImpl implements PostDao {
 
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
-  public PostgreSQLPostDaoImpl() {}
-
-  public Connection connect() throws SQLException {
-    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
-  }
 
   @Override
   public Collection<Post> getAllPosts() {

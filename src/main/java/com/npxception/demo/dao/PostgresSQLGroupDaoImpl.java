@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -18,19 +16,14 @@ import java.util.List;
 /**
  * Created by Robert on 6/5/2017.
  */
-@Repository("PostgresGroup")
+@Repository("PostgresGroupRepo")
 public class PostgresSQLGroupDaoImpl implements GroupDao {
-
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
   public PostgresSQLGroupDaoImpl() {
 
-  }
-
-  public Connection connect() throws SQLException {
-    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
   }
 
   @Override

@@ -18,7 +18,7 @@ import java.util.Collection;
 public class PostService {
 
   @Autowired
-  @Qualifier("Postgre1")
+  @Qualifier("PostgresPostRepo")
   private PostDao postDao;
 
   public Collection<Post> getAllPosts() {

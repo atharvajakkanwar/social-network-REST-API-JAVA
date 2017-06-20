@@ -2,7 +2,6 @@ package com.npxception.demo.entity;
 
 
 public class User {
-
   private int id;
   private String firstName;
   private String lastName;
@@ -12,7 +11,6 @@ public class User {
   private String country;
   private String city;
   private String password;
-
 
 
   public User(int id, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
@@ -27,9 +25,6 @@ public class User {
     this.password = password;
   }
 
-  public User() {
-  }
-
   public int getId() {
     return id;
   }
@@ -42,9 +37,6 @@ public class User {
     return firstName;
   }
 
-  public void setName(String name) {
-    this.firstName = name;
-  }
 
   public int getAge() {
     return age;

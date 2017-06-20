@@ -18,7 +18,7 @@ import java.util.Collection;
 public class GroupService {
 
   @Autowired
-  @Qualifier("PostgresGroup")
+  @Qualifier("PostgresGroupRepo")
   private GroupDao groupDao;
 
   public Collection<FbGroup> getAllGroup() {

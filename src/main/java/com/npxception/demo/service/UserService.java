@@ -13,7 +13,7 @@ import java.util.Collection;
 public class UserService {
 
   @Autowired
-  @Qualifier("Postgre")
+  @Qualifier("PostgresUserRepo")
   private UserDao userDao;
 
   public Collection<User> getAllUser() {

@@ -5,55 +5,22 @@ import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by Robert on 6/5/2017.
- * This is a comment
  */
-@Repository("Postgre")
+@Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public PostgreSQLUserDaoImpl() {
-      }
-
-  public Connection connect() throws SQLException {
-    return DriverManager.getConnection("jdbc:postgresql://localhost/", "postgres", "postgres");
-  }
-
-  private static class UserRowMapper implements RowMapper<User> {
-    @Override
-    public User mapRow(ResultSet resultSet, int i) throws SQLException {
-      User user = new User();
-      user.setId(resultSet.getInt("userid"));
-      user.setFirstName(resultSet.getString("firstname"));
-      user.setLastName(resultSet.getString("lastname"));
-      user.setEmail(resultSet.getString("email"));
-      user.setAge(resultSet.getInt("age"));
-      user.setGender(resultSet.getString("gender"));
-      user.setCountry(resultSet.getString("country"));
-      user.setCity(resultSet.getString("city"));
-      user.setPassword(resultSet.getString("password"));
-      return user;
-    }
-  }
-
   @Override
   public Collection<User> getAllUser() {
-    //SELECT column_name(s) FROM table_name
     final String sql = "SELECT * FROM users";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper());
 
@@ -83,8 +50,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     //VALUES (value1, value2, value3,...)
     final String sql = "INSERT INTO users (userid, firstname, lastname, email, age, gender, country, city, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    jdbcTemplate.update(sql, new Object[]{
-        user.getId(),
+    jdbcTemplate.update(sql, user.getId(),
         user.getFirstName(),
         user.getLastName(),
         user.getEmail(),
@@ -92,8 +58,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
         user.getGender(),
         user.getCountry(),
         user.getCity(),
-        "PASS"
-    });
+        "PASS");
 
   }
 
