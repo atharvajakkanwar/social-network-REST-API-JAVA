@@ -17,12 +17,12 @@ import java.util.List;
  * Created by Robert on 6/5/2017.
  */
 @Repository("PostgresGroupRepo")
-public class PostgresSQLGroupDaoImpl implements GroupDao {
+public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public PostgresSQLGroupDaoImpl() {
+  public PostgreSQLGroupDaoImpl() {
 
   }
 
@@ -30,7 +30,7 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
   public Collection<FbGroup> getAllGroup() {
     //SELECT column_name(s) FROM table_name
     final String sql = "SELECT * FROM groups";
-    List<FbGroup> groups = jdbcTemplate.query(sql, new PostgresSQLGroupDaoImpl.GroupRowMapper());
+    List<FbGroup> groups = jdbcTemplate.query(sql, new PostgreSQLGroupDaoImpl.GroupRowMapper());
 
     return groups;
   }
