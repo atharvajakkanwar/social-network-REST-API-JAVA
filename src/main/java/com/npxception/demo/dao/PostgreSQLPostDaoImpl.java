@@ -16,6 +16,7 @@ import java.util.List;
  * Created by Atharva on 6/18/2017.
  */
 
+
 @Repository("PostgresPostRepo")
 public class PostgreSQLPostDaoImpl implements PostDao {
 
