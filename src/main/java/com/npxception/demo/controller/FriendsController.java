@@ -4,7 +4,6 @@ import com.npxception.demo.entity.User;
 import com.npxception.demo.service.FriendsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,18 +21,19 @@ public class FriendsController {
   private FriendsService service;
 
   @RequestMapping(value = "/get_all_friends_userid={userid}", method = RequestMethod.GET)
-  public Collection<User> getUserById(@PathVariable("userid") int id) {
-    return service.listByUserId(id);
+  public Collection<User> getAllFriends(@PathVariable("userid") int id) {
+    return service.getAllFriends(id);
   }
 
+  //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
   @RequestMapping(value = "/remove_all_friends_userid={userid}",
-      method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+      method = RequestMethod.PUT)
   public void removeAllFriends(@PathVariable("userid") int id) {
     this.service.removeAllFriends(id);
   }
 
   @RequestMapping(value = "/unfriend_id1={id1}/id2={id2}",
-      method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+      method = RequestMethod.PUT)
   public void unFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.unFriend(id1, id2);
   }
@@ -44,14 +44,20 @@ public class FriendsController {
   }
 
   @RequestMapping(value = "/send_request_id1={id1}/id2={id2}",
-      method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+      method = RequestMethod.PUT)
   public void sendRequest(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.sendRequest(id1, id2);
   }
 
-  @RequestMapping(value = "/accept_request_id1={id1}/id2={id2}",
-      method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void acceptRequest(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
-    this.service.acceptRequest(id1, id2);
+  @RequestMapping(value = "/become_request_id1={id1}/id2={id2}",
+      method = RequestMethod.PUT)
+  public void becomeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
+    this.service.becomeFriend(id1, id2);
+  }
+
+  @RequestMapping(value = "/block_request_id1={id1}/id2={id2}",
+      method = RequestMethod.PUT)
+  public void blockFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
+    this.service.becomeFriend(id1, id2);
   }
 }

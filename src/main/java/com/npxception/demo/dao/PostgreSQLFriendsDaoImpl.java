@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -16,25 +19,28 @@ import java.util.Collection;
 public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String LIST_BY_USER_ID = "SELECT u.* FROM users u," +
-      "friends f  WHERE u.userid = f.userid_two_id AND f.userid_one_id = ? AND f.status = 1";
+      "friends f  WHERE u.userid = f.userid-two AND f.userid-one = ? AND f.status = 1";
   final String REMOVE_ALL_FRIENDS = "DELETE f.* FROM users u, " +
-      "friends f WHERE (u.userid = f.userid_one_id AND f.userid_one_id = ?)" +
-      " OR (u.userid = f.userid_two_id AND f.userid_two_id = ?)";
-  final String UN_FRIENDS = "UPDATE friends SET status = 0 WHERE userid_one_id = ? " +
-      "AND userid_two_id = ?";
-  // 3 means request sent
-  final String SEND_REQUEST = "UPDATE friends SET status = 3 WHERE userid_one_id = ? " +
-      "AND userid_two_id = ?";
-  final String ACCEPT_REQUEST = "UPDATE friends SET status = 1 WHERE userid_one_id = ? " +
-      "AND userid_two_id = ?";
-  final String GET_STATUS = "SELETCT status FROM friends WHERE userid_one_id = ? " +
-      "AND userid_two_id = ?";
+      "friends f WHERE (u.userid = f.userid-one AND f.userid-one = ?)" +
+      " OR (u.userid = f.userid-two AND f.userid-two = ?)";
+  final String UN_FRIENDS = "DELETE FROM friends WHERE userid-one = ? AND userid-two = ?";
+  // 2 means request sent
+  final String SEND_REQUEST = "INSERT INTO friends (userid-one, userid-two, status) " +
+      "SELECT ?, ?, 2 FROM dual WHERE not exists (select * from friends " +
+      "WHERE userid-one = ? AND userid-two = ?";
+  final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE userid-one = ? " +
+      "AND userid-two = ?";
+  final String GET_STATUS = "SELECT status FROM friends WHERE userid-one = ? " +
+      "AND userid-two = ?";
+  // 3 means block
+  final String BLOCK_FRIEND = "UPDATE friends SET status = 3 WHERE userid-one = ? " +
+      "AND userid-two = ?";
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override
-  public Collection<User> listByUserId(int id) {
+  public Collection<User> getAllFriends(int id) {
     return jdbcTemplate.query(LIST_BY_USER_ID, new UserRowMapper(), id);
   }
 
@@ -44,39 +50,60 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-  public void unFriend(int id1, int id2) {
+  public void unFriend(int id1, int id2){
     swap(id1, id2);
-    jdbcTemplate.update(UN_FRIENDS, new Object[]{id1, id2});
+    jdbcTemplate.update(UN_FRIENDS, setStatement(id1, id2, UN_FRIENDS));
+    // jdbcTemplate.update(UN_FRIENDS, new Object[]{id1, id2});
   }
 
   @Override
   public int countFriends(int id) {
-    return listByUserId(id).size();
+    return getAllFriends(id).size();
   }
 
   @Override
-  public void sendRequest(int id1, int id2) {
+  public void sendRequest(int id1, int id2){
+    swap(id1, id2);
+    jdbcTemplate.update(SEND_REQUEST, setStatement(id1, id2, SEND_REQUEST));
+  }
+
+  @Override
+  public void becomeFriend(int id1, int id2) {
     swap(id1, id2);
     int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
         new Object[]{id1, id2}, Integer.class);
-    if (currentStatus == 0) {
-      jdbcTemplate.update(SEND_REQUEST, new Object[]{id1, id2});
+    if (currentStatus == 2) {
+      jdbcTemplate.update(BECOME_FRIEND, setStatement(id1, id2, BECOME_FRIEND));
     }
   }
 
   @Override
-  public void acceptRequest(int id1, int id2) {
+  public void blockFriend(int id1, int id2) {
     swap(id1, id2);
     int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
         new Object[]{id1, id2}, Integer.class);
-    if (currentStatus == 3) {
-      jdbcTemplate.update(ACCEPT_REQUEST, new Object[]{id1, id2});
+    if (currentStatus == 1) {
+      jdbcTemplate.update(BLOCK_FRIEND, setStatement(id1, id2, BLOCK_FRIEND));
     }
   }
 
-  public void swap(int id1, int id2) {
-    id1 = id1 + id2;//id1 becomes the sum
-    id2 = id1 - id2;// id2 becomes id1
-    id1 = id1 - id2;//id1 becomes id2
+  public void swap(int a, int b) {
+    a = a + b;//id1 becomes the sum
+    b = a - b;// id2 becomes id1
+    a = a - b;//id1 becomes id2
+  }
+
+  public PreparedStatement setStatement(int id1, int id2, String sql){
+    Connection con=null;
+    PreparedStatement statement=null;
+    try {
+      statement = con.prepareStatement(sql);
+      statement.setInt(1, id1);
+      statement.setInt(2, id2);
+      statement.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return statement;
   }
 }

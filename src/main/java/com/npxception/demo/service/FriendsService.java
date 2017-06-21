@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 /**
@@ -18,8 +19,8 @@ public class FriendsService {
   @Qualifier("PostgreFriends")
   private FriendsDao dao;
 
-  public Collection<User> listByUserId(int id) {
-    return this.dao.listByUserId(id);
+  public Collection<User> getAllFriends(int id) {
+    return this.dao.getAllFriends(id);
   }
 
   public void removeAllFriends(int id) {
@@ -27,7 +28,11 @@ public class FriendsService {
   }
 
   public void unFriend(int id1, int id2) {
-    this.dao.unFriend(id1, id2);
+    try {
+      this.dao.unFriend(id1, id2);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public int countFriends(int id) {
@@ -35,10 +40,18 @@ public class FriendsService {
   }
 
   public void sendRequest(int id1, int id2) {
-    this.dao.sendRequest(id1, id2);
+    try {
+      this.dao.sendRequest(id1, id2);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
-  public void acceptRequest(int id1, int id2) {
-    this.dao.acceptRequest(id1, id2);
+  public void becomeFriend(int id1, int id2) {
+    this.dao.becomeFriend(id1, id2);
+  }
+
+  public void blockFriend(int id1, int id2) {
+    this.dao.blockFriend(id1, id2);
   }
 }
