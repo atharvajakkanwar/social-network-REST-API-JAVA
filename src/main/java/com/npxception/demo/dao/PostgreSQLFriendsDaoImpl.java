@@ -87,12 +87,26 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     }
   }
 
+  /**
+   * Since the friend table require user1's id is smaller than user2's id,
+   * we need to swap the ids if user1's id is bigger than user2's id
+   * Here is a simple swap method works on two integers
+   * @param a the first integer
+   * @param b the second integer
+   */
   public void swap(int a, int b) {
     a = a + b;//id1 becomes the sum
     b = a - b;// id2 becomes id1
     a = a - b;//id1 becomes id2
   }
 
+  /**
+   * set up statements for sql commands
+   * @param id1 the id of user1
+   * @param id2 the id of user2
+   * @param sql the sql command that needs to be set up
+   * @return the prepared statement that can be used directly where we need 2 ids
+   */
   public PreparedStatement setStatement(int id1, int id2, String sql){
     Connection con=null;
     PreparedStatement statement=null;
