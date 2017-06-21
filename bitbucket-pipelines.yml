@@ -1,4 +1,4 @@
-# This is a sample build configuration for Java â€“ Maven.
+# This is a sample build configuration for Java – Maven.
 # Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
 # Only use spaces to indent your .yml configuration.
 # -----
@@ -13,3 +13,4 @@ pipelines:
         script:
           - mvn -B verify
           - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          - git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git fb_post
