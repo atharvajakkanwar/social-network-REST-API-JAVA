@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-import javafx.geometry.Pos;
-
 /**
  * Created by Atharva on 6/18/2017.
  */
