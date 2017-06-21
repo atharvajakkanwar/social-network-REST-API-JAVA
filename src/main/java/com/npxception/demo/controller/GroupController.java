@@ -41,11 +41,6 @@ public class GroupController {
     groupService.insertGroup(group);
   }
 
-//  @RequestMapping(value = "/professor = {professor}", method = RequestMethod.GET)
-//  public Collection<Group> getGroupByProf(@PathVariable("professor") String professor) {
-//    return groupService.getGroupByProf(professor);
-//  }
-
   @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByGroupName(@PathVariable("name") String name) {
     return groupService.getGroupByGroupName(name);
