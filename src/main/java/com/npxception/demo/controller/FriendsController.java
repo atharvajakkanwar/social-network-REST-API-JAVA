@@ -49,7 +49,7 @@ public class FriendsController {
     this.service.sendRequest(id1, id2);
   }
 
-  @RequestMapping(value = "/become-request-id1={id1}/id2={id2}",
+  @RequestMapping(value = "/become-friend-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void becomeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.becomeFriend(id1, id2);
