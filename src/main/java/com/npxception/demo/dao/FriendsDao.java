@@ -17,6 +17,8 @@ public interface FriendsDao {
    */
   Collection<User> getAllFriends(int id);
 
+  //  Collection<User> commonFriends(int id1, int id2);
+
   /**
    * Remove all friends of a user
    * @param id the user id

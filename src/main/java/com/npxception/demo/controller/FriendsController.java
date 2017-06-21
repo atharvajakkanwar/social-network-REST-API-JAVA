@@ -20,42 +20,42 @@ public class FriendsController {
   @Autowired
   private FriendsService service;
 
-  @RequestMapping(value = "/get_all_friends_userid={userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/get-all-friends-userid={userid}", method = RequestMethod.GET)
   public Collection<User> getAllFriends(@PathVariable("userid") int id) {
     return service.getAllFriends(id);
   }
 
   //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
-  @RequestMapping(value = "/remove_all_friends_userid={userid}",
+  @RequestMapping(value = "/remove-all-friends-userid={userid}",
       method = RequestMethod.PUT)
   public void removeAllFriends(@PathVariable("userid") int id) {
     this.service.removeAllFriends(id);
   }
 
-  @RequestMapping(value = "/unfriend_id1={id1}/id2={id2}",
+  @RequestMapping(value = "/unfriend-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void unFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.unFriend(id1, id2);
   }
 
-  @RequestMapping(value = "/count_friends_userid={userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/count-friends-userid={userid}", method = RequestMethod.GET)
   public int countFriends(@PathVariable("userid") int id) {
     return this.service.countFriends(id);
   }
 
-  @RequestMapping(value = "/send_request_id1={id1}/id2={id2}",
+  @RequestMapping(value = "/send-request-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void sendRequest(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.sendRequest(id1, id2);
   }
 
-  @RequestMapping(value = "/become_request_id1={id1}/id2={id2}",
+  @RequestMapping(value = "/become-request-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void becomeFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.becomeFriend(id1, id2);
   }
 
-  @RequestMapping(value = "/block_request_id1={id1}/id2={id2}",
+  @RequestMapping(value = "/block-request-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void blockFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
     this.service.becomeFriend(id1, id2);
