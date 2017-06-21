@@ -11,7 +11,7 @@ import java.util.Collection;
 
 
 /**
- * Created by bryan on 6/2/2017.
+ * Created by Atharva on 6/18/2017.
  */
 
 @Service
@@ -25,9 +25,17 @@ public class PostService {
     return this.postDao.getAllPosts();
   }
 
-  public Collection<Post> getAllPostsByUser(int user) {
-    return this.postDao.getAllPostsByUser(user);
-  }
+  public Collection<Post> getPostsByUser(int userId) { return this.postDao.getPostsByUser(userId); }
+
+  public Collection<Post> getPostsByUser(String firstName) { return this.postDao.getPostsByUser(firstName); }
+
+//  public Collection<Post> getPostsByUser(String firstName, int time) { return this.postDao.getPostsByUser(firstName, time); }
+
+  public Collection<Post> getPostsFromGroup(int groupId) {return this.postDao.getPostsFromGroup(groupId); }
+
+  public Collection<Post> getPostsFromGroup(String name) {return this.postDao.getPostsFromGroup(name); }
+
+  public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {return this.postDao.getPostsByUserFromGroup(userId, groupId); }
 
   public Post getPostsById(int id) {
     return this.postDao.getPostsById(id);
@@ -42,7 +50,7 @@ public class PostService {
   }
 
   public void insertPosts(Post assignment) {
-    this.postDao.insertPostsToDb(assignment);
+    this.postDao.createPost(assignment);
   }
 
   public Collection<Post> getPostsByContent(String content) {

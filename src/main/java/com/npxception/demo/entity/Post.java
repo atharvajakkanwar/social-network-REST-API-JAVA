@@ -10,14 +10,16 @@ public class Post {
   private int likes;
   private int likedBy;
   private int time;
+  private  int visibility;
 
-  public Post(int id, int author, String content, int likes, int likedBy, int time) {
+  public Post(int id, int author, String content, int likes, int likedBy, int time, int visibility) {
     this.id = id;
     this.author = author;
     this.content = content;
     this.likes = likes;
     this.likedBy = likedBy;
     this.time = time;
+    this.visibility = visibility;
   }
 
   public Post() {}
@@ -69,4 +71,8 @@ public class Post {
   public void setTime(int time) {
     this.time = time;
   }
+
+  public int getVisibility() { return visibility; }
+
+  public void setVisibility(int visibility) {  this.visibility = visibility; }
 }
