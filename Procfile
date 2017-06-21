@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.connector.port=$PORT -jar target/demo-0.0.1-SNAPSHOT.jar server application.properties
+web: java $JAVA_OPTS -Dserver.connector.port=$PORT -jar target/demo-0.0.1-SNAPSHOT.jar server
