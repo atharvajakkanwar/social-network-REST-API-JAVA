@@ -15,7 +15,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Properties;
 
 /**
@@ -24,30 +26,75 @@ import java.util.Properties;
 @Repository("PostgreFriends")
 public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
-  final String LIST_BY_USER_ID = "SELECT u.* FROM users u," +
+  final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.useridtwo AND f.useridone = ? " +
-      "AND (f.status = 1 OR f.status = 3)";
+      "AND (f.status = 1 OR f.status = 4)";
+
   final String REMOVE_ALL_FRIENDS = "DELETE FROM " +
       "friends f WHERE f.useridone = ? OR f.useridtwo = ?";
+
   final String UN_FRIENDS = "DELETE FROM friends WHERE useridone = ? AND useridtwo = ?";
-  // 2 means request sent
+
+  // to avoid more extra space in friends table, I tried to distinguish between sending
+  // others invitations and being invited, block a friend and being blocked
+  // 2 means request sent, 3 means got invited
   final String SEND_REQUEST = "INSERT INTO friends (useridone, useridtwo, status) " +
       "SELECT ?, ?, 2 FROM dual WHERE not exists (select * from friends " +
       "WHERE useridone = ? AND useridtwo = ?";
+
   final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE useridone = ? " +
       "AND useridtwo = ?";
+
   final String GET_STATUS = "SELECT status FROM friends WHERE useridone = ? " +
       "AND useridtwo = ?";
-  // 3 means block
-  final String BLOCK_FRIEND = "UPDATE friends SET status = 3 WHERE useridone = ? " +
+
+  // 4 means block a friend, 5 means being blocked
+  final String BLOCK_FRIEND = "UPDATE friends SET status = 4 WHERE useridone = ? " +
       "AND useridtwo = ?";
+
+  final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
+      "WHERE u.userid = f.useridtwo AND u.lastname = ? OR u.lastname = ?";
+
+  final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 3";
+
+  final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 4";
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
   @Override
   public Collection<User> getAllFriends(int id) {
-    return jdbcTemplate.query(LIST_BY_USER_ID, new UserRowMapper(), id);
+    return jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id);
+  }
+
+  @Override
+  public Collection<User> commonFriends(int id1, int id2) {
+    Collection<User> res = new HashSet<>();
+    Collection<User> list1 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id1);
+    Collection<User> list2 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id2);
+    for (User user : list1) {
+      if (list2.contains(user)) {
+        res.add(user);
+      }
+    }
+    return res;
+  }
+
+  @Override
+  public Collection<User> getFriendsByName(String name, int id) {
+    return jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(), name, id);
+  }
+
+  @Override
+  public Collection<User> getInvitationList(int id) {
+    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id);
+  }
+
+  @Override
+  public Collection<User> getBlockList(int id) {
+    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id);
   }
 
   @Override
@@ -57,7 +104,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     ids[1] = id;
     setStatement(ids, REMOVE_ALL_FRIENDS);
   }
-
 
   @Override
   public void unFriend(int id1, int id2) {

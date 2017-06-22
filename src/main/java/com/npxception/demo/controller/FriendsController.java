@@ -20,7 +20,8 @@ public class FriendsController {
   @Autowired
   private FriendsService service;
 
-  @RequestMapping(value = "/get-all-friends-userid={userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/get-all-friends-userid={userid}",
+      method = RequestMethod.GET)
   public Collection<User> getAllFriends(@PathVariable("userid") int id) {
     return service.getAllFriends(id);
   }
@@ -38,7 +39,8 @@ public class FriendsController {
     this.service.unFriend(id1, id2);
   }
 
-  @RequestMapping(value = "/count-friends-userid={userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/count-friends-userid={userid}",
+      method = RequestMethod.GET)
   public int countFriends(@PathVariable("userid") int id) {
     return this.service.countFriends(id);
   }
@@ -58,6 +60,32 @@ public class FriendsController {
   @RequestMapping(value = "/block-friend-id1={id1}/id2={id2}",
       method = RequestMethod.PUT)
   public void blockFriend(@PathVariable("id1") int id1, @PathVariable("id2") int id2) {
-    this.service.becomeFriend(id1, id2);
+    this.service.blockFriend(id1, id2);
+  }
+
+  @RequestMapping(value = "/common-friends-id1={id1}/id2={id2}",
+      method = RequestMethod.GET)
+  public Collection<User> commonFriends(@PathVariable("id1") int id1,
+                                        @PathVariable("id1") int id2) {
+    return this.service.commonFriends(id1, id2);
+  }
+
+  @RequestMapping(value = "/get-friends-byname-id={id}/name={name}",
+      method = RequestMethod.GET)
+  public Collection<User> getFriendsByName(@PathVariable("name") String name,
+                                           @PathVariable("id") int id) {
+    return this.service.getFriendsByName(name, id);
+  }
+
+  @RequestMapping(value = "/get-invitation-list-userid={userid}",
+      method = RequestMethod.GET)
+  public Collection<User> getInvitationList(@PathVariable("userid") int id) {
+    return this.service.getInvitationList(id);
+  }
+
+  @RequestMapping(value = "/get-block-list-userid={userid}",
+      method = RequestMethod.GET)
+  public Collection<User> getBlockList(@PathVariable("userid") int id) {
+    return this.service.getBlockList(id);
   }
 }

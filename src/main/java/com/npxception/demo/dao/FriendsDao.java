@@ -12,29 +12,62 @@ public interface FriendsDao {
 
   /**
    * Get a list of all the friends of a user
+   *
    * @param id the user id
    * @return all the friends of the user
    */
   Collection<User> getAllFriends(int id);
 
-  //  Collection<User> commonFriends(int id1, int id2);
+  /**
+   * Get a list of common friends between 2 users
+   *
+   * @param id1 id of user1
+   * @param id2 id of user2
+   * @return a list of common friends between 2 users
+   */
+  Collection<User> commonFriends(int id1, int id2);
+
+  /**
+   * Get a list of friends, who have same last name or first name, of a user
+   *
+   * @param name the name of the friend
+   * @param id   the id of the user
+   * @return a list of friends, who have same last name or first name, of a user
+   */
+  Collection<User> getFriendsByName(String name, int id);
+
+  /**
+   *
+   * @param id
+   * @return
+   */
+  Collection<User> getInvitationList(int id);
+
+  /**
+   *
+   * @param id
+   * @return
+   */
+  Collection<User> getBlockList(int id);
 
   /**
    * Remove all friends of a user
+   *
    * @param id the user id
    */
   void removeAllFriends(int id);
 
   /**
    * Remove a friend of a user from the friend list
+   *
    * @param id1 the user
    * @param id2 the friend
-   * @throws SQLException
    */
   void unFriend(int id1, int id2) throws SQLException;
 
   /**
    * Count all the friends that a user has
+   *
    * @param id the user id
    * @return the number of the friends of a user
    */
@@ -42,14 +75,15 @@ public interface FriendsDao {
 
   /**
    * Sending a friend request to a user2 from user1, put them on the friends table
+   *
    * @param id1 the id of user1
    * @param id2 the id of user2
-   * @throws SQLException
    */
   void sendRequest(int id1, int id2) throws SQLException;
 
   /**
    * Make user2 become the friend of user1
+   *
    * @param id1 id of user1
    * @param id2 id of user2
    */
@@ -57,6 +91,7 @@ public interface FriendsDao {
 
   /**
    * Block user2, who is friend of user1, by user1
+   *
    * @param id1 the id of user1
    * @param id2 the id of user2
    */
