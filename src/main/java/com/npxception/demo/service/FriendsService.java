@@ -54,4 +54,20 @@ public class FriendsService {
   public void blockFriend(int id1, int id2) {
     this.dao.blockFriend(id1, id2);
   }
+
+  public Collection<User> commonFriends(int id1, int id2) {
+    return this.dao.commonFriends(id1, id2);
+  }
+
+  public Collection<User> getFriendsByName(String name, int id) {
+    return this.dao.getFriendsByName(name, id);
+  }
+
+  public Collection<User> getInvitationList(int id) {
+    return this.dao.getInvitationList(id);
+  }
+
+  public Collection<User> getBlockList(int id) {
+    return this.dao.getBlockList(id);
+  }
 }
