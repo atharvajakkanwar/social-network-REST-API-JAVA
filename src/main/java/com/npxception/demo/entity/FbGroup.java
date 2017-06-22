@@ -4,50 +4,100 @@ package com.npxception.demo.entity;
  * Created by bryan on 6/2/2017.
  */
 public class FbGroup {
-  private int groupID;
-  private int adminID;
-  private String groupName;
-  private int memberID;
+  private int groupid;
+  private int admin;
+  private String name;
 
-  public FbGroup(int groupID, int adminID, String groupName, int memberID) {
-    this.groupID = groupID;
-    this.adminID = adminID;
-    this.groupName = groupName;
-    this.memberID = memberID;
+
+  /**
+   * Constructor for a facebook group.
+   * @param groupid The group's group id in the database
+   * @param admin The group's admin id in the database
+   * @param name The group's name in the database
+   */
+  public FbGroup(int groupid, int admin, String name) {
+    this.groupid = groupid;
+    this.admin = admin;
+    this.name = name;
   }
 
   public FbGroup() {
   }
 
+  /**
+   * Getter for group's ID in the database.
+   * @return group's ID in the database
+   */
   public int getGroupID() {
-    return groupID;
+    return groupid;
   }
 
-  public void setGroupID(int groupID) {
-    this.groupID = groupID;
+  /**
+   * Setter for group's ID in the database.
+   * @param groupid The group's group id in the database
+   */
+  public void setGroupID(int groupid) {
+    this.groupid = groupid;
   }
 
-  public int getAdminID() {
-    return adminID;
+  /**
+   * Getter for group's admin id in the database.
+   * @return group's admin id in the database
+   */
+  public int getAdmin() {
+    return admin;
   }
 
-  public void setAdminID(int adminID) {
-    this.adminID = adminID;
+  /**
+   * Setter for group's admin id in the database.
+   * @param admin The group's admin id in the database
+   */
+  public void setAdmin(int admin) {
+    this.admin = admin;
   }
 
-  public String getGroupName() {
-    return groupName;
+  /**
+   * Getter for group's name in the database.
+   * @return group's name in the database
+   */
+  public String getName() {
+    return name;
   }
 
-  public void setGroupName(String groupName) {
-    this.groupName = groupName;
+  /**
+   * Setter for group's name in the database.
+   * @param name The group's name in the database
+   */
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public int getMemberID() {
-    return memberID;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    FbGroup fbGroup = (FbGroup) o;
+
+    if (groupid != fbGroup.groupid) return false;
+    if (admin != fbGroup.admin) return false;
+    return name != null ? name.equals(fbGroup.name) : fbGroup.name == null;
   }
 
-  public void setMemberID(int memberID) {
-    this.memberID = memberID;
+  @Override
+  public int hashCode() {
+    int result = groupid;
+    result = 31 * result + admin;
+    result = 31 * result + (name != null ? name.hashCode() : 0);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "FbGroup{" +
+        "groupid=" + groupid +
+        ", admin=" + admin +
+        ", name='" + name + '\'' +
+        '}';
   }
 }

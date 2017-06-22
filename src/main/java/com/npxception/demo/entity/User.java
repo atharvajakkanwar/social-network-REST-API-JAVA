@@ -2,7 +2,7 @@ package com.npxception.demo.entity;
 
 
 public class User {
-  private int id;
+  private int userid;
   private String firstName;
   private String lastName;
   private String email;
@@ -13,8 +13,8 @@ public class User {
   private String password;
 
 
-  public User(int id, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
-    this.id = id;
+  public User(int userid, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
+    this.userid = userid;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -24,13 +24,14 @@ public class User {
     this.city = city;
     this.password = password;
   }
+  public User(){}
 
   public int getId() {
-    return id;
+    return userid;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setId(int userid) {
+    this.userid = userid;
   }
 
   public String getFirstName() {
@@ -92,5 +93,53 @@ public class User {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  @Override
+  public String toString() {
+    return "User{" +
+        "userid=" + userid +
+        ", firstName='" + firstName + '\'' +
+        ", lastName='" + lastName + '\'' +
+        ", email='" + email + '\'' +
+        ", age=" + age +
+        ", gender='" + gender + '\'' +
+        ", country='" + country + '\'' +
+        ", city='" + city + '\'' +
+        ", password='" + password + '\'' +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    User user = (User) o;
+
+    if (userid != user.userid) return false;
+    if (age != user.age) return false;
+    if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null)
+      return false;
+    if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
+    if (email != null ? !email.equals(user.email) : user.email != null) return false;
+    if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
+    if (country != null ? !country.equals(user.country) : user.country != null) return false;
+    if (city != null ? !city.equals(user.city) : user.city != null) return false;
+    return password != null ? password.equals(user.password) : user.password == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = userid;
+    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + age;
+    result = 31 * result + (gender != null ? gender.hashCode() : 0);
+    result = 31 * result + (country != null ? country.hashCode() : 0);
+    result = 31 * result + (city != null ? city.hashCode() : 0);
+    result = 31 * result + (password != null ? password.hashCode() : 0);
+    return result;
   }
 }

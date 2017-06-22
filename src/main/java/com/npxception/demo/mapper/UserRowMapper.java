@@ -15,15 +15,14 @@ public class UserRowMapper implements RowMapper<User> {
   public User mapRow(ResultSet resultSet, int i) throws SQLException {
 
     return new User(
-    resultSet.getInt("userid"),
-    resultSet.getString("firstname"),
-    resultSet.getString("lastname"),
-    resultSet.getString("email"),
-    resultSet.getInt("age"),
-    resultSet.getString("gender"),
-    resultSet.getString("country"),
-    resultSet.getString("city"),
-    resultSet.getString("password"));
+        resultSet.getInt("userid"),
+        resultSet.getString("firstname"),
+        resultSet.getString("lastname"),
+        resultSet.getString("email"),
+        resultSet.getInt("age"),
+        resultSet.getString("gender"),
+        resultSet.getString("country"),
+        resultSet.getString("city"),
+        resultSet.getString("password"));
   }
 }
-

@@ -6,21 +6,88 @@ import com.npxception.demo.entity.FbGroup;
 import java.util.Collection;
 
 /**
- * Created by bryan on 6/2/2017.
+ * DAO class for group.
  */
 public interface GroupDao {
+
+  /**
+   * Returns every group in the database.
+   * @return every group in the database
+   */
   Collection<FbGroup> getAllGroup();
 
+  /**
+   * Given a ID return the corresponding group.
+   * @param id The group id in the group database
+   * @return a group given an ID
+   */
   FbGroup getGroupById(int id);
 
+  /**
+   * Given an ID removes the group from the database.
+   * @param id The group id in the group database
+   */
   void removeGroupById(int id);
 
-  void updateGroup(FbGroup course);
+  /**
+   * Given a facebook group, updates the group that already exists in the database.
+   * @param fbGroup a facebook group
+   */
+  void updateGroup(FbGroup fbGroup);
 
-  void insertGroupToDb(FbGroup course);
+  /**
+   * Given a facebook group, adds the group into the database.
+   * @param fbGroup a facebook group that will be inputted into database.
+   */
+  void createGroup (FbGroup fbGroup);
+
+  /**
+   * Given a name, returns every group that has that name.
+   * @param name The group's name in the database
+   * @return every group with the given name
+   */
+  Collection<FbGroup> getGroupByName(String name);
+
+  /**
+   * Given an admin, returns every group with that administrator.
+   * @param admin The group's admin ID in the database
+   * @return every group with the administrator
+   */
+  Collection<FbGroup> getGroupByAdmin(int admin);
+
+  /**
+   * Given a member ID, returns every group that the member is in.
+   * @param memberid The member's ID in the database
+   * @return Every group taht the member is in
+   */
+  Collection<FbGroup> getAllGroupsForUser(int memberid);
+
+  /**
+   * Given name of group, updates the group name.
+   * @param name The group's name in the database
+   */
+  void updateNameOfGroup(String name);
+
+  /**
+   * Given admin of group, updates the group admin.
+   * @param admin The group's admin ID in the database
+   */
+  void updateAdminOfGroup(int admin);
+
+  /**
+   * Given member ID, adds member to group.
+   * @param memberid The member's ID in the database
+   */
+  void addMemberToGroup(int memberid);
+
+  /**
+   * Given member ID, removes member from group.
+   * @param memberid The member's ID in the database
+   */
+  void removeMemberFromGroup(int memberid);
 
 
-  Collection<FbGroup> getGroupByGroupName(String groupName);
+
 
 
 

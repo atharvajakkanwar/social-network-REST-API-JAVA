@@ -12,9 +12,12 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javafx.geometry.Pos;
+
 /**
- * Created by Robert on 6/13/2017.
+ * Created by Atharva on 6/18/2017.
  */
+
 @Repository("PostgresPostRepo")
 public class PostgreSQLPostDaoImpl implements PostDao {
 
@@ -30,17 +33,54 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
-  public Collection<Post> getAllPostsByUser(int user) {
-    final String sql = "SELECT * FROM posts WHERE author = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), user);
+  public Collection<Post> getPostsByUser(int userId) {
+    final String sql =
+        "SELECT * " +
+            "FROM posts " +
+            "WHERE author = ? " +
+            "ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), userId);
     return posts;
   }
+
+  @Override
+  public Collection<Post> getPostsByUser(String firstName) {
+    final String sql = "SELECT * FROM posts WHERE author IN (SELECT userid FROM users WHERE firstname = ?) ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), firstName);
+    return posts;
+  }
+
+  @Override
+  public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {
+    final String sql = "SELECT * FROM posts WHERE author = ? AND visibility = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), userId, groupId);
+    return posts;
+  }
+
+//  @Override
+//  public Collection<Post> getPostsByUser(String firstName, int time) {
+//    return null;
+//  }
 
   @Override
   public Post getPostsById(int id) {
     final String sql = "SELECT * FROM posts WHERE id = ?";
     Post post = jdbcTemplate.queryForObject(sql, new PostRowMapper(), id);
     return post;
+  }
+
+  @Override
+  public Collection<Post> getPostsFromGroup(int groupId) {
+    final String sql = "SELECT * FROM posts WHERE visibility = ?";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupId);
+    return posts;
+  }
+
+  @Override
+  public Collection<Post> getPostsFromGroup(String name) {
+    final String sql = "SELECT * FROM posts WHERE visibility IN (SELECT groupid FROM groups WHERE name = ?) ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), name);
+    return posts;
   }
 
   @Override
@@ -54,18 +94,18 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
-  public void insertPostsToDb(Post post) {
+  public void createPost(Post post) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (id, author, content, likes, likedBy, time) VALUES (?, ?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (id, author, content, likes, time, visibility) VALUES (?, ?, ?, ?, ?, ?)";
 
     jdbcTemplate.update(sql, new Object[]{
         post.getId(),
         post.getAuthor(),
         post.getContent(),
         post.getLikes(),
-        post.getLikedBy(),
         post.getTime(),
+        post.getVisibility()
     });
   }
 
@@ -95,8 +135,6 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
 
-
-
   private static class PostRowMapper implements RowMapper<Post> {
     @Override
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -105,8 +143,8 @@ public class PostgreSQLPostDaoImpl implements PostDao {
       post.setAuthor(resultSet.getInt("author"));
       post.setContent(resultSet.getString("content"));
       post.setLikes(resultSet.getInt("likes"));
-      post.setLikedBy(resultSet.getInt("likedBy"));
       post.setTime(resultSet.getInt("time"));
+      post.setVisibility(resultSet.getInt("visibility"));
       return post;
     }
   }

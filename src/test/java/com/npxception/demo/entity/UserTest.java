@@ -1,5 +1,6 @@
 package com.npxception.demo.entity;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,94 +10,80 @@ import static org.junit.Assert.*;
  * Created by bryan on 6/21/2017.
  */
 public class UserTest {
+  private User user1;
+  private User mt;
+  private User newUser;
   @Before
   public void setUp() throws Exception {
+    this.user1 = new User(1, "Bobby", "McBob", "abc", 123, "truck", "ABC", "DEF", "1234");
+    this.mt = new User();
+    this.newUser = new User(2, "f", "l", "e", 2, "g", "c", "c", "p");
 
+
+  }
+
+  @Test
+  public void testAllSetters() throws Exception {
+    mt.setId(2);
+    mt.setFirstName("f");
+    mt.setLastName("l");
+    mt.setEmail("e");
+    mt.setAge(2);
+    mt.setGender("g");
+    mt.setCountry("c");
+    mt.setCity("c");
+    mt.setPassword("p");
+    Assert.assertEquals(mt, newUser);
   }
 
   @Test
   public void getId() throws Exception {
+    Assert.assertEquals(user1.getId(), 1);
 
   }
 
-  @Test
-  public void setId() throws Exception {
-
-  }
 
   @Test
   public void getFirstName() throws Exception {
+    Assert.assertEquals(user1.getFirstName(), "Bobby");
 
   }
+
 
   @Test
   public void getAge() throws Exception {
-
+    Assert.assertEquals(user1.getAge(),123);
   }
 
-  @Test
-  public void setAge() throws Exception {
-
-  }
 
   @Test
   public void getGender() throws Exception {
-
+    Assert.assertEquals(user1.getGender(), "truck");
   }
 
-  @Test
-  public void setGender() throws Exception {
-
-  }
-
-  @Test
-  public void setFirstName() throws Exception {
-
-  }
 
   @Test
   public void getLastName() throws Exception {
-
-  }
-
-  @Test
-  public void setLastName() throws Exception {
-
+    Assert.assertEquals(user1.getLastName(), "McBob");
   }
 
   @Test
   public void getEmail() throws Exception {
-
+    Assert.assertEquals(user1.getEmail(), "abc");
   }
 
-  @Test
-  public void setEmail() throws Exception {
-
-  }
 
   @Test
   public void getCountry() throws Exception {
-
+    Assert.assertEquals(user1.getCountry(), "ABC");
   }
 
-  @Test
-  public void setCountry() throws Exception {
-
-  }
 
   @Test
   public void getCity() throws Exception {
-
+    Assert.assertEquals(user1.getCity(), "DEF");
   }
 
-  @Test
-  public void setCity() throws Exception {
 
-  }
-
-  @Test
-  public void setPassword() throws Exception {
-
-  }
 
 }

@@ -11,7 +11,7 @@ import java.util.Collection;
 
 
 /**
- * Created by bryan on 6/2/2017.
+ * Service class for group.
  */
 
 @Service
@@ -19,11 +19,14 @@ public class GroupService {
 
   @Autowired
   @Qualifier("PostgresGroupRepo")
+
   private GroupDao groupDao;
+
 
   public Collection<FbGroup> getAllGroup() {
     return this.groupDao.getAllGroup();
   }
+
 
   public FbGroup getGroupById(int id) {
     return this.groupDao.getGroupById(id);
@@ -33,17 +36,41 @@ public class GroupService {
     this.groupDao.removeGroupById(id);
   }
 
-  public void updateGroup(FbGroup course) {
-    this.groupDao.updateGroup(course);
+  public void updateGroup(FbGroup fbGroup) {
+    this.groupDao.updateGroup(fbGroup);
   }
 
-  public void insertGroup(FbGroup course) {
-    this.groupDao.insertGroupToDb(course);
+  public void createGroup(FbGroup fbGroup) {
+    this.groupDao.createGroup(fbGroup);
   }
 
 
-  public Collection<FbGroup> getGroupByGroupName(String title) {
-    return this.groupDao.getGroupByGroupName(title);
+  public Collection<FbGroup> getGroupByName(String name) {
+    return this.groupDao.getGroupByName(name);
+  }
+
+  public Collection<FbGroup> getGroupByAdmin(int admin) {
+    return this.groupDao.getGroupByAdmin(admin);
+  }
+
+  public Collection<FbGroup> getAllGroupsForUser(int memberid) {
+    return this.groupDao.getAllGroupsForUser(memberid);
+  }
+
+  public void updateNameOfGroup(String name) {
+    this.groupDao.updateNameOfGroup(name);
+  }
+
+  public void updateAdminOfGroup(int admin) {
+    this.groupDao.updateAdminOfGroup(admin);
+  }
+
+  public void addMemberToGroup(int memberid) {
+    this.groupDao.addMemberToGroup(memberid);
+  }
+
+  public void removeMemberFromGroup(int memberid) {
+    this.groupDao.removeMemberFromGroup(memberid);
   }
 
 

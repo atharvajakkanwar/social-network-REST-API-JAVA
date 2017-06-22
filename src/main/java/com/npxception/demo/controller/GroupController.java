@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 /**
- * Created by bryan on 6/2/2017.
+ * Controller for group.
  */
 
 @RestController
@@ -21,39 +21,71 @@ public class GroupController {
   @Autowired
   private GroupService groupService;
 
+
   @RequestMapping(method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups() {
     return groupService.getAllGroup();
   }
 
+
   @RequestMapping(value = "/groupid={groupid}", method = RequestMethod.GET)
-  public FbGroup getGroupById(@PathVariable("groupid") int id) {
-    return groupService.getGroupById(id);
+  public FbGroup getGroupById(@PathVariable("groupid") int groupid) {
+    return groupService.getGroupById(groupid);
   }
 
-  @RequestMapping(value = "/groupid = {groupid}", params = "groupid", method = RequestMethod.DELETE)
-  public void deleteGroupById(@PathVariable("groupid") int groupid) {
+
+  @RequestMapping(value = "/groupid={groupid}", params = "groupid", method = RequestMethod.DELETE)
+  public void removeGroupById(@PathVariable("groupid") int groupid) {
     groupService.removeGroupById(groupid);
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertGroup(@RequestBody FbGroup group) {
-    groupService.insertGroup(group);
+  public void createGroup(@RequestBody FbGroup group) {
+    groupService.createGroup(group);
   }
 
-//  @RequestMapping(value = "/professor = {professor}", method = RequestMethod.GET)
-//  public Collection<Group> getGroupByProf(@PathVariable("professor") String professor) {
-//    return groupService.getGroupByProf(professor);
-//  }
+
 
   @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
-  public Collection<FbGroup> getGroupByGroupName(@PathVariable("name") String name) {
-    return groupService.getGroupByGroupName(name);
+  public Collection<FbGroup> getGroupByName(@PathVariable("name") String name) {
+    return groupService.getGroupByName(name);
   }
 
-//  @RequestMapping(value = "/size = {size}", method = RequestMethod.GET)
-//  public Collection<Group> getGroupByName(@PathVariable("size") int size) {
-//    return groupService.getGroupBySize(size);
+
+
+//  public void updateGroup(FbGroup fbGroup) {
+//
 //  }
+
+
+  @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
+  public Collection<FbGroup> getGroupByAdmin(@PathVariable("admin") int admin) {
+    return groupService.getGroupByAdmin(admin);
+  }
+
+  @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.GET)
+  public Collection<FbGroup> getAllGroupsForUser(@PathVariable("memberid") int memberid) {
+    return groupService.getAllGroupsForUser(memberid);
+  }
+
+
+
+//  void updateNameOfGroup(String name);
+
+
+//  void updateAdminOfGroup(int admin);
+
+
+  @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void addMemberToGroup(@RequestBody int memberid) {
+    groupService.addMemberToGroup(memberid);
+  }
+
+  @RequestMapping(value = "/memberid={memberid}", params = "memberid", method = RequestMethod.DELETE)
+  public void removeMemberFromGroup(@PathVariable("memberid") int memberid) {
+    groupService.removeMemberFromGroup(memberid);
+  }
+
+
 
 }

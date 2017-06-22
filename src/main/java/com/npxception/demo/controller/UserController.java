@@ -28,13 +28,13 @@ public class UserController {
     return userService.getUserById(userid);
   }
 
-  @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/id={id}", params = "id", method = RequestMethod.DELETE)
   public void deleteUserById(@PathVariable("id") int id) {
     userService.removeUserById(id);
   }
 
   @RequestMapping(method = RequestMethod.PUT, params = "id", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void deleteUserById(@RequestBody User user) {
+  public void updateUserById(@RequestBody User user) {
     userService.updateUser(user);
   }
 
@@ -44,25 +44,16 @@ public class UserController {
   }
 
 
-  @RequestMapping(value = "/name = {name}", method = RequestMethod.GET)
-  public Collection<User> getUsersByName(@PathVariable("name") String name) {
-    return userService.getUserByName(name);
-  }
+//  need to specify first name or last name. Prob need to add emthods
+//  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
+//  public Collection<User> getUsersByName(@PathVariable("name") String name) {
+//    return userService.getUserByName(name);
+//  }
 
-  @RequestMapping(value = "/gender = {gender}", method = RequestMethod.GET)
+  @RequestMapping(value = "/gender={gender}", method = RequestMethod.GET)
   public Collection<User> getStudentsByGender(@PathVariable("gender") String gender) {
     return userService.getUserByGender(gender);
   }
 
-  @RequestMapping(value = "/age = {age}", method = RequestMethod.GET)
-  public Collection<User> getUserByCourse(@PathVariable("age") int age) {
-    return userService.getUserByAge(age);
-  }
-
-
-  @RequestMapping(method = RequestMethod.PUT, params = "course", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void deleteUserByCourse(@RequestBody User user) {
-    userService.updateUser(user);
-  }
-
+ // will prob need to add methods for country/city/password
 }

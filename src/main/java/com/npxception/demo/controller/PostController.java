@@ -11,7 +11,7 @@ import java.util.Collection;
 
 
 /**
- * Created by bryan on 6/2/2017.
+ * Created by Atharva on 6/18/2017.
  */
 
 @RestController
@@ -32,23 +32,43 @@ public class PostController {
     return postService.getPostsById(id);
   }
 
-  @RequestMapping(value = "/user={user}", method = RequestMethod.GET)
-  public Collection<Post> getAllPostsByUser(@PathVariable int user) {
-    return postService.getAllPostsByUser(user);
+  @RequestMapping(value = "/group={groupid}", method = RequestMethod.GET)
+  public Collection<Post> getPostsFromGroup(@PathVariable int groupid) {
+    return postService.getPostsFromGroup(groupid);
   }
 
-  @RequestMapping(value = "/id = {id}", params = "id", method = RequestMethod.DELETE)
-  public void deletePostsById(@PathVariable("id") int id) {
+  @RequestMapping(value = "/groupname={name}", method = RequestMethod.GET)
+  public Collection<Post> getPostsFromGroup(@PathVariable String name) {
+    return postService.getPostsFromGroup(name);
+  }
+
+  @RequestMapping(value = "/author={author}", method = RequestMethod.GET)
+  public Collection<Post> getPostsByUser(@PathVariable int author) {
+    return postService.getPostsByUser(author);
+  }
+
+  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
+  public Collection<Post> getPostsByUser(@PathVariable String firstname) {
+    return postService.getPostsByUser(firstname);
+  }
+
+//  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
+//  public Collection<Post> getPostsByUser(@PathVariable String firstName, @PathVariable int time) {
+//    return postService.getPostsByUser(firstName, time);
+//  }
+
+  @RequestMapping(value = "/id={id}", params = "id", method = RequestMethod.DELETE)
+  public void removePostById(@PathVariable("id") int id) {
     postService.removePostsById(id);
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertPost(@RequestBody Post assignment) {
-    postService.insertPosts(assignment);
+  public void createPost(@RequestBody Post assignment) {
+    postService.createPost(assignment);
   }
 
 
-  @RequestMapping(value = "/content = {content}", method = RequestMethod.GET)
+  @RequestMapping(value = "/content={content}", method = RequestMethod.GET)
   public Collection<Post> getPostsByContent(@PathVariable("content") String content) {
     return postService.getPostsByContent(content);
   }
