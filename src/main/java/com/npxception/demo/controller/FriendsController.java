@@ -66,7 +66,7 @@ public class FriendsController {
   @RequestMapping(value = "/common-friends-id1={id1}/id2={id2}",
       method = RequestMethod.GET)
   public Collection<User> commonFriends(@PathVariable("id1") int id1,
-                                        @PathVariable("id1") int id2) {
+                                        @PathVariable("id2") int id2) {
     return this.service.commonFriends(id1, id2);
   }
 

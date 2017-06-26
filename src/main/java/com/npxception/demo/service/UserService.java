@@ -2,6 +2,7 @@ package com.npxception.demo.service;
 
 import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.login.Login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,4 +49,11 @@ public class UserService {
     return this.userDao.getUserByAge(age);
   }
 
+  public void insertUserToDb(User user) {
+    this.userDao.insertUserToDb(user);
+  }
+
+  public void login(String email, String password) {
+    new Login().login(email, password);
+  }
 }

@@ -15,6 +15,12 @@ import java.util.List;
  */
 @Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
+ // static int id;
+//
+//  public PostgreSQLUserDaoImpl(int id){
+//    userid = id;
+//  }
+ // int userid;
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -76,5 +82,16 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public Collection<User> getUserByGender(String gender) {
     return null;
   }
+
+//  @Override
+//  // login will set the user id, so later all the operations will be bound to this id
+//  public void login(String email, String password) {
+//    //int userid;
+//    final String sql = "SELECT FROM users WHERE email = ? AND password = ?";
+//    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email, password);
+//    if (user != null){
+//      id = user.getId();
+//    }
+//  }
 
 }
