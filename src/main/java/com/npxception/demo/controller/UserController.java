@@ -55,5 +55,16 @@ public class UserController {
     return userService.getUserByGender(gender);
   }
 
+  @RequestMapping(value = "/register", method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void register(@RequestBody User user){
+    userService.insertUserToDb(user);
+  }
+
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  public void login(@RequestBody String email, @RequestBody String password){
+    userService.login(email, password);
+  }
+
  // will prob need to add methods for country/city/password
 }
