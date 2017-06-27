@@ -17,8 +17,8 @@ import java.util.StringTokenizer;
 @Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
 
-  final String GET_USER_BY_NAME = "SELECT u.* FROM users u " +
-      "WHERE u.firstname = firstname AND u.lastname = lastname";
+  final String GET_USER_BY_NAME = "SELECT u FROM users u " +
+      "WHERE u.firstName like :firstname AND u.lastName like :lastname";
 
   // static int id;
 //
@@ -76,9 +76,9 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public Collection<User> getUserByName(String name) {
     StringTokenizer stok = new StringTokenizer(name);
-    String firstName = stok.nextToken();
-    String lastName = stok.nextToken();
-    return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstName, lastName);
+    String firstname = stok.nextToken();
+    String lastname = stok.nextToken();
+    return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstname, lastname);
   }
 
   @Override
