@@ -77,7 +77,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public Collection<User> getUserByName(String name) {
     StringTokenizer stok = new StringTokenizer(name);
     String firstName = stok.nextToken();
-    String lastName = stok.nextToken()
+    String lastName = stok.nextToken();
     return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstName, lastName);
   }
 
