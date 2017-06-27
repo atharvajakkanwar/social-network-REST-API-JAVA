@@ -9,13 +9,18 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Robert on 6/5/2017.
  */
 @Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
- // static int id;
+
+  final String GET_USER_BY_NAME = "SELECT u.* FROM users u " +
+      "WHERE u.firstname = firstname AND u.lastname = lastname";
+
+  // static int id;
 //
 //  public PostgreSQLUserDaoImpl(int id){
 //    userid = id;
@@ -70,7 +75,10 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public Collection<User> getUserByName(String name) {
-    return null;
+    StringTokenizer stok = new StringTokenizer(name);
+    String firstName = stok.nextToken();
+    String lastName = stok.nextToken()
+    return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstName, lastName);
   }
 
   @Override
