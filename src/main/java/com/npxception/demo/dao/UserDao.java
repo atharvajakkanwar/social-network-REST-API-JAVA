@@ -5,6 +5,7 @@ import com.npxception.demo.entity.User;
 import java.util.Collection;
 
 public interface UserDao {
+  // need to find a way to let login and register happen first
   Collection<User> getAllUser();
 
   User getUserById(int id);
@@ -20,5 +21,7 @@ public interface UserDao {
   Collection<User> getUserByAge(int age);
 
   Collection<User> getUserByGender(String gender);
+
+  // need to add in getUser by country/city/firstname/lastname
 
 }
