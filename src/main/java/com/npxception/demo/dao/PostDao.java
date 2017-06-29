@@ -52,11 +52,11 @@ public interface PostDao {
   Collection<Post> getPostsByUser(int userId);
 
   /**
-   * Get all the posts by a particular user based on the users first name.
-   * @param firstName The users first name.
-   * @return All the posts from the user with user id as {@code firstName}.
+   * Get all the posts by a particular user based on the users name.
+   * @param author The users name.
+   * @return All the posts from the user with name as {@code author}.
    */
-  Collection<Post> getPostsByUser(String firstName);
+  Collection<Post> getPostsByUser(String author);
 
   /**
    * Get all the posts from a particular group by a particular user.
@@ -72,7 +72,7 @@ public interface PostDao {
 
   Collection<Post> getPostsByContent(String content);
 
-  Collection<Post> getPostsByAuthor(int authorID);
+  Collection<Post> getPostsByAuthor(String author);
 
   Collection<Post> getPostsByLikes(int likes);
 

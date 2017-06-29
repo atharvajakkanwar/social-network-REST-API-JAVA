@@ -43,14 +43,10 @@ public class PostController {
   }
 
   @RequestMapping(value = "/author={author}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUser(@PathVariable int author) {
+  public Collection<Post> getPostsByUser(@PathVariable String author) {
     return postService.getPostsByUser(author);
   }
 
-  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUser(@PathVariable String firstname) {
-    return postService.getPostsByUser(firstname);
-  }
 
 //  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
 //  public Collection<Post> getPostsByUser(@PathVariable String firstName, @PathVariable int time) {

@@ -113,7 +113,7 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
-  public Collection<Post> getPostsByAuthor(int authorID) {
+  public Collection<Post> getPostsByAuthor(String author) {
     return null;
   }
 
@@ -138,7 +138,7 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {
       Post post = new Post();
       post.setId(resultSet.getInt("id"));
-      post.setAuthor(resultSet.getInt("author"));
+      post.setAuthor(resultSet.getString("author"));
       post.setContent(resultSet.getString("content"));
       post.setLikes(resultSet.getInt("likes"));
       post.setTime(resultSet.getInt("time"));
