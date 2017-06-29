@@ -39,17 +39,17 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
       "AND useridtwo = ?";
 
   // 4 means block a friend, 5 means being blocked
-  final String BLOCK_FRIEND = "UPDATE friends SET status = 4 WHERE useridone = ? " +
+  final String BLOCK_FRIEND = "UPDATE friends SET status = ? WHERE useridone = ? " +
       "AND useridtwo = ?";
 
   final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname = ? OR u.lastname = ?)";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname LIKE ? OR u.lastname LIKE ?)";
 
   final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 3";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
 
   final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 4";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
 
 
   @Autowired
@@ -78,7 +78,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String name, int id) {
-    return jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(), name, id);
+    return jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(), id, name, name);
   }
 
   @Override
@@ -98,9 +98,8 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void unFriend(int id1, int id2) {
-    swap(id1, id2);
-    jdbcTemplate.update(UN_FRIENDS, new Object[]{id1, id2});
-    System.out.print(countFriends(id1));
+    int[] ids = swap(id1, id2);
+    jdbcTemplate.update(UN_FRIENDS, new Object[]{ids[0], ids[1]});
   }
 
   @Override
@@ -113,39 +112,47 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     if (id1 < id2) {
       jdbcTemplate.update(SEND_REQUEST, new Object[]{id1, id2, 2, id1, id2,});
     } else {
-      swap(id1, id2);
       jdbcTemplate.update(SEND_REQUEST, new Object[]{id2, id1, 3, id2, id1});
-
     }
   }
 
   @Override
   public void becomeFriend(int id1, int id2) {
-    int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{id1, id2}, Integer.class);
-    //if got invited or block the other
-    if ((currentStatus == 3 || currentStatus == 4) && id1 < id2) {
-      jdbcTemplate.update(BECOME_FRIEND, new Object[]{id1, id2});
+    int currentStatus;
+    if (id1 < id2) {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id1, id2}, Integer.class);
+      // if got invited or block the other
+      if ((currentStatus == 3 || currentStatus == 4)) {
+        jdbcTemplate.update(BECOME_FRIEND, new Object[]{id1, id2});
+      }
+    } else {
+      int[] ids = swap(id1, id2);
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{ids[0], ids[1]}, Integer.class);
+      System.out.print(currentStatus);
       // this statement means, if id1 is blocked by id2, then id2 has the
       // right to unblock
-    } else if ((currentStatus == 2 || currentStatus == 5) && id1 > id2) {
-      // need to swap because the table requires id1<id2
-      swap(id1, id2);
-      jdbcTemplate.update(BECOME_FRIEND, new Object[]{id1, id2});
+      if ((currentStatus == 2 || currentStatus == 5)) {
+        jdbcTemplate.update(BECOME_FRIEND, new Object[]{ids[0], ids[1]});
+      }
     }
   }
 
   @Override
   public void blockFriend(int id1, int id2) {
-    swap(id1, id2);
-    int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{id1, id2}, Integer.class);
-    if (currentStatus == 1) {
-      if (id1 < id2) {
+    int currentStatus;
+    if (id1 < id2) {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id1, id2}, Integer.class);
+      if (currentStatus == 1) {
         jdbcTemplate.update(BLOCK_FRIEND, new Object[]{4, id1, id2});
-      } else {
-        swap(id1, id2);
-        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{5, id1, id2});
+      }
+    } else {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id2, id1}, Integer.class);
+      if (currentStatus == 1) {
+        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{5, id2, id1});
       }
     }
   }
@@ -157,13 +164,18 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
    *
    * @param a the first integer
    * @param b the second integer
-   */
+   * @return an array of new a and b
+   **/
 
-  public void swap(int a, int b) {
+  public int[] swap(int a, int b) {
+    int[] result = new int[2];
     if (a >= b) {
       a = a + b;//id1 becomes the sum
       b = a - b;//id2 becomes id1
       a = a - b;//id1 becomes id2
     }
+    result[0] = a;
+    result[1] = b;
+    return result;
   }
 }
