@@ -21,20 +21,20 @@ public interface FriendsDao {
   /**
    * Get a list of common friends between 2 users
    *
-   * @param id1 id of user1
-   * @param id2 id of user2
+   * @param id id of user1
+   * @param username id of user2
    * @return a list of common friends between 2 users
    */
-  Collection<User> commonFriends(int id1, int id2);
+  Collection<User> commonFriends(int id, String username);
 
   /**
    * Get a list of friends, who have same last name or first name, of a user
    *
-   * @param name the name of the friend
+   * @param username the name of the friend
    * @param id   the id of the user
    * @return a list of friends, who have same last name or first name, of a user
    */
-  Collection<User> getFriendsByName(String name, int id);
+  Collection<User> getFriendsByName(String username, int id);
 
   /**
    *
@@ -60,10 +60,10 @@ public interface FriendsDao {
   /**
    * Remove a friend of a user from the friend list
    *
-   * @param id1 the user
-   * @param id2 the friend
+   * @param id the user
+   * @param username the friend
    */
-  void unFriend(int id1, int id2) throws SQLException;
+  void unFriend(int id, String username) throws SQLException;
 
   /**
    * Count all the friends that a user has
@@ -76,25 +76,25 @@ public interface FriendsDao {
   /**
    * Sending a friend request to a user2 from user1, put them on the friends table
    *
-   * @param id1 the id of user1
-   * @param id2 the id of user2
+   * @param id the id of user1
+   * @param username the id of user2
    */
-  void sendRequest(int id1, int id2) throws SQLException;
+  void sendRequest(int id, String username) throws SQLException;
 
   /**
    * Make user2 become the friend of user1
    *
-   * @param id1 id of user1
-   * @param id2 id of user2
+   * @param id id of user1
+   * @param username id of user2
    */
-  void becomeFriend(int id1, int id2);
+  void becomeFriend(int id, String username);
 
   /**
    * Block user2, who is friend of user1, by user1
    *
-   * @param id1 the id of user1
-   * @param id2 the id of user2
+   * @param id the id of user1
+   * @param username the id of user2
    */
-  void blockFriend(int id1, int id2);
+  void blockFriend(int id, String username);
 
 }

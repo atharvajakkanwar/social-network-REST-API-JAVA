@@ -22,7 +22,6 @@ public interface UserDao {
 
   Collection<User> getUserByGender(String gender);
 
-  //void login(String email, String password);
 
   // need to add in getUser by country/city/firstname/lastname
 

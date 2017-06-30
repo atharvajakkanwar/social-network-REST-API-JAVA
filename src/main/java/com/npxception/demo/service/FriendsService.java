@@ -27,9 +27,10 @@ public class FriendsService {
     this.dao.removeAllFriends(id);
   }
 
-  public void unFriend(int id1, int id2) {
+
+  public void unFriend(int id, String username) {
     try {
-      this.dao.unFriend(id1, id2);
+      this.dao.unFriend(id, username);
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -39,28 +40,30 @@ public class FriendsService {
     return this.dao.countFriends(id);
   }
 
-  public void sendRequest(int id1, int id2) {
+
+  public void sendRequest(int id, String username) {
     try {
-      this.dao.sendRequest(id1, id2);
+      this.dao.sendRequest(id, username);
     } catch (SQLException e) {
       e.printStackTrace();
     }
   }
 
-  public void becomeFriend(int id1, int id2) {
-    this.dao.becomeFriend(id1, id2);
+
+  public void becomeFriend(int id, String username) {
+    this.dao.becomeFriend(id, username);
   }
 
-  public void blockFriend(int id1, int id2) {
-    this.dao.blockFriend(id1, id2);
+  public void blockFriend(int id, String username) {
+    this.dao.blockFriend(id, username);
   }
 
-  public Collection<User> commonFriends(int id1, int id2) {
-    return this.dao.commonFriends(id1, id2);
+  public Collection<User> commonFriends(int id, String username) {
+    return this.dao.commonFriends(id, username);
   }
 
-  public Collection<User> getFriendsByName(String name, int id) {
-    return this.dao.getFriendsByName(name, id);
+  public Collection<User> getFriendsByName(String username, int id) {
+    return this.dao.getFriendsByName(username, id);
   }
 
   public Collection<User> getInvitationList(int id) {
