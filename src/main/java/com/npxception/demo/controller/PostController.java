@@ -52,5 +52,6 @@ public class PostController {
   public Collection<Post> getPostsByContent(@PathVariable("content") String content) {
     return postService.getPostsByContent(content);
   }
+  //test commit
 
 }
