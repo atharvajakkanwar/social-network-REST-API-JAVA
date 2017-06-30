@@ -58,7 +58,7 @@ public class PostController {
   public void removePostById(@PathVariable("id") int id) {
     postService.removePostsById(id);
   }
-  //test commit
+  //test commit from post branch
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void createPost(@RequestBody Post assignment) {
