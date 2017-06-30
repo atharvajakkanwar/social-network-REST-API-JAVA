@@ -27,6 +27,9 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 //  }
  // int userid;
 
+//  @Autowired
+//  private BCryptPasswordEncoder
+
   @Autowired
   private JdbcTemplate jdbcTemplate;
 

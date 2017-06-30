@@ -29,7 +29,7 @@ public class FriendsController {
 
   //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
 
-  @RequestMapping(value = "/{user}/friends/all",
+  @RequestMapping(value = "/{user}/friends/removeall",
       method = RequestMethod.DELETE)
   public void removeAllFriends(@PathVariable("user") int id) {
     this.service.removeAllFriends(id);
