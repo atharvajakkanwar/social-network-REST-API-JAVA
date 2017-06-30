@@ -50,6 +50,8 @@ public class PostService {
   }
 
   public void createPost(Post assignment) {
+
+
     this.postDao.createPost(assignment);
   }
 

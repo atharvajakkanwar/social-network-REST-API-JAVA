@@ -12,6 +12,7 @@ public class Post {
   private  int visibility;
 
   public Post(int id, String author, String content, int likes, int time, int visibility) {
+
     this.id = id;
     this.author = author;
     this.content = content;
@@ -106,3 +107,4 @@ public class Post {
         '}';
   }
 }
+

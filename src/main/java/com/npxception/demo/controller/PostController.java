@@ -48,6 +48,7 @@ public class PostController {
   }
 
 
+
 //  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
 //  public Collection<Post> getPostsByUser(@PathVariable String firstName, @PathVariable int time) {
 //    return postService.getPostsByUser(firstName, time);
@@ -63,10 +64,5 @@ public class PostController {
     postService.createPost(assignment);
   }
 
-
-  @RequestMapping(value = "/content={content}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByContent(@PathVariable("content") String content) {
-    return postService.getPostsByContent(content);
-  }
 
 }
