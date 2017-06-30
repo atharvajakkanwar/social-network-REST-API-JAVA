@@ -46,6 +46,8 @@ public class GroupController {
 
 
 
+
+
   @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByName(@PathVariable("name") String name) {
     return groupService.getGroupByName(name);
