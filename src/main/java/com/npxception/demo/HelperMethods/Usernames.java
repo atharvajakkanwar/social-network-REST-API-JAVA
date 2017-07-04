@@ -1,4 +1,4 @@
-package com.npxception.demo.HelperMethods;
+package com.npxception.demo.helperMethods;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

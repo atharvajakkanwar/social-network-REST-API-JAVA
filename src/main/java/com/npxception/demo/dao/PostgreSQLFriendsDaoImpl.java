@@ -1,6 +1,6 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.HelperMethods.Usernames;
+import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.mapper.UserRowMapper;
 
