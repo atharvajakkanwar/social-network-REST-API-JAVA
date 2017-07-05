@@ -13,6 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+//  @Override
+//  protected  void configure(AuthenticationManagerBuilder auth) throws Exception {
+//    auth.inMemoryAuthentication()
+//        .withUser("atharva").password("test").roles("USER").and()
+//        .withUser("atharva").password("password").roles("USER");
+//  }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws  Exception{
