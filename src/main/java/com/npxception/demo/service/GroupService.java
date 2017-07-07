@@ -36,9 +36,7 @@ public class GroupService {
     this.groupDao.removeGroupById(id);
   }
 
-  public void updateGroup(FbGroup fbGroup) {
-    this.groupDao.updateGroup(fbGroup);
-  }
+
 
   public void createGroup(FbGroup fbGroup) {
     this.groupDao.createGroup(fbGroup);
@@ -57,13 +55,7 @@ public class GroupService {
     return this.groupDao.getAllGroupsForUser(memberid);
   }
 
-  public void updateNameOfGroup(String name) {
-    this.groupDao.updateNameOfGroup(name);
-  }
 
-  public void updateAdminOfGroup(int admin) {
-    this.groupDao.updateAdminOfGroup(admin);
-  }
 
   public void addMemberToGroup(int memberid) {
     this.groupDao.addMemberToGroup(memberid);

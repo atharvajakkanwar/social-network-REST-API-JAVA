@@ -47,10 +47,6 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
 
   }
 
-  @Override
-  public void updateGroup(FbGroup course) {
-
-  }
 
   @Override
   public void createGroup(FbGroup fbGroup) {
@@ -72,6 +68,11 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
   }
 
   @Override
+  public Collection<FbGroup> getGroupByAdmin(String name) {
+    return null;
+  }
+
+  @Override
   public Collection<FbGroup> getGroupByAdmin(int admin) {
     final String sql = "SELECT * FROM groups WHERE admin = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), admin);
@@ -86,15 +87,6 @@ public class PostgresSQLGroupDaoImpl implements GroupDao {
 
   }
 
-  @Override
-  public void updateNameOfGroup(String name) {
-
-  }
-
-  @Override
-  public void updateAdminOfGroup(int admin) {
-
-  }
 
   @Override
   public void addMemberToGroup(int memberid) {
