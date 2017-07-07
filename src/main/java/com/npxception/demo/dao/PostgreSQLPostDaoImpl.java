@@ -18,10 +18,16 @@ import java.util.List;
 
 @Repository("PostgresPostRepo")
 public class PostgreSQLPostDaoImpl implements PostDao {
-
+  private PostgreSQLUserDaoImpl postgreSQLUserDao;
+  private PostgreSQLPostDaoImpl postgreSQLPostDao;
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
+
+  PostgreSQLPostDaoImpl(PostgreSQLUserDaoImpl postgreSQLUserDao, PostgreSQLPostDaoImpl postgreSQLPostDao) {
+    this.postgreSQLUserDao = postgreSQLUserDao;
+    this.postgreSQLPostDao = postgreSQLPostDao;
+  }
 
   @Override
   public Collection<Post> getAllPosts() {
