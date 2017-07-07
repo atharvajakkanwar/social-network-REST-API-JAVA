@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
@@ -100,4 +99,3 @@ public interface FriendsDao {
   void blockFriend(int id, String username);
 
 }
->>>>>>> 1466c5b71cfb0853faf883e085a642d3185663d9

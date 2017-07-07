@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
@@ -25,13 +24,11 @@ public class FriendsController {
   @RequestMapping(value = "/{user}/friends/all",
       method = RequestMethod.GET)
   public Collection<User> getAllFriends(@PathVariable("user") int id) {
-
     return service.getAllFriends(id);
   }
 
   //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
-
-  @RequestMapping(value = "/{user}/friends/removeall",
+  @RequestMapping(value = "/{user}/friends/all",
       method = RequestMethod.DELETE)
   public void removeAllFriends(@PathVariable("user") int id) {
     this.service.removeAllFriends(id);
@@ -93,4 +90,3 @@ public class FriendsController {
     return this.service.getBlockList(id);
   }
 }
->>>>>>> 1466c5b71cfb0853faf883e085a642d3185663d9
