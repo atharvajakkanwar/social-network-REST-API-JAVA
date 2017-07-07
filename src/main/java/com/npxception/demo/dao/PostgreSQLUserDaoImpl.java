@@ -5,6 +5,7 @@ import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return users;
   }
 
+  @PreAuthorize("hasAuthority('ADMIN')")
   @Override
   public User getUserById(int userid) {
     final String sql = "SELECT * FROM users WHERE userid = ?";
