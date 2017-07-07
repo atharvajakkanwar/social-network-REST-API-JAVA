@@ -15,15 +15,15 @@ public class PostTest {
   private Post newPost;
   @Before
   public void setUp() throws Exception {
-    this.post1 = new Post(1, 2, "Hello World", 5, 12, 1);
+    this.post1 = new Post(1, "Sally", "Hello World", 5, 12, 1);
     this.mt = new Post();
-    this.newPost = new Post(37, 37, "a", 37, 37, 37);
+    this.newPost = new Post(37, "Joe", "a", 37, 37, 37);
   }
 
   @Test
   public void testsForAllSetters() throws Exception {
     this.mt.setId(37);
-    this.mt.setAuthor(37);
+    this.mt.setAuthor("Joe");
     this.mt.setContent("a");
     this.mt.setLikes(37);
     this.mt.setTime(37);
@@ -40,7 +40,7 @@ public class PostTest {
 
   @Test
   public void getAuthor() throws Exception {
-    Assert.assertEquals(post1.getAuthor(), 2);
+    Assert.assertEquals(post1.getAuthor(), "Sally");
   }
 
 

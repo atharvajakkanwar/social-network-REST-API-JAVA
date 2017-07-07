@@ -44,15 +44,25 @@ public class UserController {
   }
 
 
-//  need to specify first name or last name. Prob need to add emthods
-//  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
-//  public Collection<User> getUsersByName(@PathVariable("name") String name) {
-//    return userService.getUserByName(name);
-//  }
+  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
+  public Collection<User> getUsersByName(@PathVariable("name") String name) {
+    return userService.getUserByName(name);
+  }
 
   @RequestMapping(value = "/gender={gender}", method = RequestMethod.GET)
   public Collection<User> getStudentsByGender(@PathVariable("gender") String gender) {
     return userService.getUserByGender(gender);
+  }
+
+  @RequestMapping(value = "/register", method = RequestMethod.POST,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void register(@RequestBody User user){
+    userService.insertUserToDb(user);
+  }
+
+  @RequestMapping(value = "/login", method = RequestMethod.POST)
+  public void login(@RequestBody String email, @RequestBody String password){
+    userService.login(email, password);
   }
 
  // will prob need to add methods for country/city/password

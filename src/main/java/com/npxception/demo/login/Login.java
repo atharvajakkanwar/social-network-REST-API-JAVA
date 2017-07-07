@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class Login {
   @Autowired
   private JdbcTemplate jdbcTemplate;
+
   public static int userid;
 
   // login will set the user id, so later all the operations will be bound to this id
@@ -19,6 +20,7 @@ public class Login {
     //int userid;
     final String sql = "SELECT FROM users WHERE email = ? AND password = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email, password);
+
     if (user != null) {
       userid = user.getId();
       System.out.println("Login Successfully");

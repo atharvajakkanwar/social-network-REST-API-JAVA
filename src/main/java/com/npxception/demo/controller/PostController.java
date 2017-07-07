@@ -43,14 +43,11 @@ public class PostController {
   }
 
   @RequestMapping(value = "/author={author}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUser(@PathVariable int author) {
+  public Collection<Post> getPostsByUser(@PathVariable String author) {
     return postService.getPostsByUser(author);
   }
 
-  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUser(@PathVariable String firstname) {
-    return postService.getPostsByUser(firstname);
-  }
+
 
 //  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
 //  public Collection<Post> getPostsByUser(@PathVariable String firstName, @PathVariable int time) {
@@ -61,17 +58,12 @@ public class PostController {
   public void removePostById(@PathVariable("id") int id) {
     postService.removePostsById(id);
   }
+  //test commit from post branch
 
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void createPost(@RequestBody Post assignment) {
     postService.createPost(assignment);
   }
 
-
-  @RequestMapping(value = "/content={content}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByContent(@PathVariable("content") String content) {
-    return postService.getPostsByContent(content);
-  }
-  //test commit
 
 }

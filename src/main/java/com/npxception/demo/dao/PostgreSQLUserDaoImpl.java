@@ -9,12 +9,26 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Robert on 6/5/2017.
  */
 @Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
+
+  final String GET_USER_BY_NAME = "SELECT u FROM users u " +
+      "WHERE u.firstName like :firstname AND u.lastName like :lastname";
+
+  // static int id;
+//
+//  public PostgreSQLUserDaoImpl(int id){
+//    userid = id;
+//  }
+ // int userid;
+
+//  @Autowired
+//  private BCryptPasswordEncoder
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
@@ -64,7 +78,10 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public Collection<User> getUserByName(String name) {
-    return null;
+    StringTokenizer stok = new StringTokenizer(name);
+    String firstname = stok.nextToken();
+    String lastname = stok.nextToken();
+    return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstname, lastname);
   }
 
   @Override
@@ -76,5 +93,16 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public Collection<User> getUserByGender(String gender) {
     return null;
   }
+
+//  @Override
+//  // login will set the user id, so later all the operations will be bound to this id
+//  public void login(String email, String password) {
+//    //int userid;
+//    final String sql = "SELECT FROM users WHERE email = ? AND password = ?";
+//    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email, password);
+//    if (user != null){
+//      id = user.getId();
+//    }
+//  }
 
 }

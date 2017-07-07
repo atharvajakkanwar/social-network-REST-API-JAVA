@@ -5,13 +5,14 @@ package com.npxception.demo.entity;
  */
 public class Post {
   private int id;
-  private int author;
+  private String author;
   private String content;
   private int likes;
   private int time;
   private  int visibility;
 
-  public Post(int id, int author, String content, int likes, int time, int visibility) {
+  public Post(int id, String author, String content, int likes, int time, int visibility) {
+
     this.id = id;
     this.author = author;
     this.content = content;
@@ -31,11 +32,11 @@ public class Post {
     this.id = id;
   }
 
-  public int getAuthor() {
+  public String getAuthor() {
     return author;
   }
 
-  public void setAuthor(int author) {
+  public void setAuthor(String author) {
     this.author = author;
   }
 
@@ -86,7 +87,7 @@ public class Post {
   @Override
   public int hashCode() {
     int result = id;
-    result = 31 * result + author;
+    result = 31 * result + author.hashCode();
     result = 31 * result + (content != null ? content.hashCode() : 0);
     result = 31 * result + likes;
     result = 31 * result + time;
@@ -106,3 +107,4 @@ public class Post {
         '}';
   }
 }
+

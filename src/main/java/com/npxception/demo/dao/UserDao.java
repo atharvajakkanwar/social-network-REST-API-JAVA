@@ -22,6 +22,7 @@ public interface UserDao {
 
   Collection<User> getUserByGender(String gender);
 
+
   // need to add in getUser by country/city/firstname/lastname
 
 }
