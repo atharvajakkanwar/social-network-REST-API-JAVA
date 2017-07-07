@@ -26,13 +26,15 @@ public interface UserDao {
   Collection<User> getUserByFullName(String name);
 
   // As in "first.last" nomenclature
-  Collection<User> getUserByUserName(String name);
+  User getUserByUserName(String name);
 
   // Email
-  Collection<User> getUserByEmail(String email);
+  User getUserByEmail(String email);
 
+  // Age
   Collection<User> getUserByAge(int age);
 
+  // Gender
   Collection<User> getUserByGender(String gender);
 
   // Country

@@ -17,19 +17,6 @@ import java.util.StringTokenizer;
 @Repository("PostgresUserRepo")
 public class PostgreSQLUserDaoImpl implements UserDao {
 
-  final String GET_USER_BY_NAME = "SELECT u FROM users u " +
-      "WHERE u.firstName like :firstname AND u.lastName like :lastname";
-
-  // static int id;
-//
-//  public PostgreSQLUserDaoImpl(int id){
-//    userid = id;
-//  }
- // int userid;
-
-//  @Autowired
-//  private BCryptPasswordEncoder
-
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
@@ -54,34 +41,41 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public void updateUser(User student) {
+  public void updateUser(User user) {
 
   }
 
   @Override
   public void insertUserToDb(User user) {
-    //INSERT INTO table_name (column1, column2, column3,...)
-    //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO users (userid, firstname, lastname, email, age, gender, country, city, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    jdbcTemplate.update(sql, user.getId(),
-        user.getFirstName(),
-        user.getLastName(),
-        user.getEmail(),
-        user.getAge(),
-        user.getGender(),
-        user.getCountry(),
-        user.getCity(),
-        "PASS");
 
   }
 
   @Override
-  public Collection<User> getUserByName(String name) {
-    StringTokenizer stok = new StringTokenizer(name);
-    String firstname = stok.nextToken();
-    String lastname = stok.nextToken();
-    return jdbcTemplate.query(GET_USER_BY_NAME, new UserRowMapper(), firstname, lastname);
+  public Collection<User> getUserByFirstName(String name) {
+    final String sql = "SELECT * FROM users";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper());
+
+    return users;
+  }
+
+  @Override
+  public Collection<User> getUserByLastName(String name) {
+    return null;
+  }
+
+  @Override
+  public Collection<User> getUserByFullName(String name) {
+    return null;
+  }
+
+  @Override
+  public User getUserByUserName(String name) {
+    return null;
+  }
+
+  @Override
+  public User getUserByEmail(String email) {
+    return null;
   }
 
   @Override
@@ -94,15 +88,15 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return null;
   }
 
-//  @Override
-//  // login will set the user id, so later all the operations will be bound to this id
-//  public void login(String email, String password) {
-//    //int userid;
-//    final String sql = "SELECT FROM users WHERE email = ? AND password = ?";
-//    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email, password);
-//    if (user != null){
-//      id = user.getId();
-//    }
-//  }
+  @Override
+  public Collection<User> getUserByCountry(String country) {
+    return null;
+  }
+
+  @Override
+  public Collection<User> getUserByCity(String city) {
+    return null;
+  }
+
 
 }

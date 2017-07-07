@@ -37,16 +37,47 @@ public class UserService {
     this.userDao.insertUserToDb(user);
   }
 
-  public Collection<User> getUserByName(String name) {
-    return this.userDao.getUserByName(name);
+  Collection<User> getUserByFirstName(String name) {
+    return this.userDao.getUserByFirstName(name);
   }
 
-  public Collection<User> getUserByGender(String gender) {
+  Collection<User> getUserByLastName(String name) {
+    return this.userDao.getUserByLastName(name);
+  }
+
+  // As in "First Last" nomenclature
+  Collection<User> getUserByFullName(String name) {
+    return this.userDao.getUserByFullName(name);
+  }
+
+  // As in "first.last" nomenclature
+  User getUserByUserName(String name) {
+    return this.userDao.getUserByUserName(name);
+  }
+
+  // Email
+  User getUserByEmail(String email) {
+    return this.userDao.getUserByEmail(email);
+  }
+
+  // Age
+  Collection<User> getUserByAge(int age) {
+    return this.userDao.getUserByAge(age);
+  }
+
+  // Gender
+  Collection<User> getUserByGender(String gender) {
     return this.userDao.getUserByGender(gender);
   }
 
-  public Collection<User> getUserByAge(int age) {
-    return this.userDao.getUserByAge(age);
+  // Country
+  Collection<User> getUserByCountry(String country) {
+    return this.userDao.getUserByCountry(country);
+  }
+
+  // City
+  Collection<User> getUserByCity(String city) {
+    return this.userDao.getUserByCity(city);
   }
 
   public void insertUserToDb(User user) {
