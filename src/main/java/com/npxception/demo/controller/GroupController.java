@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.FbGroup;
@@ -93,4 +91,3 @@ public class GroupController {
 
 
 }
->>>>>>> 1466c5b71cfb0853faf883e085a642d3185663d9
