@@ -25,24 +25,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and().withUser("gohan").password("test").roles("ADMIN");
   }
 
-  // All requests single password
-//  @Override
-//  protected void configure(HttpSecurity httpSecurity) throws  Exception{
-//    httpSecurity
-//        .authorizeRequests()
-//        .antMatchers("/user**")
-//        .hasRole("USER")
-//        .and().httpBasic();
-//    httpSecurity.csrf().disable();
-//  }
 
-  //
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
+        .anyRequest().fullyAuthenticated()
+        .antMatchers("auth/**").permitAll()
         .antMatchers("/user/**").hasAuthority("ADMIN")
         .and().httpBasic();
     httpSecurity.csrf().disable();
+
   }
 }
