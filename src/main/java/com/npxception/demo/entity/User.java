@@ -24,6 +24,7 @@ public class User {
     this.country = country;
     this.city = city;
     this.password = password;
+    this.role = "USER";
   }
   public User(){}
 

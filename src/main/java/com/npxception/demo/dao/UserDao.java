@@ -8,6 +8,7 @@ public interface UserDao {
   // need to find a way to let login and register happen first
   Collection<User> getAllUser();
 
+  // Developer methods
   User getUserById(int id);
 
   void removeUserById(int id);
@@ -16,13 +17,28 @@ public interface UserDao {
 
   void insertUserToDb(User user);
 
-  Collection<User> getUserByName(String name);
+  // Client API methods
+  Collection<User> getUserByFirstName(String name);
+
+  Collection<User> getUserByLastName(String name);
+
+  // As in "First Last" nomenclature
+  Collection<User> getUserByFullName(String name);
+
+  // As in "first.last" nomenclature
+  Collection<User> getUserByUserName(String name);
+
+  // Email
+  Collection<User> getUserByEmail(String email);
 
   Collection<User> getUserByAge(int age);
 
   Collection<User> getUserByGender(String gender);
 
+  // Country
+  Collection<User> getUserByCountry(String country);
 
-  // need to add in getUser by country/city/firstname/lastname
+  // City
+  Collection<User> getUserByCity(String city);
 
 }
