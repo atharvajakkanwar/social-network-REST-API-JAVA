@@ -11,6 +11,7 @@ public class User {
   private String country;
   private String city;
   private String password;
+  private String role;
 
 
   public User(int userid, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
