@@ -23,13 +23,13 @@ public class UserController {
     return userService.getAllUser();
   }
 
-  @RequestMapping(value = "/userid={userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/find/{userid}", method = RequestMethod.GET)
   public User getUserById(@PathVariable("userid") int userid) {
     return userService.getUserById(userid);
   }
 
-  @RequestMapping(value = "/id={id}", params = "id", method = RequestMethod.DELETE)
-  public void deleteUserById(@PathVariable("id") int id) {
+  @RequestMapping(value = "/remove/{userid}", params = "id", method = RequestMethod.DELETE)
+  public void deleteUserById(@PathVariable("userid") int id) {
     userService.removeUserById(id);
   }
 
@@ -44,20 +44,46 @@ public class UserController {
   }
 
 
-  @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
-  public Collection<User> getUsersByName(@PathVariable("name") String name) {
-    return userService.getUserByName(name);
+  @RequestMapping(value = "/find/first/{name}", method = RequestMethod.GET)
+  public Collection<User> getUsersByFirstName(@PathVariable("name") String name) {
+    return userService.getUsersByFirstName(name);
   }
 
-  @RequestMapping(value = "/gender={gender}", method = RequestMethod.GET)
-  public Collection<User> getStudentsByGender(@PathVariable("gender") String gender) {
-    return userService.getUserByGender(gender);
+  @RequestMapping(value = "/find/last/{name}", method = RequestMethod.GET)
+  public Collection<User> getUsersByLastName(@PathVariable("name") String name) {
+    return userService.getUsersByLastName(name);
   }
+
+  @RequestMapping(value = "/find/fullname/{name}", method = RequestMethod.GET)
+  public Collection<User> getUsersByFullName(@PathVariable("name") String name) {
+    return userService.getUsersByFullName(name);
+  }
+
+  @RequestMapping(value = "/find/user/{username}", method = RequestMethod.GET)
+  public Collection<User> getUserByUserName(@PathVariable("username") String username) {
+    return userService.getUsersByFirstName(username);
+  }
+
+  @RequestMapping(value = "/find/email/{email}", method = RequestMethod.GET)
+  public User getUserByEmail(@PathVariable("email") String email) {
+    return userService.getUserByEmail(email);
+  }
+
+  @RequestMapping(value = "/find/age/{age}", method = RequestMethod.GET)
+  public Collection<User> getUserByAge(@PathVariable("age") int age) {
+    return userService.getUsersByAge(age);
+  }
+
+  @RequestMapping(value = "/find/gender/{gender}", method = RequestMethod.GET)
+  public Collection<User> getUsersByGender(@PathVariable("gender") String gender) {
+    return userService.getUsersByGender(gender);
+  }
+
 
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(@RequestBody User user){
-    userService.insertUserToDb(user);
+    userService.register(user);
   }
 
   @RequestMapping(value = "/login", method = RequestMethod.POST)
