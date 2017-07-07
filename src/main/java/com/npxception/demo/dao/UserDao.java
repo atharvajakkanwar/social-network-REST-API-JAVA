@@ -18,12 +18,12 @@ public interface UserDao {
   void insertUserToDb(User user);
 
   // Client API methods
-  Collection<User> getUserByFirstName(String name);
+  Collection<User> getUsersByFirstName(String name);
 
-  Collection<User> getUserByLastName(String name);
+  Collection<User> getUsersByLastName(String name);
 
   // As in "First Last" nomenclature
-  Collection<User> getUserByFullName(String name);
+  Collection<User> getUsersByFullName(String name);
 
   // As in "first.last" nomenclature
   User getUserByUserName(String name);
@@ -32,15 +32,29 @@ public interface UserDao {
   User getUserByEmail(String email);
 
   // Age
-  Collection<User> getUserByAge(int age);
+  Collection<User> getUsersByAge(int age);
 
   // Gender
-  Collection<User> getUserByGender(String gender);
+  Collection<User> getUsersByGender(String gender);
 
   // Country
-  Collection<User> getUserByCountry(String country);
+  Collection<User> getUsersByCountry(String country);
 
   // City
   Collection<User> getUserByCity(String city);
+
+  void setFirstName(String first);
+
+  void setLastName(String last);
+
+  void setEmail(String email);
+
+  void setAge(int age);
+
+  void setGender(String gender);
+
+  void setCountry(String country);
+
+  void setCity(String city);
 
 }

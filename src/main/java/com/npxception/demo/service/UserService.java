@@ -38,16 +38,16 @@ public class UserService {
   }
 
   Collection<User> getUserByFirstName(String name) {
-    return this.userDao.getUserByFirstName(name);
+    return this.userDao.getUsersByFirstName(name);
   }
 
   Collection<User> getUserByLastName(String name) {
-    return this.userDao.getUserByLastName(name);
+    return this.userDao.getUsersByLastName(name);
   }
 
   // As in "First Last" nomenclature
   Collection<User> getUserByFullName(String name) {
-    return this.userDao.getUserByFullName(name);
+    return this.userDao.getUsersByFullName(name);
   }
 
   // As in "first.last" nomenclature
@@ -62,17 +62,17 @@ public class UserService {
 
   // Age
   Collection<User> getUserByAge(int age) {
-    return this.userDao.getUserByAge(age);
+    return this.userDao.getUsersByAge(age);
   }
 
   // Gender
   Collection<User> getUserByGender(String gender) {
-    return this.userDao.getUserByGender(gender);
+    return this.userDao.getUsersByGender(gender);
   }
 
   // Country
   Collection<User> getUserByCountry(String country) {
-    return this.userDao.getUserByCountry(country);
+    return this.userDao.getUsersByCountry(country);
   }
 
   // City

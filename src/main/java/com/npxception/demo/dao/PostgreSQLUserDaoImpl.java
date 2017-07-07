@@ -51,7 +51,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public Collection<User> getUserByFirstName(String name) {
+  public Collection<User> getUsersByFirstName(String name) {
     final String sql = "SELECT * FROM users";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper());
 
@@ -59,12 +59,12 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public Collection<User> getUserByLastName(String name) {
+  public Collection<User> getUsersByLastName(String name) {
     return null;
   }
 
   @Override
-  public Collection<User> getUserByFullName(String name) {
+  public Collection<User> getUsersByFullName(String name) {
     return null;
   }
 
@@ -79,23 +79,58 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public Collection<User> getUserByAge(int age) {
+  public Collection<User> getUsersByAge(int age) {
     return null;
   }
 
   @Override
-  public Collection<User> getUserByGender(String gender) {
+  public Collection<User> getUsersByGender(String gender) {
     return null;
   }
 
   @Override
-  public Collection<User> getUserByCountry(String country) {
+  public Collection<User> getUsersByCountry(String country) {
     return null;
   }
 
   @Override
   public Collection<User> getUserByCity(String city) {
     return null;
+  }
+
+  @Override
+  public void setFirstName(String first) {
+
+  }
+
+  @Override
+  public void setLastName(String last) {
+
+  }
+
+  @Override
+  public void setEmail(String email) {
+
+  }
+
+  @Override
+  public void setAge(int age) {
+
+  }
+
+  @Override
+  public void setGender(String gender) {
+
+  }
+
+  @Override
+  public void setCountry(String country) {
+
+  }
+
+  @Override
+  public void setCity(String city) {
+
   }
 
 
