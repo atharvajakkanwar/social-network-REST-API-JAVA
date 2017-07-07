@@ -19,7 +19,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.useridtwo AND f.useridone = ? " +
-
       "AND (f.status = 1 OR f.status = 4)";
 
   final String REMOVE_ALL_FRIENDS = "DELETE FROM " +
