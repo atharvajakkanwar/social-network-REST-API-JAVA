@@ -29,11 +29,6 @@ public interface GroupDao {
    */
   void removeGroupById(int id);
 
-  /**
-   * Given a facebook group, updates the group that already exists in the database.
-   * @param fbGroup a facebook group
-   */
-  void updateGroup(FbGroup fbGroup);
 
   /**
    * Given a facebook group, adds the group into the database.
@@ -50,6 +45,13 @@ public interface GroupDao {
 
   /**
    * Given an admin, returns every group with that administrator.
+   * @param name The group's admin ID in the database
+   * @returnevery group with the administrator
+   */
+  Collection<FbGroup> getGroupByAdmin(String name);
+
+  /**
+   * Given an admin, returns every group with that administrator.
    * @param admin The group's admin ID in the database
    * @return every group with the administrator
    */
@@ -62,17 +64,7 @@ public interface GroupDao {
    */
   Collection<FbGroup> getAllGroupsForUser(int memberid);
 
-  /**
-   * Given name of group, updates the group name.
-   * @param name The group's name in the database
-   */
-  void updateNameOfGroup(String name);
 
-  /**
-   * Given admin of group, updates the group admin.
-   * @param admin The group's admin ID in the database
-   */
-  void updateAdminOfGroup(int admin);
 
   /**
    * Given member ID, adds member to group.
