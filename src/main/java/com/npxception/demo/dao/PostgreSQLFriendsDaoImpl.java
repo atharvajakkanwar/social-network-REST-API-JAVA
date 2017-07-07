@@ -1,5 +1,6 @@
 package com.npxception.demo.dao;
 
+import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.mapper.UserRowMapper;
 
@@ -18,7 +19,8 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.useridtwo AND f.useridone = ? " +
-      "AND (f.status = 1 OR f.status = 4 OR f.status = 5)";
+
+      "AND (f.status = 1 OR f.status = 4)";
 
   final String REMOVE_ALL_FRIENDS = "DELETE FROM " +
       "friends f WHERE f.useridone = ? OR f.useridtwo = ?";
@@ -29,9 +31,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   // others invitations and being invited, block a friend and being blocked
   // 2 means request sent, 3 means got invited
   final String SEND_REQUEST = "INSERT INTO friends (useridone, useridtwo, status) " +
-      "SELECT ?, ?, ? FROM friends WHERE not exists (select * from friends " +
-      "WHERE useridone = ? AND useridtwo = ?";
 
+      "SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM friends " +
+      "WHERE (useridone = ? AND useridtwo = ?))";
   final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE useridone = ? " +
       "AND useridtwo = ?";
 
@@ -43,18 +45,19 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
       "AND useridtwo = ?";
 
   final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND u.lastname =" + "'" + "?" + "'"
-      + "OR u.lastname =" + "'" + "?" + "'";
+
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname LIKE ? OR u.lastname LIKE ?)";
 
   final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 3";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
 
   final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = 4";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
+
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
+  private Usernames unames;
 
   @Override
   public Collection<User> getAllFriends(int id) {
@@ -62,9 +65,11 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-  public Collection<User> commonFriends(int id1, int id2) {
+  public Collection<User> commonFriends(int id, String username) {
+    String names[] = unames.splitName(username);
+    int id2 = unames.getIdByname(names);
     Collection<User> res = new HashSet<>();
-    Collection<User> list1 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id1);
+    Collection<User> list1 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id);
     Collection<User> list2 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id2);
     for (User user1 : list1) {
       for (User user2 : list2) {
@@ -77,11 +82,21 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-  public Collection<User> getFriendsByName(String name, int id) {
-    return jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(), name, id);
+  public Collection<User> getFriendsByName(String username, int id) {
+    String[] names = unames.splitName(username);
+    Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
+        id, names[0], names[0]);
+    Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
+        id, names[1], names[1]);
+    for (User user : result2){
+      result.add(user);
+    }
+    return result;
   }
 
-  @Override
+
+
+
   public Collection<User> getInvitationList(int id) {
     return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id);
   }
@@ -96,11 +111,11 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     jdbcTemplate.update(REMOVE_ALL_FRIENDS, new Object[]{id, id});
   }
 
-  @Override
-  public void unFriend(int id1, int id2) {
-    swap(id1, id2);
-    jdbcTemplate.update(UN_FRIENDS, new Object[]{id1, id2});
-    System.out.print(countFriends(id1));
+
+  public void unFriend(int id, String username) {
+    String names[] = unames.splitName(username);
+    int id2 = unames.getIdByname(names);
+    jdbcTemplate.update(UN_FRIENDS, new Object[]{id, id2});
   }
 
   @Override
@@ -109,43 +124,59 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-  public void sendRequest(int id1, int id2) {
-    if (id1 < id2) {
-      jdbcTemplate.update(SEND_REQUEST, new Object[]{id1, id2, 2, id1, id2});
-    } else {
-      swap(id1, id2);
-      jdbcTemplate.update(SEND_REQUEST, new Object[]{id1, id2, 3, id1, id2});
 
+  public void sendRequest(int id, String username) {
+      String names[] = unames.splitName(username);
+      int id2 = unames.getIdByname(names);
+    if (id < id2) {
+      jdbcTemplate.update(SEND_REQUEST, new Object[]{id, id2, 2, id, id2,});
+    } else {
+      jdbcTemplate.update(SEND_REQUEST, new Object[]{id2, id, 3, id2, id});
     }
   }
 
   @Override
-  public void becomeFriend(int id1, int id2) {
-    int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{id1, id2}, Integer.class);
-    //if got invited or block the other
-    if ((currentStatus == 3 || currentStatus == 4) && id1 < id2) {
-      jdbcTemplate.update(BECOME_FRIEND, new Object[]{id1, id2});
+
+  public void becomeFriend(int id, String username) {
+    String names[] = unames.splitName(username);
+    int id2 = unames.getIdByname(names);
+    int currentStatus;
+    if (id < id2) {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id, id2}, Integer.class);
+      // if got invited or block the other
+      if ((currentStatus == 3 || currentStatus == 4)) {
+        jdbcTemplate.update(BECOME_FRIEND, new Object[]{id, id2});
+      }
+    } else {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id2, id}, Integer.class);
+      System.out.print(currentStatus);
       // this statement means, if id1 is blocked by id2, then id2 has the
       // right to unblock
-    } else if ((currentStatus == 2 || currentStatus == 5) && id1 > id2) {
-      // need to swap because the table requires id1<id2
-      swap(id1, id2);
-      jdbcTemplate.update(BECOME_FRIEND, new Object[]{id1, id2});
+      if ((currentStatus == 2 || currentStatus == 5)) {
+        jdbcTemplate.update(BECOME_FRIEND, new Object[]{id2, id});
+      }
     }
   }
 
+
   @Override
-  public void blockFriend(int id1, int id2) {
-    swap(id1, id2);
-    int currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
-        new Object[]{id1, id2}, Integer.class);
-    if (currentStatus == 1) {
-      if (id1 < id2) {
-        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{4, id1, id2});
-      } else {
-        swap(id1, id2);
-        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{5, id1, id2});
+  public void blockFriend(int id, String username) {
+    String names[] = unames.splitName(username);
+    int id2 = unames.getIdByname(names);
+    int currentStatus;
+    if (id < id2) {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id, id2}, Integer.class);
+      if (currentStatus == 1) {
+        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{4, id, id2});
+      }
+    } else {
+      currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
+          new Object[]{id2, id}, Integer.class);
+      if (currentStatus == 1) {
+        jdbcTemplate.update(BLOCK_FRIEND, new Object[]{5, id2, id});
       }
     }
   }
@@ -157,13 +188,18 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
    *
    * @param a the first integer
    * @param b the second integer
-   */
+   * @return an array of new a and b
+   **/
 
-  public void swap(int a, int b) {
-    if (a >= b) {
-      a = a + b;//id1 becomes the sum
-      b = a - b;//id2 becomes id1
-      a = a - b;//id1 becomes id2
-    }
-  }
+//  public int[] swap(int a, int b) {
+//    int[] result = new int[2];
+//    if (a >= b) {
+//      a = a + b;//id1 becomes the sum
+//      b = a - b;//id2 becomes id1
+//      a = a - b;//id1 becomes id2
+//    }
+//    result[0] = a;
+//    result[1] = b;
+//    return result;
+//  }
 }

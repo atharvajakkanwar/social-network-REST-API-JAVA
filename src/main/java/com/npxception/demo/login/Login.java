@@ -12,16 +12,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class Login {
   @Autowired
   private JdbcTemplate jdbcTemplate;
-   int userid;
+
+  public static int userid;
+
   // login will set the user id, so later all the operations will be bound to this id
   public void login(String email, String password) {
     //int userid;
     final String sql = "SELECT FROM users WHERE email = ? AND password = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email, password);
-    if (user != null){
+
+    if (user != null) {
       userid = user.getId();
       System.out.println("Login Successfully");
-    }else {
+    } else {
       System.out.println("Email and Password does not match");
     }
   }

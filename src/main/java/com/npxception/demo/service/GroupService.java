@@ -29,6 +29,7 @@ public class GroupService {
 
 
   public FbGroup getGroupById(int id) {
+
     return this.groupDao.getGroupById(id);
   }
 
