@@ -1,11 +1,11 @@
 package com.npxception.demo.dao;
 
+import com.npxception.demo.service.PostService;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
 
@@ -13,10 +13,11 @@ import static org.junit.Assert.*;
  * Created by bryan on 6/21/2017.
  */
 public class PostgreSQLPostDaoImplTest {
-  //@Mock
-  @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+  @Before
+  public void setUp() throws Exception {
 
+  }
   @Test
   public void getAllPosts() throws Exception {
 
