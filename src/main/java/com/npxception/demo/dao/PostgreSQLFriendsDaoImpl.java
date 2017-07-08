@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Collection;
 import java.util.HashSet;
 
+import javax.sql.DataSource;
+
 /**
  * Created by RachelDi on 13/06/2017.
  */
@@ -54,7 +56,13 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
       "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
 
+  DataSource ds;
 
+  PostgreSQLFriendsDaoImpl(DataSource ds) {
+    this.ds = ds;
+  }
+
+  public void create()
   @Autowired
   private JdbcTemplate jdbcTemplate;
   private Usernames unames;
