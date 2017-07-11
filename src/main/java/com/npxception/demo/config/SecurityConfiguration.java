@@ -1,8 +1,11 @@
 package com.npxception.demo.config;
 
+import com.npxception.demo.service.AuthenticationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,12 +24,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
+  @Autowired
+  private AuthenticationService authenticationService;
+
   //  @Override
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.jdbcAuthentication().dataSource(dataSource)
-        .usersByUsernameQuery("SELECT password from users where = ?")
-        .authoritiesByUsernameQuery("");
+    ShaPasswordEncoder encoder = new ShaPasswordEncoder();
+    auth.userDetailsService(authenticationService).passwordEncoder(encoder);
+
+//    auth.jdbcAuthentication().dataSource(dataSource)
+//        .usersByUsernameQuery("SELECT firstname,lastname, password from users where = ?")
+//        .authoritiesByUsernameQuery("SELECT roleid from users where = ?");
+
     //    auth.inMemoryAuthentication()
 //        .withUser("atharva").password("test").authorities("USER")
 //        .and().withUser("gohan").password("test").authorities("ADMIN");
