@@ -12,12 +12,16 @@ public class Usernames {
   final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname =? AND lastname = ?";
 
   public String[] splitName(String name){
-    String[] result = name.split(".");
+    String[] result = name.split("\\.");
     return result;
   }
 
   public int getIdByname(String[] names){
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{names[0], names[1]}, Integer.class);
+  }
+
+  public String getFullName(String firstName, String lastName){
+    return firstName + "\\." + lastName;
   }
 }

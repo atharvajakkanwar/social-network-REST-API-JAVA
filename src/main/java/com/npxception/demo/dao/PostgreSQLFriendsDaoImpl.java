@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-    String[] names = splitName(username);
+    String[] names = new Usernames().splitName(username);
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
@@ -110,7 +111,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void unFriend(int id, String username) {
-    String names[] = splitName(username);
     int id2 = getIdByname(username);
     jdbcTemplate.update(UN_FRIENDS, new Object[]{id, id2});
   }
@@ -122,7 +122,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void sendRequest(int id, String username) {
-    String names[] = splitName(username);
     int id2 = getIdByname(username);
     if (id < id2) {
       jdbcTemplate.update(SEND_REQUEST, new Object[]{id, id2, 2, id, id2,});
@@ -133,7 +132,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void becomeFriend(int id, String username) {
-    String names[] = splitName(username);
     int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
@@ -157,7 +155,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void blockFriend(int id, String username) {
-    String names[] = splitName(username);
     int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
@@ -197,14 +194,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 //    return result;
 //  }
 
-  public String[] splitName(String name) {
-    String[] result = name.split("\\.");
-    System.out.print(name);
-    return result;
-  }
 
   public int getIdByname(String name) {
-    String[] result = splitName(name);
+    String[] result = new Usernames().splitName(name);
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }

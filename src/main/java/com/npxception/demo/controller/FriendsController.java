@@ -16,75 +16,75 @@ import java.util.Collection;
  * Created by RachelDi on 18/06/2017.
  */
 @RestController
-@RequestMapping("/friend")
+@RequestMapping("/{user}/friend")
 public class FriendsController {
   @Autowired
   private FriendsService service;
 
-  @RequestMapping(value = "/{user}/friends/all",
+  @RequestMapping(value = "/all",
       method = RequestMethod.GET)
   public Collection<User> getAllFriends(@PathVariable("user") int id) {
     return service.getAllFriends(id);
   }
 
   //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
-  @RequestMapping(value = "/{user}/friends/all",
+  @RequestMapping(value = "/all",
       method = RequestMethod.DELETE)
   public void removeAllFriends(@PathVariable("user") int id) {
     this.service.removeAllFriends(id);
   }
 
-  @RequestMapping(value = "/{user}/friend/unfriend/{username}",
+  @RequestMapping(value = "/unfriend/{username}",
       method = RequestMethod.PUT)
   public void unFriend(@PathVariable("user") int id1, @PathVariable("username") String username) {
     this.service.unFriend(id1, username);
   }
 
-  @RequestMapping(value = "/{user}/friend/count",
+  @RequestMapping(value = "/count",
       method = RequestMethod.GET)
   public int countFriends(@PathVariable("user") int id) {
     return this.service.countFriends(id);
   }
 
-  @RequestMapping(value = "/{user}/friend/request/{username}",
+  @RequestMapping(value = "/request/{username}",
       method = RequestMethod.PUT)
   public void sendRequest(@PathVariable("user") int id1, @PathVariable("id2") String username) {
     this.service.sendRequest(id1, username);
   }
 
-  @RequestMapping(value = "/{user}/friends/accept/{username}",
+  @RequestMapping(value = "/accept/{username}",
       method = RequestMethod.PUT)
   public void becomeFriend(@PathVariable("user") int id1, @PathVariable("username") String username) {
     this.service.becomeFriend(id1, username);
   }
 
-  @RequestMapping(value = "/{user}/friends/block/{username}",
+  @RequestMapping(value = "/block/{username}",
       method = RequestMethod.PUT)
   public void blockFriend(@PathVariable("user") int id1, @PathVariable("username") String username) {
     this.service.blockFriend(id1, username);
   }
 
-  @RequestMapping(value = "/{user}/friend/common/{username}",
+  @RequestMapping(value = "/common/{username}",
       method = RequestMethod.GET)
   public Collection<User> commonFriends(@PathVariable("user") int id1,
                                         @PathVariable("username") String username) {
     return this.service.commonFriends(id1, username);
   }
 
-  @RequestMapping(value = "/{user}/friends/{username}",
+  @RequestMapping(value = "/{username}",
       method = RequestMethod.GET)
   public Collection<User> getFriendsByName(@PathVariable("username") String username,
                                            @PathVariable("user") int id) {
     return this.service.getFriendsByName(username, id);
   }
 
-  @RequestMapping(value = "/{user}/friends/pending-invations",
+  @RequestMapping(value = "/pending-invations",
       method = RequestMethod.GET)
   public Collection<User> getInvitationList(@PathVariable("user") int id) {
     return this.service.getInvitationList(id);
   }
 
-  @RequestMapping(value = "/{user}/friends/blocked",
+  @RequestMapping(value = "/blocked",
       method = RequestMethod.GET)
   public Collection<User> getBlockList(@PathVariable("user") int id) {
     return this.service.getBlockList(id);
