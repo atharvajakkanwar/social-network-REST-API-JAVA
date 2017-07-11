@@ -64,7 +64,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     this.ds = ds;
   }
 
-  public void create()
+  public void create(){}
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
