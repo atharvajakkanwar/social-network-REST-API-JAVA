@@ -20,4 +20,8 @@ public class Usernames {
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{names[0], names[1]}, Integer.class);
   }
+
+  public String getFullName(String firstName, String lastName){
+    return firstName + "\\." + lastName;
+  }
 }

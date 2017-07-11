@@ -27,7 +27,6 @@ public class FriendsService {
     this.dao.removeAllFriends(id);
   }
 
-
   public void unFriend(int id, String username) {
     try {
       this.dao.unFriend(id, username);
@@ -40,7 +39,6 @@ public class FriendsService {
     return this.dao.countFriends(id);
   }
 
-
   public void sendRequest(int id, String username) {
     try {
       this.dao.sendRequest(id, username);
@@ -48,7 +46,6 @@ public class FriendsService {
       e.printStackTrace();
     }
   }
-
 
   public void becomeFriend(int id, String username) {
     this.dao.becomeFriend(id, username);

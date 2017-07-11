@@ -51,7 +51,6 @@ public class User {
     return firstName;
   }
 
-
   public int getAge() {
     return age;
   }
@@ -104,8 +103,9 @@ public class User {
     this.city = city;
   }
 
-  public String getPassword() {
-    return password;
+
+  public String getPassword(){
+    return this.password;
   }
 
   public void setPassword(String password) {

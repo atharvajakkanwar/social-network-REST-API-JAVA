@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by Robert on 6/5/2017.
@@ -25,7 +25,6 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public Collection<User> getAllUser() {
     final String sql = "SELECT * FROM users";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper());
-
     return users;
   }
 
@@ -39,120 +38,134 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public void removeUserById(int id) {
-
+    final String sql = "DELETE FROM users WHERE userid = ?";
+    jdbcTemplate.update(sql, id);
   }
 
   @Override
   public void updateUser(User user) {
-
+    final String sql = "UPDATE users SET email = ?, age = ?, gender = ?, country = ?, " +
+        "city = ?, password = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{user.getEmail(), user.getAge()
+        , user.getGender(), user.getCountry(), user.getCity(), user.getPassword()
+        , user.getFirstName(), user.getLastName()});
   }
 
   @Override
   public void insertUserToDb(User user) {
-
+    final String sql = "INSERT INTO users (firstName, lastName, email, age, gender, country, " +
+        "city, password) SELECT ?, ?, ?, ?, ?, ?, ?, ? " +
+        "WHERE NOT EXISTS (SELECT * FROM users WHERE (lastName = ? AND firstName = ?))";
+    jdbcTemplate.update(sql, new Object[]{user.getFirstName(), user.getLastName(), user.getEmail()
+        , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword()
+        , user.getFirstName(), user.getLastName()});
   }
 
   @Override
   public Collection<User> getUsersByFirstName(String name) {
-    final String sql = "SELECT * FROM users WHERE firstname = ?";
+    final String sql = "SELECT * FROM users WHERE firstName = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), name);
-
     return users;
   }
 
-  @Override
   public Collection<User> getUsersByLastName(String name) {
-    final String sql = "SELECT * FROM users WHERE lastname = ?";
+    final String sql = "SELECT * FROM users WHERE lastName = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), name);
-
     return users;
   }
 
   @Override
   public Collection<User> getUsersByFullName(String name) {
-    String first;
-    String last;
-    String[] split = name.split(" ");
-    first = split[0];
-    last = split[1];
-    final String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
-    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), first, last);
-
+    String[] names = new Usernames().splitName(name);
+    final String sql = "SELECT * FROM users WHERE firstName = ? OR lastName = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper()
+        , new Object[]{names[0], names[1]});
     return users;
   }
 
   @Override
   public User getUserByUserName(String name) {
-    String first;
-    String last;
-    String[] split = name.split("\\.");
-    first = split[0];
-    last = split[1];
-    final String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
-    List<User> user = jdbcTemplate.query(sql, new UserRowMapper(), first, last);
-
-    return user.get(0);
+    String[] names = new Usernames().splitName(name);
+    final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
+        , new Object[]{names[0], names[1]});
+    return user;
   }
 
   @Override
   public User getUserByEmail(String email) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE email = ?";
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email);
+    return user;
   }
 
   @Override
   public Collection<User> getUsersByAge(int age) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE age = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), age);
+    return users;
   }
 
   @Override
   public Collection<User> getUsersByGender(String gender) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE gender = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), gender);
+    return users;
   }
 
   @Override
   public Collection<User> getUsersByCountry(String country) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE country = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), country);
+    return users;
   }
 
   @Override
   public Collection<User> getUserByCity(String city) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE city = ?";
+    List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), city);
+    return users;
   }
 
   @Override
-  public void setFirstName(String first) {
-
+  public void setFirstName(User user, String first) {
+    final String sql = "UPDATE users SET firstName = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{first, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setLastName(String last) {
-
+  public void setLastName(User user, String last) {
+    final String sql = "UPDATE users SET lastName = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{last, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setEmail(String email) {
-
+  public void setEmail(User user, String email) {
+    final String sql = "UPDATE users SET email = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{email, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setAge(int age) {
-
+  public void setAge(User user, int age) {
+    final String sql = "UPDATE users SET age = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{age, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setGender(String gender) {
-
+  public void setGender(User user, String gender) {
+    final String sql = "UPDATE users SET gender = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{gender, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setCountry(String country) {
-
+  public void setCountry(User user, String country) {
+    final String sql = "UPDATE users SET country = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{country, user.getFirstName(), user.getLastName()});
   }
 
   @Override
-  public void setCity(String city) {
-
+  public void setCity(User user, String city) {
+    final String sql = "UPDATE users SET city = ? WHERE firstName = ? AND lastName = ?";
+    jdbcTemplate.update(sql, new Object[]{city, user.getFirstName(), user.getLastName()});
   }
-
-
 }
