@@ -12,7 +12,7 @@ public class Usernames {
   final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname =? AND lastname = ?";
 
   public String[] splitName(String name){
-    String[] result = name.split(".");
+    String[] result = name.split("\\.");
     return result;
   }
 
