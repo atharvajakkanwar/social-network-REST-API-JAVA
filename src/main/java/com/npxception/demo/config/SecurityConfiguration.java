@@ -26,25 +26,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   // @Override
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.jdbcAuthentication().dataSource(dataSource)
-        .usersByUsernameQuery("SELECT password from users where = ?")
-        .authoritiesByUsernameQuery("");
-    //    auth.inMemoryAuthentication()
-    //        .withUser("atharva").password("test").authorities("USER")
-    //        .and().withUser("gohan").password("test").authorities("ADMIN");
+//    auth.jdbcAuthentication().dataSource(dataSource)
+//        .usersByUsernameQuery("SELECT password from users where = ?")
+//       .authoritiesByUsernameQuery("");
+        auth.inMemoryAuthentication()
+            .withUser("atharva").password("test").authorities("USER")
+            .and().withUser("gohan").password("test").authorities("ADMIN");
   }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
-//        .anyRequest().fullyAuthenticated()
-//        .antMatchers(HttpMethod.GET,"/auth/**").hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/user/**").hasAuthority("ADMIN")
-        .antMatchers("/friend/**").hasAuthority("ADMIN")
-        .antMatchers("/group/**").hasAuthority("ADMIN")
-        .antMatchers("/posts/**").hasAuthority("ADMIN")
-        .antMatchers("auth/**").hasAnyAuthority("ADMIN", "USER")
+        .anyRequest().fullyAuthenticated()
+        .antMatchers(HttpMethod.GET,"/auth/**").hasAnyAuthority("ADMIN", "USER")
+//        .antMatchers("/user/**").hasAuthority("ADMIN")
+//        .antMatchers("/friend/**").hasAuthority("ADMIN")
+//        .antMatchers("/group/**").hasAuthority("ADMIN")
+//        .antMatchers("/posts/**").hasAuthority("ADMIN")
+//        .antMatchers("auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().httpBasic();
     httpSecurity.csrf().disable();
 
