@@ -1,7 +1,7 @@
 package com.npxception.demo.dao;
 
-import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.Usernames;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.useridtwo AND f.useridone = ? " +
-
       "AND (f.status = 1 OR f.status = 4)";
 
   final String REMOVE_ALL_FRIENDS = "DELETE FROM " +
@@ -29,13 +28,15 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String UN_FRIENDS = "DELETE FROM friends WHERE useridone = ? AND useridtwo = ?";
 
+  final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname = ? AND lastname = ?";
+
   // to avoid more extra space in friends table, I tried to distinguish between sending
   // others invitations and being invited, block a friend and being blocked
   // 2 means request sent, 3 means got invited
   final String SEND_REQUEST = "INSERT INTO friends (useridone, useridtwo, status) " +
-
       "SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM friends " +
       "WHERE (useridone = ? AND useridtwo = ?))";
+
   final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE useridone = ? " +
       "AND useridtwo = ?";
 
@@ -47,14 +48,15 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
       "AND useridtwo = ?";
 
   final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
-
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname LIKE ? OR u.lastname LIKE ?)";
+      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname = ? OR u.lastname = ?)";
 
   final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
+      "WHERE (u.userid = f.useritwo AND f.useridone = ? AND f.status = 3)" +
+      " OR (u.userid = f.useridone AND f.useridtwo = ? AND f.status = 2)";
 
   final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND f.status = ?";
+      "WHERE (u.userid = f.useridtwo AND f.useridone = ? AND f.status = 4)" +
+      "OR (u.userid = f.useridone AND f.useridtwo = ? AND f.status = 5)";
 
   DataSource ds;
 
@@ -65,7 +67,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   public void create()
   @Autowired
   private JdbcTemplate jdbcTemplate;
-  private Usernames unames;
 
   @Override
   public Collection<User> getAllFriends(int id) {
@@ -74,8 +75,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> commonFriends(int id, String username) {
-    String names[] = unames.splitName(username);
-    int id2 = unames.getIdByname(names);
+    int id2 = getIdByname(username);
     Collection<User> res = new HashSet<>();
     Collection<User> list1 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id);
     Collection<User> list2 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id2);
@@ -91,27 +91,25 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-    String[] names = unames.splitName(username);
+    String[] names = new Usernames().splitName(username);
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[1], names[1]);
-    for (User user : result2){
+    for (User user : result2) {
       result.add(user);
     }
     return result;
   }
 
-
-
-
+  @Override
   public Collection<User> getInvitationList(int id) {
-    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id);
+    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id, id);
   }
 
   @Override
   public Collection<User> getBlockList(int id) {
-    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id);
+    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id, id);
   }
 
   @Override
@@ -119,10 +117,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     jdbcTemplate.update(REMOVE_ALL_FRIENDS, new Object[]{id, id});
   }
 
-
+  @Override
   public void unFriend(int id, String username) {
-    String names[] = unames.splitName(username);
-    int id2 = unames.getIdByname(names);
+    int id2 = getIdByname(username);
     jdbcTemplate.update(UN_FRIENDS, new Object[]{id, id2});
   }
 
@@ -132,10 +129,8 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-
   public void sendRequest(int id, String username) {
-      String names[] = unames.splitName(username);
-      int id2 = unames.getIdByname(names);
+    int id2 = getIdByname(username);
     if (id < id2) {
       jdbcTemplate.update(SEND_REQUEST, new Object[]{id, id2, 2, id, id2,});
     } else {
@@ -144,10 +139,8 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   }
 
   @Override
-
   public void becomeFriend(int id, String username) {
-    String names[] = unames.splitName(username);
-    int id2 = unames.getIdByname(names);
+    int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
       currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
@@ -168,11 +161,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     }
   }
 
-
   @Override
   public void blockFriend(int id, String username) {
-    String names[] = unames.splitName(username);
-    int id2 = unames.getIdByname(names);
+    int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
       currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
@@ -188,16 +179,16 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
       }
     }
   }
-
-  /**
-   * Since the friend table require user1's id is smaller than user2's id,
-   * we need to swap the ids if user1's id is bigger than user2's id
-   * Here is a simple swap method works on two integers
-   *
-   * @param a the first integer
-   * @param b the second integer
-   * @return an array of new a and b
-   **/
+//
+//  /**
+//   * Since the friend table require user1's id is smaller than user2's id,
+//   * we need to swap the ids if user1's id is bigger than user2's id
+//   * Here is a simple swap method works on two integers
+//   *
+//   * @param a the first integer
+//   * @param b the second integer
+//   * @return an array of new a and b
+//   **/
 
 //  public int[] swap(int a, int b) {
 //    int[] result = new int[2];
@@ -210,4 +201,11 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 //    result[1] = b;
 //    return result;
 //  }
+
+
+  public int getIdByname(String name) {
+    String[] result = new Usernames().splitName(name);
+    return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
+        new Object[]{result[0], result[1]}, Integer.class);
+  }
 }

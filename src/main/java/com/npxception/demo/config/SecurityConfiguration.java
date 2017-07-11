@@ -1,13 +1,16 @@
 package com.npxception.demo.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import javax.sql.DataSource;
+import javax.ws.rs.HEAD;
 
 /**
  * Created by Atharva Jakkanwar on 03-Jul-17.
@@ -16,33 +19,34 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+  @Qualifier("primary")
+  @Autowired
+  private DataSource dataSource;
 
-  //  @Override
+  // @Override
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-        .withUser("atharva").password("test").roles("USER")
-        .and().withUser("gohan").password("test").roles("ADMIN");
+    auth.jdbcAuthentication().dataSource(dataSource)
+        .usersByUsernameQuery("SELECT password from users where = ?")
+        .authoritiesByUsernameQuery("");
+    //    auth.inMemoryAuthentication()
+    //        .withUser("atharva").password("test").authorities("USER")
+    //        .and().withUser("gohan").password("test").authorities("ADMIN");
   }
 
-  // All requests single password
-//  @Override
-//  protected void configure(HttpSecurity httpSecurity) throws  Exception{
-//    httpSecurity
-//        .authorizeRequests()
-//        .antMatchers("/user**")
-//        .hasRole("USER")
-//        .and().httpBasic();
-//    httpSecurity.csrf().disable();
-//  }
-
-  //
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
+//        .anyRequest().fullyAuthenticated()
+//        .antMatchers(HttpMethod.GET,"/auth/**").hasAnyAuthority("ADMIN", "USER")
         .antMatchers("/user/**").hasAuthority("ADMIN")
+        .antMatchers("/friend/**").hasAuthority("ADMIN")
+        .antMatchers("/group/**").hasAuthority("ADMIN")
+        .antMatchers("/posts/**").hasAuthority("ADMIN")
+        .antMatchers("auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().httpBasic();
     httpSecurity.csrf().disable();
+
   }
 }
