@@ -115,7 +115,7 @@ public class UserController {
   }
 
   @RequestMapping(value = "/age={age}", params = "age", method = RequestMethod.POST)
-  public void setAge(@PathVariable("age") String age) {
+  public void setAge(@PathVariable("age") int age) {
     userService.setAge(age);
   }
 
