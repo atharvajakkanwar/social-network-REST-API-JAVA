@@ -99,4 +99,9 @@ public class UserController {
     userService.login(email, password);
   }
 
+  @RequestMapping(value = "/first={first}", params = "first", method = RequestMethod.POST)
+  public void removePostById(@PathVariable("first") String first) {
+    userService.setFirst(first);
+  }
+
 }

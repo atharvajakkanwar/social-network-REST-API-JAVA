@@ -88,5 +88,8 @@ public class UserService {
     new Login().login(email, password);
   }
 
+  public void setFirst(String first) {
+    this.userDao.setFirstName(first);
+  }
 }
 
