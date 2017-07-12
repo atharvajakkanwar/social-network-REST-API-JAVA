@@ -3,6 +3,7 @@ package com.npxception.demo.controller;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.service.PostService;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,7 @@ public class PostControllerTest {
     mockPost.setVisibility(1);
 
     Mockito.doReturn(mockPost).when(postService).getPostsById(1);
+    Assert.assertEquals(mockPost, postService.getPostsById(1));
 
 
   }

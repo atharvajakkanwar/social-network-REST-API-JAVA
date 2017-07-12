@@ -3,6 +3,7 @@ package com.npxception.demo.controller;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.service.GroupService;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +50,8 @@ public class GroupControllerTest {
     list.add(mockGroup);
     list.add(mockGroup2);
 
-    Mockito.doReturn(list).when(groupService).getGroupByName("Test");
+    Mockito.doReturn(list).when(groupService).getGroupByName("jafdls");
+    Assert.assertEquals(list, groupService.getGroupByName("jafdls"));
 
   }
 
