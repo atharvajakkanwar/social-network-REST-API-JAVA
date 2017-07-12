@@ -38,9 +38,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
-   //     .anyRequest().fullyAuthenticated()
-        .antMatchers(HttpMethod.GET,"/auth/**").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers(HttpMethod.GET,"/auth/**").permitAll()
         .antMatchers("/user/**").hasAuthority("ADMIN")
+        .anyRequest().authenticated()
 //        .antMatchers("/friend/**").hasAuthority("ADMIN")
 //        .antMatchers("/group/**").hasAuthority("ADMIN")
 //        .antMatchers("/posts/**").hasAuthority("ADMIN")
