@@ -91,5 +91,39 @@ public class UserService {
   public void setFirst(String first) {
     this.userDao.setFirstName(first);
   }
+
+  public void setLast(String last) {
+    this.userDao.setLastName(last);
+  }
+
+    /*
+  email
+  age
+  gender
+  country
+  city
+   */
+
+
+  public void setEmail(String email) {
+    this.userDao.setEmail(email);
+  }
+
+  public void setAge(int age) {
+    this.userDao.setAge(age);
+  }
+
+  public void setGender(String gender) {
+    this.userDao.setGender(gender);
+  }
+
+  public void setCountry(String country) {
+    this.userDao.setCountry(country);
+  }
+
+  public void setCity(String city) {
+    this.userDao.setCity(city);
+  }
+
 }
 

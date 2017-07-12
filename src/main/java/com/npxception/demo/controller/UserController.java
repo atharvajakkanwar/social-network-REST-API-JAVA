@@ -100,13 +100,38 @@ public class UserController {
   }
 
   @RequestMapping(value = "/first={first}", params = "first", method = RequestMethod.POST)
-  public void removePostById(@PathVariable("first") String first) {
+  public void setFirst(@PathVariable("first") String first) {
     userService.setFirst(first);
   }
 
-//  @RequestMapping(value = "/last={last}", params = "last", method = RequestMethod.POST)
-//  public void removePostById(@PathVariable("first") String first) {
-//    userService.setFirst(first);
-//  }
+  @RequestMapping(value = "/last={last}", params = "last", method = RequestMethod.POST)
+  public void setLast(@PathVariable("last") String last) {
+    userService.setLast(last);
+  }
+
+  @RequestMapping(value = "/email={email}", params = "email", method = RequestMethod.POST)
+  public void setEmail(@PathVariable("email") String email) {
+    userService.setEmail(email);
+  }
+
+  @RequestMapping(value = "/age={age}", params = "age", method = RequestMethod.POST)
+  public void setAge(@PathVariable("age") String age) {
+    userService.setAge(age);
+  }
+
+  @RequestMapping(value = "/gender={gender}", params = "gender", method = RequestMethod.POST)
+  public void setGender(@PathVariable("gender") String gender) {
+    userService.setGender(gender);
+  }
+
+  @RequestMapping(value = "/country={country}", params = "country", method = RequestMethod.POST)
+  public void setCountry(@PathVariable("country") String country) {
+    userService.setCountry(country);
+  }
+
+  @RequestMapping(value = "/city={city}", params = "city", method = RequestMethod.POST)
+  public void setCity(@PathVariable("city") String city) {
+    userService.setCity(city);
+  }
 
 }
