@@ -104,4 +104,9 @@ public class UserController {
     userService.setFirst(first);
   }
 
+//  @RequestMapping(value = "/last={last}", params = "last", method = RequestMethod.POST)
+//  public void removePostById(@PathVariable("first") String first) {
+//    userService.setFirst(first);
+//  }
+
 }
