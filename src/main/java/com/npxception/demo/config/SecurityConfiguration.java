@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        .usersByUsernameQuery("SELECT firstname,lastname, password from users where = ?")
 //        .authoritiesByUsernameQuery("SELECT roleid from users where = ?");
 
-    //    auth.inMemoryAuthentication()
+//        auth.inMemoryAuthentication()
 //        .withUser("atharva").password("test").authorities("USER")
 //        .and().withUser("gohan").password("test").authorities("ADMIN");
   }

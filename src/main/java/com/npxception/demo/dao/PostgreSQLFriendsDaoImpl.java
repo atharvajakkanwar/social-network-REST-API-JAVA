@@ -96,12 +96,12 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getInvitationList(int id) {
-    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id, id);
+    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
   public Collection<User> getBlockList(int id) {
-    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id, id);
+    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
