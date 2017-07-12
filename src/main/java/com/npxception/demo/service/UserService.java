@@ -1,5 +1,6 @@
 package com.npxception.demo.service;
 
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.login.Login;
@@ -12,6 +13,11 @@ import java.util.Collection;
 
 @Service
 public class UserService {
+  PostgreSQLUserDaoImpl postgreSQLUserDao;
+
+  UserService (PostgreSQLUserDaoImpl postgreSQLUserDao) {
+    this.postgreSQLUserDao = postgreSQLUserDao;
+  }
 
   @Autowired
   @Qualifier("PostgresUserRepo")

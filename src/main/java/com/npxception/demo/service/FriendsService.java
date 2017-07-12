@@ -1,6 +1,8 @@
 package com.npxception.demo.service;
 
 import com.npxception.demo.dao.FriendsDao;
+import com.npxception.demo.dao.PostgreSQLFriendsDaoImpl;
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,12 @@ import java.util.Collection;
  */
 @org.springframework.stereotype.Service
 public class FriendsService {
+  PostgreSQLFriendsDaoImpl postgreSQLFriendsDao ;
+
+  FriendsService(PostgreSQLFriendsDaoImpl postgreSQLFriendsDao) {
+    this.postgreSQLFriendsDao = postgreSQLFriendsDao;
+  }
+
   @Autowired
   @Qualifier("PostgreFriends")
   private FriendsDao dao;
