@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .anyRequest().fullyAuthenticated()
         .antMatchers(HttpMethod.GET,"/auth/**").hasAnyAuthority("ADMIN", "USER")
-//        .antMatchers("/user/**").hasAuthority("ADMIN")
+        .antMatchers("/user/**").hasAuthority("ADMIN")
 //        .antMatchers("/friend/**").hasAuthority("ADMIN")
 //        .antMatchers("/group/**").hasAuthority("ADMIN")
 //        .antMatchers("/posts/**").hasAuthority("ADMIN")
