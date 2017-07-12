@@ -50,8 +50,8 @@ public class GroupControllerTest {
     list.add(mockGroup);
     list.add(mockGroup2);
 
-    Mockito.doReturn(list).when(groupService).getGroupByName("jafdls");
-    Assert.assertEquals(list, groupService.getGroupByName("jafdls"));
+    Mockito.doReturn(list).when(groupService).getGroupByName("null");
+    Assert.assertEquals(list, groupService.getGroupByName("null"));
 
   }
 

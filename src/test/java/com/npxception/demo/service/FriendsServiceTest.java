@@ -37,6 +37,7 @@ public class FriendsServiceTest {
     user1.setCountry("a");
     user1.setCity("a");
     user1.setPassword("a");
+
     User user2 = new User();
     user2.setId(2);
     user2.setFirstName("b");
@@ -58,8 +59,23 @@ public class FriendsServiceTest {
     List<User> userTwoList = new ArrayList<>();
     userTwoList.add(user2);
 
-    Mockito.doReturn(allUsers).when(postgreSQLFriendsDao).getAllFriends(1);
-    Assert.assertEquals(allUsers, postgreSQLFriendsDao.getAllFriends(1));
+    Mockito.doReturn(userOneList).when(postgreSQLFriendsDao).getAllFriends(1);
+    Assert.assertEquals(userOneList, postgreSQLFriendsDao.getAllFriends(1));
+
+
+    Mockito.doReturn(userOneList).when(postgreSQLFriendsDao).getBlockList(1);
+    Assert.assertEquals(userOneList, postgreSQLFriendsDao.getBlockList(1));
+
+    Mockito.doReturn(userOneList).when(postgreSQLFriendsDao).getFriendsByName("a.b", 1);
+    Assert.assertEquals(userOneList, postgreSQLFriendsDao.getFriendsByName("a.b",1));
+
+    Mockito.doReturn(userOneList).when(postgreSQLFriendsDao).getInvitationList(1);
+    Assert.assertEquals(userOneList, postgreSQLFriendsDao.getInvitationList(1));
+
+    Mockito.doReturn(1).when(postgreSQLFriendsDao).countFriends(1);
+    Assert.assertEquals(1, postgreSQLFriendsDao.countFriends(1));
+
+
 
 
   }

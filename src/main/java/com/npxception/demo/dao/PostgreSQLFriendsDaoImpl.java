@@ -109,7 +109,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getBlockList(int id) {
-    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id, id);
+           return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id, id);
   }
 
   @Override
