@@ -17,7 +17,7 @@ public class UserService {
   @Qualifier("PostgresUserRepo")
   private UserDao userDao;
 
-  public Collection<User> getAllUser() {
+  public Collection<User> getAllUsers() {
     return this.userDao.getAllUser();
   }
 

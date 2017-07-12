@@ -20,10 +20,10 @@ public class UserController {
 
   @RequestMapping(method = RequestMethod.GET)
   public Collection<User> getAllUsers() {
-    return userService.getAllUser();
+    return userService.getAllUsers();
   }
 
-  @RequestMapping(value = "/find/{userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
   public User getUserById(@PathVariable("userid") int userid) {
     return userService.getUserById(userid);
   }
@@ -43,42 +43,50 @@ public class UserController {
     userService.insertUser(user);
   }
 
-
-  @RequestMapping(value = "/find/first/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/first/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFirstName(@PathVariable("name") String name) {
     return userService.getUsersByFirstName(name);
   }
 
-  @RequestMapping(value = "/find/last/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/last/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByLastName(@PathVariable("name") String name) {
     return userService.getUsersByLastName(name);
   }
 
-  @RequestMapping(value = "/find/fullname/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/fullname/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFullName(@PathVariable("name") String name) {
     return userService.getUsersByFullName(name);
   }
 
-  @RequestMapping(value = "/find/user/{username}", method = RequestMethod.GET)
+  @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
   public Collection<User> getUserByUserName(@PathVariable("username") String username) {
     return userService.getUsersByFirstName(username);
   }
 
-  @RequestMapping(value = "/find/email/{email}", method = RequestMethod.GET)
+  @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
   public User getUserByEmail(@PathVariable("email") String email) {
     return userService.getUserByEmail(email);
   }
 
-  @RequestMapping(value = "/find/age/{age}", method = RequestMethod.GET)
+  @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@PathVariable("age") int age) {
     return userService.getUsersByAge(age);
   }
 
-  @RequestMapping(value = "/find/gender/{gender}", method = RequestMethod.GET)
+  @RequestMapping(value = "/gender/{gender}", method = RequestMethod.GET)
   public Collection<User> getUsersByGender(@PathVariable("gender") String gender) {
     return userService.getUsersByGender(gender);
   }
 
+  @RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
+  public Collection<User> getUsersByCountry(@PathVariable("country") String country) {
+    return userService.getUsersByCountry(country);
+  }
+
+  @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
+  public Collection<User> getUsersByCity(@PathVariable("city") String city) {
+    return userService.getUsersByCity(city);
+  }
 
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -91,5 +99,4 @@ public class UserController {
     userService.login(email, password);
   }
 
-  // will prob need to add methods for country/city/password
 }
