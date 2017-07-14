@@ -23,6 +23,7 @@ public class UserRowMapper implements RowMapper<User> {
         resultSet.getString("gender"),
         resultSet.getString("country"),
         resultSet.getString("city"),
-        resultSet.getString("password"));
+        resultSet.getString("password"),
+        resultSet.getString("role"));
   }
 }

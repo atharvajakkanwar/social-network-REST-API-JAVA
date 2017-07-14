@@ -78,15 +78,15 @@ public class GroupController {
 //  void updateAdminOfGroup(int admin);
 
 
-  @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void addMemberToGroup(@RequestBody int memberid) {
-    groupService.addMemberToGroup(memberid);
-  }
-
-  @RequestMapping(value = "/memberid={memberid}", params = "memberid", method = RequestMethod.DELETE)
-  public void removeMemberFromGroup(@PathVariable("memberid") int memberid) {
-    groupService.removeMemberFromGroup(memberid);
-  }
+//  @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+//  public void addMemberToGroup(@RequestBody int memberid) {
+//    groupService.addMemberToGroup(memberid);
+//  }
+//
+//  @RequestMapping(value = "/memberid={memberid}", params = "memberid", method = RequestMethod.DELETE)
+//  public void removeMemberFromGroup(@PathVariable("memberid") int memberid) {
+//    groupService.removeMemberFromGroup(memberid);
+//  }
 
 
 

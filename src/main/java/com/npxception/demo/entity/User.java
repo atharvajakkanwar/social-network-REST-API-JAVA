@@ -14,7 +14,9 @@ public class User {
   private String role;
 
 
-  public User(int userid, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
+  public User(int userid, String firstName, String lastName, String email
+      , int age, String gender, String country, String city
+      , String password, String role) {
     this.userid = userid;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -24,6 +26,7 @@ public class User {
     this.country = country;
     this.city = city;
     this.password = password;
+    this.role = role;
   }
   public User(){}
 
