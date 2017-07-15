@@ -1,9 +1,11 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exeptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +32,6 @@ public class UserController {
       @ApiResponse(code = 200, message = "Successfully retrieved list of user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(method = RequestMethod.GET)
   public Collection<User> getAllUsers() {
@@ -46,7 +47,11 @@ public class UserController {
   })
   @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
   public User getUserById(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int userid) {
-    return userService.getUserById(userid);
+    try {
+      return userService.getUserById(userid);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(userid));
+    }
   }
 
   @ApiOperation(value = "Delete User given ID")
@@ -95,7 +100,11 @@ public class UserController {
   @RequestMapping(value = "/first/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
                                                 @PathVariable("name") String name) {
-    return userService.getUsersByFirstName(name);
+    try {
+      return userService.getUsersByFirstName(name);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(name);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given last name")
@@ -108,7 +117,11 @@ public class UserController {
   @RequestMapping(value = "/last/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByLastName(@ApiParam(value = "Last name", required = true)
                                                @PathVariable("name") String name) {
-    return userService.getUsersByLastName(name);
+    try {
+      return userService.getUsersByLastName(name);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(name);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given full name")
@@ -121,7 +134,11 @@ public class UserController {
   @RequestMapping(value = "/fullname/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFullName(@ApiParam(value = "Full name", required = true)
                                                @PathVariable("name") String name) {
-    return userService.getUsersByFullName(name);
+    try {
+      return userService.getUsersByFullName(name);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(name);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given username")
@@ -134,7 +151,11 @@ public class UserController {
   @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
   public Collection<User> getUserByUserName(@ApiParam(value = "Username", required = true)
                                               @PathVariable("username") String username) {
-    return userService.getUsersByFirstName(username);
+    try {
+      return userService.getUsersByFirstName(username);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(username);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given email")
@@ -147,7 +168,11 @@ public class UserController {
   @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
                                @PathVariable("email") String email) {
-    return userService.getUserByEmail(email);
+    try {
+      return userService.getUserByEmail(email);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(email);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given age")
@@ -160,7 +185,11 @@ public class UserController {
   @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
                                          @PathVariable("age") int age) {
-    return userService.getUsersByAge(age);
+    try {
+      return userService.getUsersByAge(age);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(age));
+    }
   }
 
   @ApiOperation(value = "Gets List of User given gender")
@@ -173,7 +202,11 @@ public class UserController {
   @RequestMapping(value = "/gender/{gender}", method = RequestMethod.GET)
   public Collection<User> getUsersByGender(@ApiParam(value = "Gender", required = true)
                                              @PathVariable("gender") String gender) {
-    return userService.getUsersByGender(gender);
+    try {
+      return userService.getUsersByGender(gender);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(gender);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given country")
@@ -186,7 +219,11 @@ public class UserController {
   @RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
   public Collection<User> getUsersByCountry(@ApiParam(value = "Country", required = true)
                                               @PathVariable("country") String country) {
-    return userService.getUsersByCountry(country);
+    try {
+      return userService.getUsersByCountry(country);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(country);
+    }
   }
 
   @ApiOperation(value = "Gets List of User given city")
@@ -199,7 +236,11 @@ public class UserController {
   @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
   public Collection<User> getUsersByCity(@ApiParam(value = "City", required = true)
                                            @PathVariable("city") String city) {
-    return userService.getUsersByCity(city);
+    try {
+      return userService.getUsersByCity(city);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(city);
+    }
   }
 
   @ApiOperation(value = "Registers User")
