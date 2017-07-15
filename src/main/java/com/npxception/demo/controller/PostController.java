@@ -1,9 +1,11 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.Post;
+import com.npxception.demo.exeptions.ResourceNotFoundException;
 import com.npxception.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,11 +50,16 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/id={id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Post getPostsById(@ApiParam( value = "post ID", required = true)
                              @PathVariable int id) {
-    return postService.getPostsById(id);
+    try {
+      return postService.getPostsById(id);
+    }
+ catch (EmptyResultDataAccessException e) {
+    throw new ResourceNotFoundException(Integer.toString(id));
   }
+}
 
   @ApiOperation(value = "Return every post in group given group name")
   @ApiResponses(value = {
@@ -61,7 +68,7 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/group={groupid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
   public Collection<Post> getPostsFromGroup(@ApiParam(value = "group ID", required = true)
       @PathVariable int groupid) {
     return postService.getPostsFromGroup(groupid);
@@ -74,7 +81,7 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupname={name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
   public Collection<Post> getPostsFromGroup(@PathVariable String name) {
     return postService.getPostsFromGroup(name);
   }
@@ -86,7 +93,7 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/author={author}", method = RequestMethod.GET)
+  @RequestMapping(value = "/author/{author}", method = RequestMethod.GET)
   public Collection<Post> getPostsByUser(@ApiParam(value = "Author", required = true)
                                            @PathVariable String author) {
     return postService.getPostsByUser(author);
@@ -106,7 +113,7 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/id={id}", params = "id", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/id/{id}", params = "id", method = RequestMethod.DELETE)
   public void removePostById(@PathVariable("id") int id) {
     postService.removePostsById(id);
   }
