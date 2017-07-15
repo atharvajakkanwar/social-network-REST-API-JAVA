@@ -41,7 +41,7 @@ public class PostController {
     return postService.getAllPosts();
   }
 
-  @ApiOperation(value = "Return post given ID")
+@ApiOperation(value = "Return post given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
