@@ -1,9 +1,11 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.FbGroup;
+import com.npxception.demo.exeptions.ResourceNotFoundException;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
- * Controller for group.
+ * Represents a controller for the Group Service.
  */
 
 @RestController
@@ -33,7 +35,6 @@ public class GroupController {
       @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups() {
@@ -94,7 +95,11 @@ public class GroupController {
   @RequestMapping(value = "/name={name}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByName(@ApiParam(value = "Group name", required = true)
                                               @PathVariable("name") String name) {
-    return groupService.getGroupByName(name);
+    try {
+      return groupService.getGroupByName(name);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(name);
+    }
   }
 
 
@@ -108,7 +113,11 @@ public class GroupController {
   @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
                                                @PathVariable("admin") int admin) {
-    return groupService.getGroupByAdmin(admin);
+    try {
+      return groupService.getGroupByAdmin(admin);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(admin));
+    }
   }
 
   @ApiOperation(value = "Returns every group member is in given ID")
@@ -121,7 +130,11 @@ public class GroupController {
   @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroupsForUser(@ApiParam(value = "Membership ID", required = true)
                                                    @PathVariable("memberid") int memberid) {
-    return groupService.getAllGroupsForUser(memberid);
+    try {
+      return groupService.getAllGroupsForUser(memberid);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(memberid));
+    }
   }
 
 

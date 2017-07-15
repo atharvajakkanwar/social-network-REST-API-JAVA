@@ -2,9 +2,11 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exeptions.ResourceNotFoundException;
 import com.npxception.demo.service.FriendsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +21,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
- * Created by RachelDi on 18/06/2017.
+ * Represents a controller for the Friends Service.
  */
 @RestController
 @RequestMapping("/{user}/friend")
@@ -33,12 +35,11 @@ public class FriendsController {
       @ApiResponse(code = 200, message = "Successfully retrieved every friend"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/all",
       method = RequestMethod.GET)
   public Collection<User> getAllFriends(@ApiParam(value = "User ID", required = true)
-      @PathVariable("user") int id) {
+                                        @PathVariable("user") int id) {
     return service.getAllFriends(id);
   }
 
@@ -53,7 +54,7 @@ public class FriendsController {
   @RequestMapping(value = "/all",
       method = RequestMethod.DELETE)
   public void removeAllFriends(@ApiParam(value = "User ID", required = true)
-                                 @PathVariable("user") int id) {
+                               @PathVariable("user") int id) {
     this.service.removeAllFriends(id);
   }
 
@@ -66,8 +67,8 @@ public class FriendsController {
   })
   @RequestMapping(value = "/unfriend/{username}",
       method = RequestMethod.PUT)
-  public void unFriend(@ApiParam (value = "User ID", required = true) @PathVariable("user") int id1,
-                       @ApiParam (value = "Username", required = true) @PathVariable("username") String username) {
+  public void unFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+                       @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
     this.service.unFriend(id1, username);
   }
 
@@ -81,8 +82,12 @@ public class FriendsController {
   @RequestMapping(value = "/count",
       method = RequestMethod.GET)
   public int countFriends(@ApiParam(value = "User ID", required = true)
-                            @PathVariable("user") int id) {
-    return this.service.countFriends(id);
+                          @PathVariable("user") int id) {
+    try {
+      return this.service.countFriends(id);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(id));
+    }
   }
 
   @ApiOperation(value = "Send a friend request to the given username from the given user ID")
@@ -138,7 +143,11 @@ public class FriendsController {
       method = RequestMethod.GET)
   public Collection<User> commonFriends(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
                                         @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
-    return this.service.commonFriends(id1, username);
+    try {
+      return this.service.commonFriends(id1, username);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(id1), username);
+    }
   }
 
   @ApiOperation(value = "Get friends by input name")
@@ -152,7 +161,11 @@ public class FriendsController {
       method = RequestMethod.GET)
   public Collection<User> getFriendsByName(@ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                                            @ApiParam(value = "User ID", required = true) @PathVariable("user") int id) {
-    return this.service.getFriendsByName(username, id);
+    try {
+      return this.service.getFriendsByName(username, id);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(username, Integer.toString(id));
+    }
   }
 
   @ApiOperation(value = "Get every friend in invitation list")
@@ -165,8 +178,12 @@ public class FriendsController {
   @RequestMapping(value = "/pending-invations",
       method = RequestMethod.GET)
   public Collection<User> getInvitationList(@ApiParam(value = "User ID", required = true)
-                                              @PathVariable("user") int id) {
-    return this.service.getInvitationList(id);
+                                            @PathVariable("user") int id) {
+    try {
+      return this.service.getInvitationList(id);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(id));
+    }
   }
 
   @ApiOperation(value = "Get every user that is blocked")
@@ -179,7 +196,11 @@ public class FriendsController {
   @RequestMapping(value = "/blocked",
       method = RequestMethod.GET)
   public Collection<User> getBlockList(@ApiParam(value = "User ID", required = true)
-                                         @PathVariable("user") int id) {
-    return this.service.getBlockList(id);
+                                       @PathVariable("user") int id) {
+    try {
+      return this.service.getBlockList(id);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(id));
+    }
   }
 }
