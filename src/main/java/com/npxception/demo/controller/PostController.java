@@ -17,8 +17,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-
 /**
+ * Represents a controller for the Posts service.
  * Created by Atharva on 6/18/2017.
  */
 
@@ -36,7 +36,6 @@ public class PostController {
       @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(method = RequestMethod.GET)
   public Collection<Post> getAllPosts() {
@@ -48,7 +47,6 @@ public class PostController {
       @ApiResponse(code = 200, message = "Successfully retrieved post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Post getPostsById(@ApiParam( value = "post ID", required = true)
@@ -71,7 +69,12 @@ public class PostController {
   @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
   public Collection<Post> getPostsFromGroup(@ApiParam(value = "group ID", required = true)
       @PathVariable int groupid) {
-    return postService.getPostsFromGroup(groupid);
+    try {
+      return postService.getPostsFromGroup(groupid);
+    }
+    catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(Integer.toString(groupid));
+    }
   }
 
   @ApiOperation(value = "Return every post in group given group name")
@@ -83,7 +86,12 @@ public class PostController {
   })
   @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
   public Collection<Post> getPostsFromGroup(@PathVariable String name) {
-    return postService.getPostsFromGroup(name);
+    try {
+      return postService.getPostsFromGroup(name);
+    }
+    catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(name);
+    }
   }
 
   @ApiOperation(value = "Return every post written by author given author")
@@ -96,28 +104,24 @@ public class PostController {
   @RequestMapping(value = "/author/{author}", method = RequestMethod.GET)
   public Collection<Post> getPostsByUser(@ApiParam(value = "Author", required = true)
                                            @PathVariable String author) {
-    return postService.getPostsByUser(author);
+    try {
+      return postService.getPostsByUser(author);
+    }
+    catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(author);
+    }
   }
-
-
-
-//  @RequestMapping(value = "/firstname={firstname}", method = RequestMethod.GET)
-//  public Collection<Post> getPostsByUser(@PathVariable String firstName, @PathVariable int time) {
-//    return postService.getPostsByUser(firstName, time);
-//  }
 
   @ApiOperation(value = "Removes post from database given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully removed post from database"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/id/{id}", params = "id", method = RequestMethod.DELETE)
   public void removePostById(@PathVariable("id") int id) {
     postService.removePostsById(id);
   }
-  //test commit from post branch
 
   @ApiOperation(value = "Create post")
   @ApiResponses(value = {
