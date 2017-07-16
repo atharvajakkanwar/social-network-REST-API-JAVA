@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * Created by Atharva Jakkanwar on 03-Jul-17.
@@ -19,8 +20,17 @@ public class AuthenticationController {
   @Autowired
   private AuthenticationService authService;
 
-  @RequestMapping(method = RequestMethod.GET, value = "/login/{roleid}")
-  public Role getRoleById(@PathVariable int roleid) {
-    return this.authService.getRoleById(roleid);
-  }
+
+@RequestMapping(method = RequestMethod.GET, value = "/login")
+public RedirectView redirectToUser() {
+
+  //if user exists
+  // if yes => int id = getUserid
+
+  RedirectView redirectView = new RedirectView();
+  int id =5;
+  redirectView.setUrl(id+"/posts/");
+  return redirectView;
+}
+//  }
 }
