@@ -13,7 +13,9 @@ public class User {
   private String password;
   private String role;
 
-  public User(int userid, String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
+  public User(int userid, String firstName, String lastName, String email,
+              int age, String gender, String country, String city,
+              String password, String role) {
     this.userid = userid;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -23,20 +25,10 @@ public class User {
     this.country = country;
     this.city = city;
     this.password = password;
-    this.role = "USER";
+    // TODO: Why isn't this set by default to "USER"?
+    this.role = role;
   }
 
-  public User(String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.age = age;
-    this.gender = gender;
-    this.country = country;
-    this.city = city;
-    this.password = password;
-    this.role = "USER";
-  }
   public User(){}
 
   public int getId() {
@@ -106,6 +98,10 @@ public class User {
 
   public String getPassword(){
     return this.password;
+  }
+
+  public String getRole() {
+    return role;
   }
 
   public void setPassword(String password) {

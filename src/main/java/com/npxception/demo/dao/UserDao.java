@@ -57,4 +57,5 @@ public interface UserDao {
 
   void setCity(String city);
 
+  void setPassword(String password);
 }

@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.exeptions.ResourceNotFoundException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/user")
 @Api(description = "User Controller")
 
-
 public class UserController {
 
   @Autowired
@@ -34,6 +33,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
   @RequestMapping(method = RequestMethod.GET)
+
   public Collection<User> getAllUsers() {
     return userService.getAllUsers();
   }
@@ -250,6 +250,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
+
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(@ApiParam(value = "User", required = true)
@@ -303,6 +304,17 @@ public class UserController {
   @RequestMapping(value = "/city={city}", params = "city", method = RequestMethod.POST)
   public void setCity(@PathVariable("city") String city) {
     userService.setCity(city);
+  }
+
+  @RequestMapping(value = "/password={password}", params = "password", method = RequestMethod.POST)
+  public void setPassword(@PathVariable("password") String password) {
+    userService.setPassword(password);
+  }
+
+  @RequestMapping(value = "/{firstname}.{lastname}", method = RequestMethod.GET)
+  public User personalPage(@PathVariable("firstname") String firstName,
+                           @PathVariable("lastname") String lastName){
+    return userService.getUserByUserName(firstName+"."+lastName);
   }
 
 }

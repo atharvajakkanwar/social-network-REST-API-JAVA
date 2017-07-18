@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.FbGroup;
-import com.npxception.demo.exeptions.ResourceNotFoundException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +137,6 @@ public class GroupController {
     }
   }
 
-
   @ApiOperation(value = "Adds member to group")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully added member to group"),
@@ -148,7 +147,8 @@ public class GroupController {
   @RequestMapping(value = "/memberid={memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void addMemberToGroup(@ApiParam(value = "Membership ID", required = true)
                                  @RequestBody int memberid) {
-    groupService.addMemberToGroup(memberid);
+    //TODO: Use two parameters (memberid, groupid)
+    //groupService.addMemberToGroup(memberid);
   }
 
   @ApiOperation(value = "Removes member from a group")
@@ -161,9 +161,8 @@ public class GroupController {
   @RequestMapping(value = "/memberid={memberid}", params = "memberid", method = RequestMethod.DELETE)
   public void removeMemberFromGroup(@ApiParam(value = "Membership ID", required = true)
                                       @PathVariable("memberid") int memberid) {
-    groupService.removeMemberFromGroup(memberid);
+    //TODO: Use two parameters (memberid, groupid)
+    //groupService.removeMemberFromGroup(memberid);
   }
-
-
 
 }

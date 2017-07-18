@@ -131,5 +131,8 @@ public class UserService {
     this.userDao.setCity(city);
   }
 
+  public void setPassword(String password) {
+    this.userDao.setPassword(password);
+  }
 }
 

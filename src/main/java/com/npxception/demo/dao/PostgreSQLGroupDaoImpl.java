@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.FbGroup;
+import com.npxception.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,15 +23,13 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  public PostgreSQLGroupDaoImpl() {
-
-  }
+  @Autowired
+  private UserDao userDao;
 
   @Override
   public Collection<FbGroup> getAllGroup() {
     final String sql = "SELECT * FROM groups";
-    List<FbGroup> groups = jdbcTemplate.query(sql, new PostgreSQLGroupDaoImpl.GroupRowMapper());
-
+    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper());
     return groups;
   }
 
@@ -43,9 +42,9 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public void removeGroupById(int id) {
-
+    final String sql = "DELETE FROM groups WHERE id = ?";
+    jdbcTemplate.update(sql, id);
   }
-
 
   @Override
   public void createGroup(FbGroup fbGroup) {
@@ -55,8 +54,6 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
         fbGroup.getName(),
         fbGroup.getAdmin(),
     });
-
-
   }
 
   @Override
@@ -68,13 +65,17 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByAdmin(String name) {
-    return null;
+    final String sql = "SELECT * FROM groups WHERE name = ? ";
+    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
+    return groups;
   }
 
   @Override
   public Collection<FbGroup> getGroupByAdmin(int admin) {
+    User user = userDao.getUserById(admin);
+    String fullName = user.getFirstName() + " " + user.getLastName();
     final String sql = "SELECT * FROM groups WHERE admin = ? ";
-    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), admin);
+    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
     return groups;
   }
 
@@ -83,20 +84,21 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
     final String sql = "SELECT * FROM membership WHERE memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);
     return groups;
-
   }
 
 
   @Override
-  public void addMemberToGroup(int memberid) {
-
+  public void addMemberToGroup(int groupid, int memberid) {
+    // change status from 3 to 1
   }
 
   @Override
-  public void removeMemberFromGroup(int memberid) {
-
+  public void removeMemberFromGroup(int groupid, int memberid) {
+    // remove
+    final String sql = "DELETE FROM membership" +
+        " WHERE  groupid = ? AND memberid = ?";
+    jdbcTemplate.update(sql, new Object[]{groupid, memberid});
   }
-
 
 
   private static class GroupRowMapper implements RowMapper<FbGroup> {
@@ -109,5 +111,4 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
       return group;
     }
   }
-
 }

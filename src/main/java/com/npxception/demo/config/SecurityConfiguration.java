@@ -1,13 +1,20 @@
 package com.npxception.demo.config;
 
+import com.npxception.demo.controller.AuthenticationController;
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
+import com.npxception.demo.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.JdbcUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
 import javax.ws.rs.HEAD;
@@ -18,33 +25,45 @@ import javax.ws.rs.HEAD;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
   @Qualifier("primary")
   @Autowired
   private DataSource dataSource;
 
-  // @Override
+//  @Autowired
+//  private UserService userService;
+
+  @Bean
+  public RedirectLoginSuccessHandler loginFailedHandler(){
+    return new RedirectLoginSuccessHandler();
+  }
+
+  @Bean
+  public RedirectLoginFailHandler loginSuccessHandler(){
+    return new RedirectLoginFailHandler();
+  }
+
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//    auth.jdbcAuthentication().dataSource(dataSource)
-//        .usersByUsernameQuery("SELECT password from users where = ?")
-//       .authoritiesByUsernameQuery("");
-        auth.inMemoryAuthentication()
-            .withUser("atharva").password("test").authorities("USER")
-            .and().withUser("gohan").password("test").authorities("ADMIN");
+        auth.jdbcAuthentication().dataSource(dataSource)
+        .usersByUsernameQuery("SELECT email AS principal, password AS credentials" +
+            ", true FROM users WHERE email = ?")
+        .authoritiesByUsernameQuery("SELECT email AS principal, role AS role FROM users " +
+            "WHERE email = ?");
   }
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
-        .antMatchers(HttpMethod.GET,"/auth/**").permitAll()
+
+        .antMatchers("/").hasAnyAuthority("ADMIN", "USER")
         .antMatchers("/user/**").hasAuthority("ADMIN")
-        .anyRequest().authenticated()
-//        .antMatchers("/friend/**").hasAuthority("ADMIN")
-//        .antMatchers("/group/**").hasAuthority("ADMIN")
-//        .antMatchers("/posts/**").hasAuthority("ADMIN")
-//        .antMatchers("auth/**").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers("/friend/**").hasAuthority("ADMIN")
+        .antMatchers("/group/**").hasAuthority("ADMIN")
+        .antMatchers("/posts/**").hasAuthority("ADMIN")
+        .antMatchers("/auth/**").hasAnyAuthority("ADMIN", "USER")
+        .and().formLogin().successHandler(loginFailedHandler())
+       // .and().formLogin().failureHandler(loginSuccessHandler())
         .and().httpBasic();
     httpSecurity.csrf().disable();
 

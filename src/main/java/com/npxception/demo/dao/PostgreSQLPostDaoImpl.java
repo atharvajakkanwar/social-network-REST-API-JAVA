@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.HEAD;
+
 /**
  * Created by Atharva on 6/18/2017.
  */
@@ -22,8 +24,6 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-
-
   @Override
   public Collection<Post> getAllPosts() {
     final String sql = "SELECT * FROM posts";
@@ -33,26 +33,24 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsByUser(int userId) {
-    final String sql =
-        "SELECT * " +
-            "FROM posts " +
-            "WHERE author = ? " +
-            "ORDER BY time";
+    final String sql = "SELECT *  FROM posts WHERE author = ? ORDER BY time";
     List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), userId);
     return posts;
   }
 
   @Override
   public Collection<Post> getPostsByUser(String firstName) {
-    final String sql = "SELECT * FROM posts WHERE author IN (SELECT userid FROM users WHERE firstname = ?) ORDER BY time";
+    final String sql = "SELECT * FROM posts WHERE author " +
+        "IN (SELECT userid FROM users WHERE firstname = ?) ORDER BY time";
     List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), firstName);
     return posts;
   }
 
   @Override
   public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {
-    final String sql = "SELECT * FROM posts WHERE author = ? AND visibility = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), userId, groupId);
+    final String sql = "SELECT * FROM posts WHERE author = ? " +
+        "AND visibility = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), new Object[]{userId, groupId});
     return posts;
   }
 
@@ -77,14 +75,16 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsFromGroup(String name) {
-    final String sql = "SELECT * FROM posts WHERE visibility IN (SELECT groupid FROM groups WHERE name = ?) ORDER BY time";
+    final String sql = "SELECT * FROM posts WHERE visibility " +
+        "IN (SELECT groupid FROM groups WHERE name = ?) ORDER BY time";
     List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), name);
     return posts;
   }
 
   @Override
   public void removePostsById(int id) {
-
+    final String sql = "DELETE FROM posts WHERE id = ?";
+    jdbcTemplate.update(sql, id);
   }
 
   @Override
@@ -94,8 +94,6 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public void createPost(Post post) {
-    //INSERT INTO table_name (column1, column2, column3,...)
-    //VALUES (value1, value2, value3,...)
     final String sql = "INSERT INTO posts (id, author, content, likes, time, visibility) VALUES (?, ?, ?, ?, ?, ?)";
 
     jdbcTemplate.update(sql, new Object[]{
@@ -110,17 +108,23 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsByContent(String content) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE content = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), content);
+    return posts;
   }
 
   @Override
   public Collection<Post> getPostsByAuthor(String author) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE author = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), author);
+    return posts;
   }
 
   @Override
   public Collection<Post> getPostsByLikes(int likes) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE likes = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), likes);
+    return posts;
   }
 
   @Override
@@ -130,7 +134,9 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsByTime(int time) {
-    return null;
+    final String sql = "SELECT * FROM users WHERE time = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), time);
+    return posts;
   }
 
 
