@@ -1,7 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.helperMethods.Usernames;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,43 +18,43 @@ import java.util.HashSet;
 public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
-      "friends f  WHERE u.userid = f.useridtwo AND f.useridone = ? " +
+      "friends f  WHERE u.userid = f.usertwoid AND f.useroneid = ? " +
       "AND (f.status = 1 OR f.status = 4)";
 
   final String REMOVE_ALL_FRIENDS = "DELETE FROM " +
-      "friends f WHERE f.useridone = ? OR f.useridtwo = ?";
+      "friends f WHERE f.useroneid = ? OR f.usertwoid = ?";
 
-  final String UN_FRIENDS = "DELETE FROM friends WHERE useridone = ? AND useridtwo = ?";
+  final String UN_FRIENDS = "DELETE FROM friends WHERE useroneid = ? AND usertwoid = ?";
 
   final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname = ? AND lastname = ?";
 
   // to avoid more extra space in friends table, I tried to distinguish between sending
   // others invitations and being invited, block a friend and being blocked
   // 2 means request sent, 3 means got invited
-  final String SEND_REQUEST = "INSERT INTO friends (useridone, useridtwo, status) " +
+  final String SEND_REQUEST = "INSERT INTO friends (useroneid, usertwoid, status) " +
       "SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM friends " +
-      "WHERE (useridone = ? AND useridtwo = ?))";
+      "WHERE (useroneid = ? AND usertwoid = ?))";
 
-  final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE useridone = ? " +
-      "AND useridtwo = ?";
+  final String BECOME_FRIEND = "UPDATE friends SET status = 1 WHERE useroneid = ? " +
+      "AND usertwoid = ?";
 
-  final String GET_STATUS = "SELECT status FROM friends WHERE useridone = ? " +
-      "AND useridtwo = ?";
+  final String GET_STATUS = "SELECT status FROM friends WHERE useroneid = ? " +
+      "AND usertwoid = ?";
 
   // 4 means block a friend, 5 means being blocked
-  final String BLOCK_FRIEND = "UPDATE friends SET status = ? WHERE useridone = ? " +
-      "AND useridtwo = ?";
+  final String BLOCK_FRIEND = "UPDATE friends SET status = ? WHERE useroneid = ? " +
+      "AND usertwoid = ?";
 
   final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
-      "WHERE u.userid = f.useridtwo AND f.useridone = ? AND (u.firstname = ? OR u.lastname = ?)";
+      "WHERE u.userid = f.usertwoid AND f.useroneid = ? AND (u.firstname = ? OR u.lastname = ?)";
 
   final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE (u.userid = f.useritwo AND f.useridone = ? AND f.status = 3)" +
-      " OR (u.userid = f.useridone AND f.useridtwo = ? AND f.status = 2)";
+      "WHERE (u.userid = f.useritwo AND f.useroneid = ? AND f.status = 3)" +
+      " OR (u.userid = f.useroneid AND f.usertwoid = ? AND f.status = 2)";
 
   final String GET_BLOCK_LIST = "SELECT u.* FROM users u, friends f " +
-      "WHERE (u.userid = f.useridtwo AND f.useridone = ? AND f.status = 4)" +
-      "OR (u.userid = f.useridone AND f.useridtwo = ? AND f.status = 5)";
+      "WHERE (u.userid = f.usertwoid AND f.useroneid = ? AND f.status = 4)" +
+      "OR (u.userid = f.useroneid AND f.usertwoid = ? AND f.status = 5)";
 
 
   @Autowired
@@ -83,7 +83,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-    String[] names = new Usernames().splitName(username);
+    String[] names = new UserInformation().splitName(username);
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
@@ -196,7 +196,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
 
   public int getIdByname(String name) {
-    String[] result = new Usernames().splitName(name);
+    String[] result = new UserInformation().splitName(name);
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }

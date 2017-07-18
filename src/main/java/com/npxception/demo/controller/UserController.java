@@ -10,15 +10,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 
 
 public class UserController {
 
   @Autowired
   private UserService userService;
+//
+//  public int getUserId(){
+//    String email = new AuthenticationController().getEmail();
+//
+//    return userService.getUserByEmail(email).getId();
+//  }
 
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/aaaaa", method = RequestMethod.GET)
   public Collection<User> getAllUsers() {
     return userService.getAllUser();
   }
@@ -79,7 +85,6 @@ public class UserController {
     return userService.getUsersByGender(gender);
   }
 
-
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(@RequestBody User user){
@@ -91,5 +96,10 @@ public class UserController {
     userService.login(email, password);
   }
 
+  @RequestMapping(value = "/{firstname}.{lastname}", method = RequestMethod.GET)
+  public User personalPage(@PathVariable("firstname") String firstName,
+                           @PathVariable("lastname") String lastName){
+    return userService.getUserByUserName(firstName+"."+lastName);
+  }
   // will prob need to add methods for country/city/password
 }

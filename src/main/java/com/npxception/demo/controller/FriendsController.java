@@ -1,8 +1,12 @@
 
 package com.npxception.demo.controller;
 
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
+import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.service.FriendsService;
+import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +25,19 @@ public class FriendsController {
   @Autowired
   private FriendsService service;
 
+  @Autowired
+  private UserService userService;
+
+  public int getUserId(){
+    String email = new AuthenticationController().getEmail();
+    return userService.getUserByEmail(email).getId();
+  }
+
   @RequestMapping(value = "/all",
       method = RequestMethod.GET)
-  public Collection<User> getAllFriends(@PathVariable("user") int id) {
-    return service.getAllFriends(id);
+  //public Collection<User> getAllFriends(@PathVariable("user") int id) {
+  public Collection<User> getAllFriends() {
+    return service.getAllFriends(getUserId());
   }
 
   //consumes = MediaType.APPLICATION_JSON_VALUE --- just for future reference, maybe I will need this
