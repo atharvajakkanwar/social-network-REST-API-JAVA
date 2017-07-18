@@ -13,6 +13,17 @@ public class User {
   private String password;
   private String role;
 
+  public User(String firstName, String lastName, String email, int age, String gender, String country, String city, String password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.age = age;
+    this.gender = gender;
+    this.country = country;
+    this.city = city;
+    this.password = password;
+    this.role = "USER";
+  }
 
   public User(int userid, String firstName, String lastName, String email
       , int age, String gender, String country, String city
@@ -27,7 +38,9 @@ public class User {
     this.city = city;
     this.password = password;
     this.role = role;
+    this.role = "USER";
   }
+
   public User(){}
 
   public int getId() {
@@ -94,6 +107,7 @@ public class User {
     this.city = city;
   }
 
+
   public String getPassword(){
     return this.password;
   }
@@ -153,4 +167,5 @@ public class User {
     result = 31 * result + (password != null ? password.hashCode() : 0);
     return result;
   }
+
 }

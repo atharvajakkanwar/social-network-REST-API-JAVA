@@ -23,7 +23,7 @@ public interface UserDao {
   Collection<User> getUsersByLastName(String name);
 
   // As in "First Last" nomenclature
-  Collection<User> getUsersByFullName(String name);
+  User getUsersByFullName(String name);
 
   // As in "first.last" nomenclature
   User getUserByUserName(String name);
@@ -43,18 +43,19 @@ public interface UserDao {
   // City
   Collection<User> getUserByCity(String city);
 
-  void setFirstName(User user, String first);
+  void setFirstName(String first);
 
-  void setLastName(User user, String last);
+  void setLastName(String last);
 
-  void setEmail(User user, String email);
+  void setEmail(String email);
 
-  void setAge(User user, int age);
+  void setAge(int age);
 
-  void setGender(User user, String gender);
+  void setGender(String gender);
 
-  void setCountry(User user, String country);
+  void setCountry(String country);
 
-  void setCity(User user, String city);
+  void setCity(String city);
 
+  void setPassword(String password);
 }

@@ -2,11 +2,11 @@ package com.npxception.demo.config;
 
 import com.npxception.demo.controller.AuthenticationController;
 import com.npxception.demo.helperMethods.UserInformation;
+import com.npxception.demo.service.PostService;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -23,6 +23,8 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
   @Autowired
   private UserService userService;
 
+  public static int userid = 0;
+
   @Override
   public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
@@ -30,7 +32,9 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
       throws IOException, ServletException {
     String email = new AuthenticationController().getEmail();
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
-    String fullName = new UserInformation().getFullName(user.getFirstName(), user.getLastName());
-    httpServletResponse.sendRedirect("http://localhost:8081/" + fullName);
+    int id = user.getId();
+    userid = id;
+    httpServletResponse.sendRedirect("http://localhost:8081/post/mainPage/" +id);
   }
+
 }

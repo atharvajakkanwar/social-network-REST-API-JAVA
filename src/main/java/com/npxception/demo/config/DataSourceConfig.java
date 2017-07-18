@@ -12,9 +12,9 @@ import javax.sql.DataSource;
  */
 @Configuration
 public class DataSourceConfig {
-  @Bean(name="primary")
+  @Bean(name = "primary")
   @ConfigurationProperties(prefix = "spring.datasource")
-  protected DataSource primaryDataSource(){
+  protected DataSource primaryDataSource() {
     return DataSourceBuilder.create().build();
   }
 }

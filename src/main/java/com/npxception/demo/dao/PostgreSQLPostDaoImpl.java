@@ -1,6 +1,12 @@
 package com.npxception.demo.dao;
 
+import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
+import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.UserInformation;
+import com.npxception.demo.mapper.UserRowMapper;
+import com.npxception.demo.service.FriendsService;
+import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,10 +26,14 @@ import java.util.List;
 @Repository("PostgresPostRepo")
 public class PostgreSQLPostDaoImpl implements PostDao {
 
-
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
+  @Autowired
+  private FriendsService friendsService;
+
+  @Autowired
+  private GroupService groupService;
 
   @Override
   public Collection<Post> getAllPosts() {
@@ -33,8 +44,11 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsByUser(int userId) {
-    final String sql = "SELECT *  FROM posts WHERE author = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), userId);
+    final String sql1 = "SELECT * FROM users WHERE userid = ? ";
+    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
+    String author = user.getFirstName() + " " + user.getLastName();
+    final String sql2 = "SELECT * FROM posts WHERE author = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), author);
     return posts;
   }
 
@@ -48,9 +62,12 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {
-    final String sql = "SELECT * FROM posts WHERE author = ? " +
+    final String sql1 = "SELECT * FROM users WHERE userid = ? ";
+    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
+    String author = user.getFirstName() + " " + user.getLastName();
+    final String sql2 = "SELECT * FROM posts WHERE author = ? " +
         "AND visibility = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), new Object[]{userId, groupId});
+    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), new Object[]{author, groupId});
     return posts;
   }
 
@@ -98,7 +115,6 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     //VALUES (value1, value2, value3,...)
     final String sql = "INSERT INTO posts (id, author, content, likes, time, visibility) " +
         "VALUES (?, ?, ?, ?, ?, ?)";
-
     jdbcTemplate.update(sql, new Object[]{
         post.getId(),
         post.getAuthor(),
@@ -140,6 +156,30 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     final String sql = "SELECT * FROM users WHERE time = ?";
     Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), time);
     return posts;
+  }
+
+  @Override
+  public Collection<Post> getPostUserMainPage(int userid) {
+    Collection<Post> result = new ArrayList<>();
+    Collection<User> friends = friendsService.getAllFriends(userid);
+    for (User user : friends) {
+      Collection<Post> posts = getPostsByUser(user.getId());
+      for (Post post : posts) {
+        result.add(post);
+      }
+    }
+    Collection<FbGroup> groups = groupService.getAllGroupsForUser(userid);
+    for (FbGroup group : groups) {
+      Collection<Post> posts = getPostsFromGroup(group.getGroupID());
+      for (Post post : posts) {
+        result.add(post);
+      }
+    }
+    Collection<Post> myPosts = getPostsByUser(userid);
+    for (Post post : myPosts) {
+      result.add(post);
+    }
+    return result;
   }
 
 

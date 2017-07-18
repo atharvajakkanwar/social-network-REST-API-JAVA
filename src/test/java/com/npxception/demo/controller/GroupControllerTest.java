@@ -3,6 +3,7 @@ package com.npxception.demo.controller;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.service.GroupService;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,12 +37,12 @@ public class GroupControllerTest {
   public void getGroupByNameTest() throws Exception {
 
     FbGroup mockGroup = new FbGroup();
-    mockGroup.setAdmin(1);
+    mockGroup.setAdmin("1");
     mockGroup.setGroupID(2);
     mockGroup.setName("jafdls");
 
     FbGroup mockGroup2 = new FbGroup();
-    mockGroup2.setAdmin(2);
+    mockGroup2.setAdmin("2");
     mockGroup2.setGroupID(3);
     mockGroup2.setName("fsadjkl");
 
@@ -49,7 +50,8 @@ public class GroupControllerTest {
     list.add(mockGroup);
     list.add(mockGroup2);
 
-    Mockito.doReturn(list).when(groupService).getGroupByName("Test");
+    Mockito.doReturn(list).when(groupService).getGroupByName("null");
+    Assert.assertEquals(list, groupService.getGroupByName("null"));
 
   }
 

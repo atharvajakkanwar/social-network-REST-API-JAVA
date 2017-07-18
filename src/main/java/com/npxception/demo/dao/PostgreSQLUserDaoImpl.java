@@ -68,25 +68,25 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return users;
   }
 
-  @Override
   public Collection<User> getUsersByLastName(String name) {
     final String sql = "SELECT * FROM users WHERE lastName = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), name);
     return users;
   }
 
+
   @Override
-  public Collection<User> getUsersByFullName(String name) {
-    String[] names = new UserInformation().splitName(name);
-    final String sql = "SELECT * FROM users WHERE firstName = ? OR lastName = ?";
-    List<User> users = jdbcTemplate.query(sql, new UserRowMapper()
+  public User getUsersByFullName(String name) {
+    String[] names = new UserInformation().splitUserNameWithoutDot(name);
+    final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
-    return users;
+    return user;
   }
 
   @Override
   public User getUserByUserName(String name) {
-    String[] names = new UserInformation().splitName(name);
+    String[] names = new UserInformation().splitUserNameWithDot(name);
     final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
@@ -129,44 +129,50 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public void setFirstName(User user, String first) {
-    final String sql = "UPDATE users SET firstName = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{first, user.getFirstName(), user.getLastName()});
+  public void setFirstName(String first) {
+    final String sql = "UPDATE users SET firstname = ?";
+    jdbcTemplate.update(sql, first);
   }
 
   @Override
-  public void setLastName(User user, String last) {
-    final String sql = "UPDATE users SET lastName = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{last, user.getFirstName(), user.getLastName()});
+  public void setLastName(String last) {
+    final String sql = "UPDATE users SET lastname = ?";
+    jdbcTemplate.update(sql, last);
   }
 
   @Override
-  public void setEmail(User user, String email) {
-    final String sql = "UPDATE users SET email = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{email, user.getFirstName(), user.getLastName()});
+  public void setEmail(String email) {
+    final String sql = "UPDATE users SET email = ?";
+    jdbcTemplate.update(sql, email);
   }
 
   @Override
-  public void setAge(User user, int age) {
-    final String sql = "UPDATE users SET age = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{age, user.getFirstName(), user.getLastName()});
+  public void setAge(int age) {
+    final String sql = "UPDATE users SET age = ?";
+    jdbcTemplate.update(sql, age);
   }
 
   @Override
-  public void setGender(User user, String gender) {
-    final String sql = "UPDATE users SET gender = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{gender, user.getFirstName(), user.getLastName()});
+  public void setGender(String gender) {
+    final String sql = "UPDATE users SET gender = ?";
+    jdbcTemplate.update(sql, gender);
   }
 
   @Override
-  public void setCountry(User user, String country) {
-    final String sql = "UPDATE users SET country = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{country, user.getFirstName(), user.getLastName()});
+  public void setCountry(String country) {
+    final String sql = "UPDATE users SET country = ?";
+    jdbcTemplate.update(sql, country);
   }
 
   @Override
-  public void setCity(User user, String city) {
-    final String sql = "UPDATE users SET city = ? WHERE firstName = ? AND lastName = ?";
-    jdbcTemplate.update(sql, new Object[]{city, user.getFirstName(), user.getLastName()});
+  public void setCity(String city) {
+    final String sql = "UPDATE users SET city = ?";
+    jdbcTemplate.update(sql, city);
+  }
+
+  @Override
+  public void setPassword(String pass) {
+    final String sql = "UPDATE users SET password = ?";
+    jdbcTemplate.update(sql, pass);
   }
 }

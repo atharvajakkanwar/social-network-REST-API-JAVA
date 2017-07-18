@@ -1,6 +1,7 @@
 package com.npxception.demo.service;
 
 import com.npxception.demo.dao.PostDao;
+import com.npxception.demo.dao.PostgreSQLPostDaoImpl;
 import com.npxception.demo.entity.Post;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,12 @@ import java.util.Collection;
 
 @Service
 public class PostService {
+  PostgreSQLPostDaoImpl postgreSQLPostDao;
+
+
+  PostService (PostgreSQLPostDaoImpl postgreSQLPostDao) {
+    this.postgreSQLPostDao = postgreSQLPostDao;
+  }
 
   @Autowired
   @Qualifier("PostgresPostRepo")
@@ -47,6 +54,10 @@ public class PostService {
 
   public void updatePosts (Post assignment) {
     this.postDao.updatePosts(assignment);
+  }
+
+  public Collection<Post> getPostUserMainPage(int userid){
+    return this.postDao.getPostUserMainPage(userid);
   }
 
   public void createPost(Post assignment) {

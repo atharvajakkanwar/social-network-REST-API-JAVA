@@ -1,6 +1,7 @@
 package com.npxception.demo.service;
 
 import com.npxception.demo.dao.GroupDao;
+import com.npxception.demo.dao.PostgreSQLGroupDaoImpl;
 import com.npxception.demo.entity.FbGroup;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,17 @@ import java.util.Collection;
 
 @Service
 public class GroupService {
+  PostgreSQLGroupDaoImpl postgreSQLGroupDao;
+
+
+  GroupService (PostgreSQLGroupDaoImpl postgreSQLGroupDao) {
+    this.postgreSQLGroupDao = postgreSQLGroupDao;
+  }
+
 
   @Autowired
   @Qualifier("PostgresGroupRepo")
-
   private GroupDao groupDao;
-
 
   public Collection<FbGroup> getAllGroup() {
     return this.groupDao.getAllGroup();
@@ -48,9 +54,9 @@ public class GroupService {
     return this.groupDao.getGroupByName(name);
   }
 
-  public Collection<FbGroup> getGroupByAdmin(int admin) {
-    return this.groupDao.getGroupByAdmin(admin);
-  }
+//  public Collection<FbGroup> getGroupByAdmin(int admin) {
+//    return this.groupDao.getGroupByAdmin(admin);
+//  }
 
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
     return this.groupDao.getAllGroupsForUser(memberid);
@@ -58,14 +64,14 @@ public class GroupService {
 
 
 
-//  public void addMemberToGroup(int memberid) {
-//    this.groupDao.addMemberToGroup(memberid);
-//  }
-//
-//  public void removeMemberFromGroup(int memberid) {
-//    this.groupDao.removeMemberFromGroup(memberid);
-//  }
-//
-//
+  public void addMemberToGroup(int memberid) {
+    this.groupDao.addMemberToGroup(memberid);
+  }
+
+  public void removeMemberFromGroup(int memberid) {
+    this.groupDao.removeMemberFromGroup(memberid);
+  }
+
+
 
 }
