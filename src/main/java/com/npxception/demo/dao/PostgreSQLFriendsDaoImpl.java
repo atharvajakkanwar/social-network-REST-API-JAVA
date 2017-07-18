@@ -1,7 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.helperMethods.Usernames;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +91,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-    String[] names = new Usernames().splitUserName(username);
+
+    String[] names = new UserInformation().splitUserName(username);
+
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
@@ -104,12 +106,12 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getInvitationList(int id) {
-    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), id, id);
+    return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
   public Collection<User> getBlockList(int id) {
-           return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), id, id);
+    return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
@@ -204,7 +206,8 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
 
   public int getIdByname(String name) {
-    String[] result = new Usernames().splitUserName(name);
+    String[] result = new UserInformation().splitUserName(name);
+
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }

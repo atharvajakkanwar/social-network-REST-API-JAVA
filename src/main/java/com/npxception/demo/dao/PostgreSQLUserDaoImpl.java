@@ -1,7 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.helperMethods.Usernames;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.mapper.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,8 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public Collection<User> getUsersByFullName(String name) {
-    String[] names = new Usernames().splitUserName(name);
+    String[] names = new UserInformation().splitUserName(name);
+
     final String sql = "SELECT * FROM users WHERE firstName = ? OR lastName = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
@@ -85,7 +86,8 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public User getUserByUserName(String name) {
-    String[] names = new Usernames().splitUserName(name);
+    String[] names = new UserInformation().splitUserName(name);
+
     final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});

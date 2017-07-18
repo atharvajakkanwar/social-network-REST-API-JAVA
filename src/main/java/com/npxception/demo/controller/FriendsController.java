@@ -1,9 +1,14 @@
 
 package com.npxception.demo.controller;
 
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
+import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
+import com.npxception.demo.helperMethods.UserInformation;
+
 import com.npxception.demo.service.FriendsService;
+import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
