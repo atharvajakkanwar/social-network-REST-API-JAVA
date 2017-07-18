@@ -32,6 +32,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
   @RequestMapping(method = RequestMethod.GET)
+
   public Collection<User> getAllUsers() {
     return userService.getAllUsers();
   }

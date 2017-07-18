@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.HEAD;
+
 /**
  * Created by Atharva on 6/18/2017.
  */

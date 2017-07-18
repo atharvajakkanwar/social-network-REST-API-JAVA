@@ -64,14 +64,14 @@ public class GroupService {
 
 
 
-  public void addMemberToGroup(int memberid) {
-    this.groupDao.addMemberToGroup(memberid);
-  }
-
-  public void removeMemberFromGroup(int memberid) {
-    this.groupDao.removeMemberFromGroup(memberid);
-  }
-
-
+//  public void addMemberToGroup(int memberid) {
+//    this.groupDao.addMemberToGroup(memberid);
+//  }
+//
+//  public void removeMemberFromGroup(int memberid) {
+//    this.groupDao.removeMemberFromGroup(memberid);
+//  }
+//
+//
 
 }

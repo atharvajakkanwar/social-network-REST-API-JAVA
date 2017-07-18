@@ -2,7 +2,6 @@ package com.npxception.demo.config;
 
 import com.npxception.demo.controller.AuthenticationController;
 import com.npxception.demo.helperMethods.UserInformation;
-import com.npxception.demo.service.PostService;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
 
   @Autowired
   private UserService userService;
-
   public static int userid = 0;
 
   @Override
@@ -36,5 +34,4 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
     userid = id;
     httpServletResponse.sendRedirect("http://localhost:8081/post/mainPage/" +id);
   }
-
 }

@@ -65,10 +65,19 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByAdmin(String name) {
-    final String sql = "SELECT * FROM groups WHERE groupname = ? ";
+    final String sql = "SELECT * FROM groups WHERE adminname = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
   }
+
+//  @Override
+//  public Collection<FbGroup> getGroupByAdmin(int admin) {
+//    User user = userDao.getUserById(admin);
+//    String fullName = user.getFirstName() + " " + user.getLastName();
+//    final String sql = "SELECT * FROM groups WHERE admin = ? ";
+//    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
+//    return groups;
+//  }
 
 //  @Override
 //  public Collection<FbGroup> getGroupByAdmin(int admin) {
@@ -89,16 +98,17 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
 
   @Override
-  public void addMemberToGroup(int memberid) {
+  public void addMemberToGroup(int groupid, int memberid) {
     // change status from 3 to 1
   }
 
   @Override
-  public void removeMemberFromGroup(int memberid) {
+
+  public void removeMemberFromGroup(int groupid, int memberid) {
     // remove
     final String sql = "DELETE FROM membership" +
         " WHERE  groupid = ? AND memberid = ?";
-    jdbcTemplate.update(sql, new Object[]{1, memberid});
+    jdbcTemplate.update(sql, new Object[]{groupid, memberid});
   }
 
 

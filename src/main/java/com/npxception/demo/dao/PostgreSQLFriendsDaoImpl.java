@@ -92,6 +92,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
     String[] names = new UserInformation().splitUserNameWithDot(username);
+
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),

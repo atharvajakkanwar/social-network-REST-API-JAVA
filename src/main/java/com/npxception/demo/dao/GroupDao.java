@@ -70,13 +70,13 @@ public interface GroupDao {
    * Given member ID, adds member to group.
    * @param memberid The member's ID in the database
    */
-  void addMemberToGroup(int memberid);
+  void addMemberToGroup(int groupid, int memberid);
 
    /**
    * Given member ID, removes member from group.
    * @param memberid The member's ID in the database
    */
-  void removeMemberFromGroup(int memberid);
+  void removeMemberFromGroup(int groupid, int memberid);
 
 
 
