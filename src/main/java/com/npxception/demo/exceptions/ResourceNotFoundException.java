@@ -1,4 +1,4 @@
-package com.npxception.demo.exeptions;
+package com.npxception.demo.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

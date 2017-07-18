@@ -94,8 +94,6 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public void createPost(Post post) {
-    //INSERT INTO table_name (column1, column2, column3,...)
-    //VALUES (value1, value2, value3,...)
     final String sql = "INSERT INTO posts (id, author, content, likes, time, visibility) VALUES (?, ?, ?, ?, ?, ?)";
 
     jdbcTemplate.update(sql, new Object[]{

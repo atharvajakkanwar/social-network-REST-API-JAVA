@@ -2,7 +2,7 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.exeptions.ResourceNotFoundException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.FriendsService;
 
 import org.springframework.beans.factory.annotation.Autowired;

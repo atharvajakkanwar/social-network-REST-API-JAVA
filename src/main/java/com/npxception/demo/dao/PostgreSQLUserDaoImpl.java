@@ -76,7 +76,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public Collection<User> getUsersByFullName(String name) {
-    String[] names = new Usernames().splitName(name);
+    String[] names = new Usernames().splitUserName(name);
     final String sql = "SELECT * FROM users WHERE firstName = ? OR lastName = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
@@ -85,7 +85,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public User getUserByUserName(String name) {
-    String[] names = new Usernames().splitName(name);
+    String[] names = new Usernames().splitUserName(name);
     final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
@@ -167,5 +167,11 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public void setCity(String city) {
     final String sql = "UPDATE users SET city = ?";
     jdbcTemplate.update(sql, city);
+  }
+
+  @Override
+  public void setPassword(String pass) {
+    final String sql = "UPDATE users SET password = ?";
+    jdbcTemplate.update(sql, pass);
   }
 }

@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.Post;
-import com.npxception.demo.exeptions.ResourceNotFoundException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;

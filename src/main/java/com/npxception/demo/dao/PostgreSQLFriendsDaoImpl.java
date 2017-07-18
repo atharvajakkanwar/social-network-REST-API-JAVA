@@ -91,7 +91,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-    String[] names = new Usernames().splitName(username);
+    String[] names = new Usernames().splitUserName(username);
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
     Collection<User> result2 = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
@@ -204,7 +204,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
 
   public int getIdByname(String name) {
-    String[] result = new Usernames().splitName(name);
+    String[] result = new Usernames().splitUserName(name);
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }

@@ -1,7 +1,7 @@
 package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.exeptions.ResourceNotFoundException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -305,4 +305,8 @@ public class UserController {
     userService.setCity(city);
   }
 
+  @RequestMapping(value = "/password={password}", params = "password", method = RequestMethod.POST)
+  public void setPassword(@PathVariable("password") String password) {
+    userService.setPassword(password);
+  }
 }

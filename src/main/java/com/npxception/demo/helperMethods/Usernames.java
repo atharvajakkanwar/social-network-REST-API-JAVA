@@ -11,7 +11,7 @@ public class Usernames {
   private JdbcTemplate jdbcTemplate;
   final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname =? AND lastname = ?";
 
-  public String[] splitName(String name){
+  public String[] splitUserName(String name){
     String[] result = name.split("\\.");
     return result;
   }
@@ -21,7 +21,7 @@ public class Usernames {
         new Object[]{names[0], names[1]}, Integer.class);
   }
 
-  public String getFullName(String firstName, String lastName){
-    return firstName + "\\." + lastName;
-  }
+//  public String getFullName(String firstName, String lastName){
+//    return firstName + lastName;
+//  }
 }
