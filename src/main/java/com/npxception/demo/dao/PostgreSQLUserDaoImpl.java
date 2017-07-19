@@ -54,11 +54,9 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public void insertUserToDb(User user) {
     final String sql = "INSERT INTO users (firstName, lastName, email, age, gender, country, " +
-        "city, password) SELECT ?, ?, ?, ?, ?, ?, ?, ? " +
-        "WHERE NOT EXISTS (SELECT * FROM users WHERE (lastName = ? AND firstName = ?))";
+        "city, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{user.getFirstName(), user.getLastName(), user.getEmail()
-        , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword()
-        , user.getFirstName(), user.getLastName()});
+        , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword(), user.getRole()});
   }
 
   @Override

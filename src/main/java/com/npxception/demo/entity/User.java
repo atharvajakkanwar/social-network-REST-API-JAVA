@@ -27,6 +27,7 @@ public class User {
     this.password = password;
     this.role = role;
     this.role = "USER";
+    // TODO: This is a followup -> WTF? We set role three times now. Thats not a fix...
     // TODO: Why isn't this set by default to "USER"?
     this.role = role;
   }
