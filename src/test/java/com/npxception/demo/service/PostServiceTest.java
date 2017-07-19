@@ -86,8 +86,8 @@ public class PostServiceTest {
     Mockito.doReturn(post2list).when(postgreSQLPostDao).getPostsByLikes(2);
     Assert.assertEquals(post2list, postgreSQLPostDao.getPostsByLikes(2));
 
-    Mockito.doReturn(post2list).when(postgreSQLPostDao).getPostsByUser("b");
-    Assert.assertEquals(post2list, postgreSQLPostDao.getPostsByUser("b"));
+//    Mockito.doReturn(post2list).when(postgreSQLPostDao).getPostsByUser("b");
+//    Assert.assertEquals(post2list, postgreSQLPostDao.getPostsByUser("b"));
 
     Mockito.doReturn(post1list).when(postgreSQLPostDao).getPostsByUser(1);
     Assert.assertEquals(post1list, postgreSQLPostDao.getPostsByUser(1));
