@@ -63,7 +63,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupid/{groupid}", params = "groupid", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/groupid/{groupid}",  method = RequestMethod.DELETE)
   public void removeGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid) {
     groupService.removeGroupById(groupid);
@@ -158,8 +158,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupid/{groupid}/memberid/{memberid}",
-      params = "memberid", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/groupid/{groupid}/memberid/{memberid}", method = RequestMethod.DELETE)
   public void removeMemberFromGroup(@ApiParam(value = "group ID", required = true)
                                     @PathVariable("groupid") int groupid,
                                     @ApiParam(value = "Membership ID", required = true)

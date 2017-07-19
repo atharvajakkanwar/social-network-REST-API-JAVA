@@ -118,7 +118,7 @@ public class PostController {
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
         @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
     })
-    @RequestMapping(value = "/id/{id}", params = "id", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/d/id/{id}", method = RequestMethod.DELETE)
     public void removePostById(@PathVariable("id") int id) {
       postService.removePostsById(id);
     }

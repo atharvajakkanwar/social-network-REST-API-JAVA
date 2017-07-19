@@ -5,19 +5,19 @@ package com.npxception.demo.entity;
  */
 public class FbGroup {
   private int groupid;
-  private String admin;
+  private String groupadmin;
   private String groupname;
 
 
   /**
    * Constructor for a facebook group.
    * @param groupid The group's group id in the database
-   * @param admin The group's admin id in the database
+   * @param groupadmin The group's groupadmin id in the database
    * @param name The group's name in the database
    */
-  public FbGroup(int groupid, String admin, String name) {
+  public FbGroup(int groupid, String groupadmin, String name) {
     this.groupid = groupid;
-    this.admin = admin;
+    this.groupadmin = groupadmin;
     this.groupname = name;
   }
 
@@ -41,19 +41,19 @@ public class FbGroup {
   }
 
   /**
-   * Getter for group's admin id in the database.
-   * @return group's admin id in the database
+   * Getter for group's groupadmin id in the database.
+   * @return group's groupadmin id in the database
    */
   public String getAdmin() {
-    return admin;
+    return groupadmin;
   }
 
   /**
-   * Setter for group's admin id in the database.
-   * @param admin The group's admin id in the database
+   * Setter for group's groupadmin id in the database.
+   * @param groupadmin The group's groupadmin id in the database
    */
-  public void setAdmin(String admin) {
-    this.admin = admin;
+  public void setAdmin(String groupadmin) {
+    this.groupadmin = groupadmin;
   }
 
   /**
@@ -97,7 +97,7 @@ public class FbGroup {
   public String toString() {
     return "FbGroup{" +
         "groupid=" + groupid +
-        ", admin=" + admin +
+        ", groupadmin=" + groupadmin +
         ", groupname='" + groupname + '\'' +
         '}';
   }
