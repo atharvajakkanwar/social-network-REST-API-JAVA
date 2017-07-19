@@ -60,9 +60,9 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/remove/{userid}", params = "id", method = RequestMethod.DELETE)
-  public void deleteUserById(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id) {
-    userService.removeUserById(id);
+  @RequestMapping(value = "/remove/{userid}", method = RequestMethod.DELETE)
+  public void deleteUserById(@ApiParam(value = "User ID", required = true) @RequestBody int userid) {
+    userService.removeUserById(userid);
   }
 
   @ApiOperation(value = "Updates User")
