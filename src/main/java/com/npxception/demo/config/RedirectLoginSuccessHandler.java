@@ -32,6 +32,6 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
     int id = user.getId();
     userid = id;
-    httpServletResponse.sendRedirect("http://localhost:8081/post/mainPage/" +id);
+    httpServletResponse.sendRedirect("http://localhost:8080/post/mainPage/" +id);
   }
 }

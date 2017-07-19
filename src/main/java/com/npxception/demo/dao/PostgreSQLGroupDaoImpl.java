@@ -100,6 +100,8 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   @Override
   public void addMemberToGroup(int groupid, int memberid) {
     // change status from 3 to 1
+    String sql = "UPDATE membership SET status = 1 WHERE groupid = ? AND memberid = ?";
+    jdbcTemplate.update(sql,new Object[]{groupid, memberid});
   }
 
   @Override
