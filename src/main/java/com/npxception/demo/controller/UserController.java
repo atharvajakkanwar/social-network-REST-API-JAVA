@@ -186,12 +186,12 @@ public class UserController {
   })
   @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
-                                       @PathVariable("age") int age) {
-    try {
-      return userService.getUsersByAge(age);
-    } catch (EmptyResultDataAccessException e) {
-      throw new ResourceNotFoundException(Integer.toString(age));
-    }
+                                         @PathVariable("age") int age) {
+      Collection<User> result = userService.getUsersByAge(age);
+      if (result.size() == 0) {
+        throw new ResourceNotFoundException(Integer.toString(age));
+      }
+    return result;
   }
 
   @ApiOperation(value = "Gets List of User given gender")
