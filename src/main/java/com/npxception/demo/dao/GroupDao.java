@@ -50,12 +50,12 @@ public interface GroupDao {
    */
   Collection<FbGroup> getGroupByAdmin(String name);
 
-  /**
-   * Given an admin, returns every group with that administrator.
-   * @param admin The group's admin ID in the database
-   * @return every group with the administrator
-   */
-  Collection<FbGroup> getGroupByAdmin(int admin);
+//  /**
+//   * Given an admin, returns every group with that administrator.
+//   * @param admin The group's admin ID in the database
+//   * @return every group with the administrator
+//   */
+//  Collection<FbGroup> getGroupByAdmin(int admin);
 
   /**
    * Given a member ID, returns every group that the member is in.
@@ -72,7 +72,7 @@ public interface GroupDao {
    */
   void addMemberToGroup(int groupid, int memberid);
 
-  /**
+   /**
    * Given member ID, removes member from group.
    * @param memberid The member's ID in the database
    */

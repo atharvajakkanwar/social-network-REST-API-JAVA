@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/user")
 @Api(description = "User Controller")
-
 public class UserController {
 
   @Autowired
@@ -45,7 +44,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/user/{userid}", method = RequestMethod.GET)
   public User getUserById(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int userid) {
     try {
       return userService.getUserById(userid);
@@ -74,7 +73,7 @@ public class UserController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(method = RequestMethod.PUT, params = "id", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void updateUserById(@ApiParam(value = "User ID", required = true)@RequestBody User user) {
+  public void updateUserById(@ApiParam(value = "User ID", required = true) @RequestBody User user) {
     userService.updateUser(user);
   }
 
@@ -99,7 +98,7 @@ public class UserController {
   })
   @RequestMapping(value = "/first/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
-                                                @PathVariable("name") String name) {
+                                              @PathVariable("name") String name) {
     try {
       return userService.getUsersByFirstName(name);
     } catch (EmptyResultDataAccessException e) {
@@ -116,7 +115,7 @@ public class UserController {
   })
   @RequestMapping(value = "/last/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByLastName(@ApiParam(value = "Last name", required = true)
-                                               @PathVariable("name") String name) {
+                                             @PathVariable("name") String name) {
     try {
       return userService.getUsersByLastName(name);
     } catch (EmptyResultDataAccessException e) {
@@ -132,8 +131,8 @@ public class UserController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/fullname/{name}", method = RequestMethod.GET)
-  public Collection<User> getUsersByFullName(@ApiParam(value = "Full name", required = true)
-                                               @PathVariable("name") String name) {
+  public User getUsersByFullName(@ApiParam(value = "name", required = true)
+                                 @PathVariable("name") String name) {
     try {
       return userService.getUsersByFullName(name);
     } catch (EmptyResultDataAccessException e) {
@@ -148,13 +147,16 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/user/{username}", method = RequestMethod.GET)
-  public Collection<User> getUserByUserName(@ApiParam(value = "Username", required = true)
-                                              @PathVariable("username") String username) {
+  @RequestMapping(value = "/username/{firstname}.{lastname}", method = RequestMethod.GET)
+  public User personalPage(
+      @ApiParam(value = "Firstname", required = true)
+      @PathVariable("firstname") String firstName,
+      @ApiParam(value = "Lastname", required = true)
+      @PathVariable("lastname") String lastName) {
     try {
-      return userService.getUsersByFirstName(username);
+      return userService.getUserByUserName(firstName + "." + lastName);
     } catch (EmptyResultDataAccessException e) {
-      throw new ResourceNotFoundException(username);
+      throw new ResourceNotFoundException(firstName, lastName);
     }
   }
 
@@ -167,7 +169,7 @@ public class UserController {
   })
   @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
-                               @PathVariable("email") String email) {
+                             @PathVariable("email") String email) {
     try {
       return userService.getUserByEmail(email);
     } catch (EmptyResultDataAccessException e) {
@@ -184,7 +186,7 @@ public class UserController {
   })
   @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
-                                         @PathVariable("age") int age) {
+                                       @PathVariable("age") int age) {
     try {
       return userService.getUsersByAge(age);
     } catch (EmptyResultDataAccessException e) {
@@ -201,7 +203,7 @@ public class UserController {
   })
   @RequestMapping(value = "/gender/{gender}", method = RequestMethod.GET)
   public Collection<User> getUsersByGender(@ApiParam(value = "Gender", required = true)
-                                             @PathVariable("gender") String gender) {
+                                           @PathVariable("gender") String gender) {
     try {
       return userService.getUsersByGender(gender);
     } catch (EmptyResultDataAccessException e) {
@@ -218,7 +220,7 @@ public class UserController {
   })
   @RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
   public Collection<User> getUsersByCountry(@ApiParam(value = "Country", required = true)
-                                              @PathVariable("country") String country) {
+                                            @PathVariable("country") String country) {
     try {
       return userService.getUsersByCountry(country);
     } catch (EmptyResultDataAccessException e) {
@@ -235,7 +237,7 @@ public class UserController {
   })
   @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
   public Collection<User> getUsersByCity(@ApiParam(value = "City", required = true)
-                                           @PathVariable("city") String city) {
+                                         @PathVariable("city") String city) {
     try {
       return userService.getUsersByCity(city);
     } catch (EmptyResultDataAccessException e) {
@@ -254,67 +256,62 @@ public class UserController {
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(@ApiParam(value = "User", required = true)
-                         @RequestBody User user){
+                       @RequestBody User user) {
     userService.register(user);
   }
 
-  @ApiOperation(value = "Login")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully logged in"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
-  @RequestMapping(value = "/login", method = RequestMethod.POST)
-  public void login(@ApiParam(value = "Email address", required = true) @RequestBody String email,
-                    @ApiParam(value = "Password", required = true) @RequestBody String password){
-    userService.login(email, password);
-  }
+//  @ApiOperation(value = "Login")
+//  @ApiResponses(value = {
+//      @ApiResponse(code = 200, message = "Successfully logged in"),
+//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+//  })
+//  @RequestMapping(value = "/login", method = RequestMethod.POST)
+//  public void login(@ApiParam(value = "Email address", required = true) @RequestBody String email,
+//                    @ApiParam(value = "Password", required = true) @RequestBody String password){
+//    userService.login(email, password);
+//  }
 
-  @RequestMapping(value = "/first={first}", params = "first", method = RequestMethod.POST)
+  // will prob need to add methods for country/city/password
+
+  @RequestMapping(value = "/setfirst/{first}", params = "first", method = RequestMethod.POST)
   public void setFirst(@PathVariable("first") String first) {
     userService.setFirst(first);
   }
 
-  @RequestMapping(value = "/last={last}", params = "last", method = RequestMethod.POST)
+  @RequestMapping(value = "/setlast/{last}", params = "last", method = RequestMethod.POST)
   public void setLast(@PathVariable("last") String last) {
     userService.setLast(last);
   }
 
-  @RequestMapping(value = "/email={email}", params = "email", method = RequestMethod.POST)
+  @RequestMapping(value = "/setemail/{email}", params = "email", method = RequestMethod.POST)
   public void setEmail(@PathVariable("email") String email) {
     userService.setEmail(email);
   }
 
-  @RequestMapping(value = "/age={age}", params = "age", method = RequestMethod.POST)
+  @RequestMapping(value = "/setage/{age}", params = "age", method = RequestMethod.POST)
   public void setAge(@PathVariable("age") int age) {
     userService.setAge(age);
   }
 
-  @RequestMapping(value = "/gender={gender}", params = "gender", method = RequestMethod.POST)
+  @RequestMapping(value = "/setgender/{gender}", params = "gender", method = RequestMethod.POST)
   public void setGender(@PathVariable("gender") String gender) {
     userService.setGender(gender);
   }
 
-  @RequestMapping(value = "/country={country}", params = "country", method = RequestMethod.POST)
+  @RequestMapping(value = "/setcountry/{country}", params = "country", method = RequestMethod.POST)
   public void setCountry(@PathVariable("country") String country) {
     userService.setCountry(country);
   }
 
-  @RequestMapping(value = "/city={city}", params = "city", method = RequestMethod.POST)
+  @RequestMapping(value = "/setcity/{city}", params = "city", method = RequestMethod.POST)
   public void setCity(@PathVariable("city") String city) {
     userService.setCity(city);
   }
 
-  @RequestMapping(value = "/password={password}", params = "password", method = RequestMethod.POST)
+  @RequestMapping(value = "/setpassword/{password}", params = "password", method = RequestMethod.POST)
   public void setPassword(@PathVariable("password") String password) {
     userService.setPassword(password);
   }
-
-  @RequestMapping(value = "/{firstname}.{lastname}", method = RequestMethod.GET)
-  public User personalPage(@PathVariable("firstname") String firstName,
-                           @PathVariable("lastname") String lastName){
-    return userService.getUserByUserName(firstName+"."+lastName);
-  }
-
 }

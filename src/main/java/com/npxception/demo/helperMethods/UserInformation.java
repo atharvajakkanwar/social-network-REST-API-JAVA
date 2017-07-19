@@ -1,5 +1,9 @@
 package com.npxception.demo.helperMethods;
 
+import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
+import com.npxception.demo.entity.User;
+import com.npxception.demo.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
@@ -11,10 +15,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class UserInformation {
   @Autowired
   private JdbcTemplate jdbcTemplate;
+
+  @Autowired
+  private UserService userService;
+
   final String GET_ID_BY_NAME = "SELECT userid FROM users WHERE firstname =? AND lastname = ?";
 
-  public String[] splitUserName(String name){
+  public String[] splitUserNameWithDot(String name){
     String[] result = name.split("\\.");
+    return result;
+  }
+
+  public String[] splitUserNameWithoutDot(String name) {
+    String[] result = name.split(" ");
     return result;
   }
 
@@ -27,11 +40,15 @@ public class UserInformation {
     return firstName + "." + lastName;
   }
 
-
   public String getEmail() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String currentPrincipalName = authentication.getName();
     return currentPrincipalName;
   }
 
+  public String getFullNameById(int id){
+    User user = userService.getUserById(id);
+    String name = user.getFirstName() + " " + user.getFirstName();
+    return name;
+  }
 }

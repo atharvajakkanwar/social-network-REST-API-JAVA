@@ -1,9 +1,7 @@
 package com.npxception.demo.service;
 
 import com.npxception.demo.dao.RoleDao;
-import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.Role;
-import com.npxception.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,16 +22,12 @@ public class AuthenticationService implements UserDetailsService{
   @Qualifier("PostgreRoleRepo")
   private RoleDao roledao;
 
-  @Autowired
-  private UserDao userDao;
-
   public Role getRoleById(int roleid) {
     return this.roledao.getRoleById(roleid);
   }
 
   @Override
   public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-    User user = userDao.getUserByUserName(s);
     return null;
   }
 
@@ -47,3 +41,4 @@ public class AuthenticationService implements UserDetailsService{
 //    return details;
 //  }
 }
+

@@ -54,9 +54,9 @@ public class GroupService {
     return this.groupDao.getGroupByName(name);
   }
 
-  public Collection<FbGroup> getGroupByAdmin(int admin) {
-    return this.groupDao.getGroupByAdmin(admin);
-  }
+//  public Collection<FbGroup> getGroupByAdmin(int admin) {
+//    return this.groupDao.getGroupByAdmin(admin);
+//  }
 
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
     return this.groupDao.getAllGroupsForUser(memberid);

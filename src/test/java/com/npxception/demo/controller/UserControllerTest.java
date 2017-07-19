@@ -46,9 +46,5 @@ public class UserControllerTest {
 
     Mockito.doReturn(user).when(userService).getUserById(1);
     Assert.assertEquals(user, userService.getUserById(1));
-
   }
-
-
-
 }

@@ -37,12 +37,12 @@ public class GroupControllerTest {
   public void getGroupByNameTest() throws Exception {
 
     FbGroup mockGroup = new FbGroup();
-    mockGroup.setAdmin(1);
+    mockGroup.setAdmin("1");
     mockGroup.setGroupID(2);
     mockGroup.setName("jafdls");
 
     FbGroup mockGroup2 = new FbGroup();
-    mockGroup2.setAdmin(2);
+    mockGroup2.setAdmin("2");
     mockGroup2.setGroupID(3);
     mockGroup2.setName("fsadjkl");
 

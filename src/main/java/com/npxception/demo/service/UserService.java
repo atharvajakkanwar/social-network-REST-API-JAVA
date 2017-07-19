@@ -52,7 +52,7 @@ public class UserService {
   }
 
   // As in "First Last" nomenclature
-  public Collection<User> getUsersByFullName(String name) {
+  public User getUsersByFullName(String name) {
     return this.userDao.getUsersByFullName(name);
   }
 
@@ -90,9 +90,9 @@ public class UserService {
     this.userDao.insertUserToDb(user);
   }
 
-  public void login(String email, String password) {
-    new Login().login(email, password);
-  }
+//  //public void login(String email, String password) {
+//    new Login().login(email, password);
+//  }
 
   public void setFirst(String first) {
     this.userDao.setFirstName(first);
@@ -135,4 +135,3 @@ public class UserService {
     this.userDao.setPassword(password);
   }
 }
-

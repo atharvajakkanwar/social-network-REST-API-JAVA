@@ -48,7 +48,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public void createGroup(FbGroup fbGroup) {
-    final String sql = "INSERT INTO groups (groupID, name, admin) VALUES (?, ?, ?)";
+    final String sql = "INSERT INTO groups (groupID, groupname, admin) VALUES (?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
         fbGroup.getGroupID(),
         fbGroup.getName(),
@@ -58,30 +58,40 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByName(String name) {
-    final String sql = "SELECT * FROM groups WHERE name = ? ";
+    final String sql = "SELECT * FROM groups WHERE groupname = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
   }
 
   @Override
   public Collection<FbGroup> getGroupByAdmin(String name) {
-    final String sql = "SELECT * FROM groups WHERE name = ? ";
+    final String sql = "SELECT * FROM groups WHERE adminname = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
   }
 
-  @Override
-  public Collection<FbGroup> getGroupByAdmin(int admin) {
-    User user = userDao.getUserById(admin);
-    String fullName = user.getFirstName() + " " + user.getLastName();
-    final String sql = "SELECT * FROM groups WHERE admin = ? ";
-    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
-    return groups;
-  }
+//  @Override
+//  public Collection<FbGroup> getGroupByAdmin(int admin) {
+//    User user = userDao.getUserById(admin);
+//    String fullName = user.getFirstName() + " " + user.getLastName();
+//    final String sql = "SELECT * FROM groups WHERE admin = ? ";
+//    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
+//    return groups;
+//  }
+
+//  @Override
+//  public Collection<FbGroup> getGroupByAdmin(int admin) {
+//    User user = userDao.getUserById(admin);
+//    String fullName = user.getFirstName() + " " + user.getLastName();
+//    final String sql = "SELECT * FROM groups WHERE admin = ? ";
+//    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
+//    return groups;
+//  }
 
   @Override
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
-    final String sql = "SELECT * FROM membership WHERE memberid = ? ";
+    final String sql = "SELECT g.* FROM groups g, membership m " +
+        "WHERE g.groupid = m.groupid AND memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);
     return groups;
   }
@@ -93,6 +103,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   }
 
   @Override
+
   public void removeMemberFromGroup(int groupid, int memberid) {
     // remove
     final String sql = "DELETE FROM membership" +
@@ -102,12 +113,13 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
 
   private static class GroupRowMapper implements RowMapper<FbGroup> {
+
     @Override
     public FbGroup mapRow(ResultSet resultSet, int i) throws SQLException {
       FbGroup group = new FbGroup();
       group.setGroupID(resultSet.getInt("groupid"));
-      group.setName(resultSet.getString("name"));
-      group.setAdmin(resultSet.getInt("admin"));
+      group.setName(resultSet.getString("groupname"));
+      group.setAdmin(resultSet.getString("groupadmin"));
       return group;
     }
   }

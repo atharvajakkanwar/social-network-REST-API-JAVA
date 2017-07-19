@@ -80,5 +80,5 @@ public interface PostDao {
 
   Collection<Post> getPostsByTime(int time);
 
-
+  Collection<Post> getPostUserMainPage(int userid);
 }

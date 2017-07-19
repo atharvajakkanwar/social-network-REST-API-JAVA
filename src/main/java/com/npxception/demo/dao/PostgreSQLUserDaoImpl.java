@@ -74,20 +74,19 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return users;
   }
 
-  @Override
-  public Collection<User> getUsersByFullName(String name) {
-    String[] names = new UserInformation().splitUserName(name);
 
-    final String sql = "SELECT * FROM users WHERE firstName = ? OR lastName = ?";
-    List<User> users = jdbcTemplate.query(sql, new UserRowMapper()
+  @Override
+  public User getUsersByFullName(String name) {
+    String[] names = new UserInformation().splitUserNameWithoutDot(name);
+    final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
-    return users;
+    return user;
   }
 
   @Override
   public User getUserByUserName(String name) {
-    String[] names = new UserInformation().splitUserName(name);
-
+    String[] names = new UserInformation().splitUserNameWithDot(name);
     final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});

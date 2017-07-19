@@ -91,8 +91,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
-
-    String[] names = new UserInformation().splitUserName(username);
+    String[] names = new UserInformation().splitUserNameWithDot(username);
 
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
         id, names[0], names[0]);
@@ -181,33 +180,9 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
       }
     }
   }
-//
-//  /**
-//   * Since the friend table require user1's id is smaller than user2's id,
-//   * we need to swap the ids if user1's id is bigger than user2's id
-//   * Here is a simple swap method works on two integers
-//   *
-//   * @param a the first integer
-//   * @param b the second integer
-//   * @return an array of new a and b
-//   **/
-
-//  public int[] swap(int a, int b) {
-//    int[] result = new int[2];
-//    if (a >= b) {
-//      a = a + b;//id1 becomes the sum
-//      b = a - b;//id2 becomes id1
-//      a = a - b;//id1 becomes id2
-//    }
-//    result[0] = a;
-//    result[1] = b;
-//    return result;
-//  }
-
 
   public int getIdByname(String name) {
-    String[] result = new UserInformation().splitUserName(name);
-
+    String[] result = new UserInformation().splitUserNameWithDot(name);
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }

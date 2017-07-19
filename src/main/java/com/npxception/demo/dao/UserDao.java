@@ -23,7 +23,7 @@ public interface UserDao {
   Collection<User> getUsersByLastName(String name);
 
   // As in "First Last" nomenclature
-  Collection<User> getUsersByFullName(String name);
+  User getUsersByFullName(String name);
 
   // As in "first.last" nomenclature
   User getUserByUserName(String name);

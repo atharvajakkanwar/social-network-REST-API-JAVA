@@ -25,6 +25,8 @@ public class User {
     this.country = country;
     this.city = city;
     this.password = password;
+    this.role = role;
+    this.role = "USER";
     // TODO: Why isn't this set by default to "USER"?
     this.role = role;
   }

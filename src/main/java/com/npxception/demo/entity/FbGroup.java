@@ -5,8 +5,8 @@ package com.npxception.demo.entity;
  */
 public class FbGroup {
   private int groupid;
-  private int admin;
-  private String name;
+  private String admin;
+  private String groupname;
 
 
   /**
@@ -15,10 +15,10 @@ public class FbGroup {
    * @param admin The group's admin id in the database
    * @param name The group's name in the database
    */
-  public FbGroup(int groupid, int admin, String name) {
+  public FbGroup(int groupid, String admin, String name) {
     this.groupid = groupid;
     this.admin = admin;
-    this.name = name;
+    this.groupname = name;
   }
 
   public FbGroup() {
@@ -44,7 +44,7 @@ public class FbGroup {
    * Getter for group's admin id in the database.
    * @return group's admin id in the database
    */
-  public int getAdmin() {
+  public String getAdmin() {
     return admin;
   }
 
@@ -52,7 +52,7 @@ public class FbGroup {
    * Setter for group's admin id in the database.
    * @param admin The group's admin id in the database
    */
-  public void setAdmin(int admin) {
+  public void setAdmin(String admin) {
     this.admin = admin;
   }
 
@@ -61,7 +61,7 @@ public class FbGroup {
    * @return group's name in the database
    */
   public String getName() {
-    return name;
+    return groupname;
   }
 
   /**
@@ -69,7 +69,7 @@ public class FbGroup {
    * @param name The group's name in the database
    */
   public void setName(String name) {
-    this.name = name;
+    this.groupname = name;
   }
 
   @Override
@@ -80,15 +80,16 @@ public class FbGroup {
     FbGroup fbGroup = (FbGroup) o;
 
     if (groupid != fbGroup.groupid) return false;
-    if (admin != fbGroup.admin) return false;
-    return name != null ? name.equals(fbGroup.name) : fbGroup.name == null;
+    if (getAdmin() != null ? !getAdmin().equals(fbGroup.getAdmin()) : fbGroup.getAdmin() != null)
+      return false;
+    return groupname != null ? groupname.equals(fbGroup.groupname) : fbGroup.groupname == null;
   }
 
   @Override
   public int hashCode() {
     int result = groupid;
-    result = 31 * result + admin;
-    result = 31 * result + (name != null ? name.hashCode() : 0);
+    result = 31 * result + (getAdmin() != null ? getAdmin().hashCode() : 0);
+    result = 31 * result + (groupname != null ? groupname.hashCode() : 0);
     return result;
   }
 
@@ -97,7 +98,7 @@ public class FbGroup {
     return "FbGroup{" +
         "groupid=" + groupid +
         ", admin=" + admin +
-        ", name='" + name + '\'' +
+        ", groupname='" + groupname + '\'' +
         '}';
   }
 }
