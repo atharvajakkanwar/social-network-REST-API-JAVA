@@ -103,22 +103,22 @@ public class GroupController {
   }
 
 
-//  @ApiOperation(value = "Returns every group given Admin ID")
-//  @ApiResponses(value = {
-//      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
-//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-//  })
-//  @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
-//  public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
-//                                             @PathVariable("admin") int admin) {
-//    try {
-//      return groupService.getGroupByAdmin(admin);
-//    } catch (EmptyResultDataAccessException e) {
-//      throw new ResourceNotFoundException(Integer.toString(admin));
-//    }
-//  }
+  @ApiOperation(value = "Returns every group given Admin ID")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
+  public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
+                                             @PathVariable("admin") String admin) {
+    Collection<FbGroup> result = groupService.getGroupByAdmin(admin);
+    if (result.size() == 0) {
+      throw new ResourceNotFoundException(admin);
+    }
+    return result;
+  }
 
   @ApiOperation(value = "Returns every group member is in given ID")
   @ApiResponses(value = {
@@ -130,11 +130,11 @@ public class GroupController {
   @RequestMapping(value = "/memberid/{memberid}", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroupsForUser(@ApiParam(value = "Membership ID", required = true)
                                                  @PathVariable("memberid") int memberid) {
-    try {
-      return groupService.getAllGroupsForUser(memberid);
-    } catch (EmptyResultDataAccessException e) {
+    Collection<FbGroup> result = groupService.getAllGroupsForUser(memberid);
+    if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(memberid));
     }
+    return result;
   }
 
 //  @ApiOperation(value = "Adds member to group")
