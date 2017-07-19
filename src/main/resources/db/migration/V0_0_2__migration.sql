@@ -9,7 +9,7 @@
   Structure
   */
 ALTER TABLE users
-DROP COLUMN city
+DROP COLUMN city;
 /*
   Data
  */
