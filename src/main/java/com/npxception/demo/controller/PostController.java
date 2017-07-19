@@ -94,22 +94,23 @@ public class PostController {
     return result;
   }
 
-  @ApiOperation(value = "Return every post written by author given author")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
-  @RequestMapping(value = "/author/{author}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUser(@ApiParam(value = "Author", required = true)
-                                         @PathVariable String author) {
-    Collection<Post> result = postService.getPostsByUser(author);
-    if (result.size() == 0) {
-      throw new ResourceNotFoundException(author);
-    }
-    return result;
-  }
+//
+//  @ApiOperation(value = "Return every post written by author given author")
+//  @ApiResponses(value = {
+//      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
+//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+//  })
+//  @RequestMapping(value = "/author/{author}", method = RequestMethod.GET)
+//  public Collection<Post> getPostsByUser(@ApiParam(value = "Author", required = true)
+//                                         @PathVariable String author) {
+//    Collection<Post> result = postService.getPostsByUser(author);
+//    if (result.size() == 0) {
+//      throw new ResourceNotFoundException(author);
+//    }
+//    return result;
+//  }
 
   @ApiOperation(value = "Removes post from database given ID")
     @ApiResponses(value = {

@@ -34,7 +34,7 @@ public class PostService {
 
   public Collection<Post> getPostsByUser(int userId) { return this.postDao.getPostsByUser(userId); }
 
-  public Collection<Post> getPostsByUser(String firstName) { return this.postDao.getPostsByUser(firstName); }
+//  public Collection<Post> getPostsByUser(String firstName) { return this.postDao.getPostsByUser(firstName); }
 
 //  public Collection<Post> getPostsByUser(String firstName, int time) { return this.postDao.getPostsByUser(firstName, time); }
 

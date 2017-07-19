@@ -58,6 +58,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByName(String name) {
+
     final String sql = "SELECT * FROM groups WHERE groupname = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;

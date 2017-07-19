@@ -108,7 +108,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
+  @RequestMapping(value = "/admin/{admin}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
                                              @PathVariable("admin") String admin) {
     Collection<FbGroup> result = groupService.getGroupByAdmin(admin);
