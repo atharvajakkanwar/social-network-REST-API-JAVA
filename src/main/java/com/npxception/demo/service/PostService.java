@@ -12,6 +12,7 @@ import java.util.Collection;
 
 
 /**
+ * Service class for groups
  * Created by Atharva on 6/18/2017.
  */
 

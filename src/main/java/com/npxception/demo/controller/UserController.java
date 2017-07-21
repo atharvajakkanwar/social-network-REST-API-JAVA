@@ -16,6 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+/**
+ * Represents a controller for the User service.
+ */
 
 @RestController
 @RequestMapping("/user")

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+/**
+ * Service class for User
+ */
 @Service
 public class UserService {
   PostgreSQLUserDaoImpl postgreSQLUserDao;

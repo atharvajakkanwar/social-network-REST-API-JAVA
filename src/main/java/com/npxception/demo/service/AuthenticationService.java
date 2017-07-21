@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.HEAD;
 
 /**
+ * Service class for authentication
  * Created by Atharva Jakkanwar on 30-Jun-17.
  */
 @Service
