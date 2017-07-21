@@ -69,7 +69,7 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/unfriend/{username}",
+  @RequestMapping(value = "/unfriend/{username}/",
       method = RequestMethod.PUT)
   public void unFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
                        @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
@@ -101,10 +101,10 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/request/{username}",
+  @RequestMapping(value = "/request/{username}/",
       method = RequestMethod.PUT)
   public void sendRequest(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
-                          @ApiParam(value = "Username", required = true) @PathVariable("id2") String username) {
+                          @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
     this.service.sendRequest(id1, username);
   }
 
@@ -115,7 +115,9 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/accept/{username}",
+  // I need to add a slash at the end because without it username (FIRST.LAST )
+  // will only be consumed as FIRST only
+  @RequestMapping(value = "/accept/{username}/",
       method = RequestMethod.PUT)
   public void becomeFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
                            @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
@@ -129,7 +131,7 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/block/{username}",
+  @RequestMapping(value = "/block/{username}/",
       method = RequestMethod.PUT)
   public void blockFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
                           @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
@@ -143,7 +145,7 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/common/{username}",
+  @RequestMapping(value = "/common/{username}/",
       method = RequestMethod.GET)
   public Collection<User> commonFriends(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
                                         @ApiParam(value = "Username", required = true) @PathVariable("username") String username) {
@@ -161,7 +163,7 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{username}",
+  @RequestMapping(value = "/{username}/",
       method = RequestMethod.GET)
   public Collection<User> getFriendsByName(@ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                                            @ApiParam(value = "User ID", required = true) @PathVariable("user") int id) {
