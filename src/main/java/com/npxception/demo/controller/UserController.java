@@ -170,7 +170,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
+  @RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
                              @PathVariable("email") String email) {
     try {
@@ -258,8 +258,11 @@ public class UserController {
 
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void register(@ApiParam(value = "User", required = true)
+  public void register(
+      //@ApiParam(value = "User", required = true)
                        @RequestBody User user) {
+    System.out.println(user.getFirstName());
+    System.out.println(user.getLastName());
     userService.register(user);
   }
 
@@ -288,7 +291,7 @@ public class UserController {
     userService.setLast(last);
   }
 
-  @RequestMapping(value = "/setemail/{email}", params = "email", method = RequestMethod.POST)
+  @RequestMapping(value = "/setemail/{email}/", params = "email", method = RequestMethod.POST)
   public void setEmail(@PathVariable("email") String email) {
     userService.setEmail(email);
   }

@@ -49,7 +49,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   final String GET_FRIEND_BY_NAME = "SELECT u.* FROM users u, friends f " +
       "WHERE u.userid = f.usertwoid AND f.useroneid = ? AND (u.firstname = ? OR u.lastname = ?)";
-
   final String GET_INVITATION_LIST = "SELECT u.* FROM users u, friends f " +
       "WHERE (u.userid = f.useritwo AND f.useroneid = ? AND f.status = 3)" +
       " OR (u.userid = f.useroneid AND f.usertwoid = ? AND f.status = 2)";
