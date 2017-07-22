@@ -57,4 +57,6 @@ public class AuthenticationController {
   public String getEmail() {
     return new UserInformation().getEmail();
   }
+
+
 }
