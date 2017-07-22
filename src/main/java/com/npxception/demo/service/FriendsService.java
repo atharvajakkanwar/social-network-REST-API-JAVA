@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 /**
+ * Service class for friends
  * Created by RachelDi on 14/06/2017.
  */
 @org.springframework.stereotype.Service

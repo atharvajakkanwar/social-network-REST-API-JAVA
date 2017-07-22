@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collection;
 import java.util.List;
 
@@ -54,11 +56,9 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public void insertUserToDb(User user) {
     final String sql = "INSERT INTO users (firstName, lastName, email, age, gender, country, " +
-        "city, password) SELECT ?, ?, ?, ?, ?, ?, ?, ? " +
-        "WHERE NOT EXISTS (SELECT * FROM users WHERE (lastName = ? AND firstName = ?))";
+        "city, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{user.getFirstName(), user.getLastName(), user.getEmail()
-        , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword()
-        , user.getFirstName(), user.getLastName()});
+        , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword(), user.getRole()});
   }
 
   @Override
@@ -95,9 +95,16 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public User getUserByEmail(String email) {
+    try {
+      String decoded = URLDecoder.decode(email,"UTF-8");
+      System.out.print(decoded);
     final String sql = "SELECT * FROM users WHERE email = ?";
-    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), email);
+    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), decoded);
     return user;
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 
   @Override

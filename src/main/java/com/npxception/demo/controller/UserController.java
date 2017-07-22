@@ -1,5 +1,6 @@
 package com.npxception.demo.controller;
 
+import com.npxception.demo.config.RedirectLoginSuccessHandler;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
@@ -7,15 +8,26 @@ import com.npxception.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collection;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+/**
+ * Represents a controller for the User service.
+ */
 
 @RestController
 @RequestMapping("/user")
@@ -60,9 +72,9 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/remove/{userid}", params = "id", method = RequestMethod.DELETE)
-  public void deleteUserById(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id) {
-    userService.removeUserById(id);
+  @RequestMapping(value = "/remove/{userid}", method = RequestMethod.DELETE)
+  public void deleteUserById(@ApiParam(value = "User ID", required = true) @RequestBody int userid) {
+    userService.removeUserById(userid);
   }
 
   @ApiOperation(value = "Updates User")
@@ -167,7 +179,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
+  @RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
                              @PathVariable("email") String email) {
     try {
@@ -186,11 +198,11 @@ public class UserController {
   })
   @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
-                                         @PathVariable("age") int age) {
-      Collection<User> result = userService.getUsersByAge(age);
-      if (result.size() == 0) {
-        throw new ResourceNotFoundException(Integer.toString(age));
-      }
+                                       @PathVariable("age") int age) {
+    Collection<User> result = userService.getUsersByAge(age);
+    if (result.size() == 0) {
+      throw new ResourceNotFoundException(Integer.toString(age));
+    }
     return result;
   }
 
@@ -255,8 +267,11 @@ public class UserController {
 
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void register(@ApiParam(value = "User", required = true)
-                       @RequestBody User user) {
+  public void register(
+      //@ApiParam(value = "User", required = true)
+      @RequestBody User user) {
+    System.out.println(user.getFirstName());
+    System.out.println(user.getLastName());
     userService.register(user);
   }
 
@@ -285,7 +300,7 @@ public class UserController {
     userService.setLast(last);
   }
 
-  @RequestMapping(value = "/setemail/{email}", params = "email", method = RequestMethod.POST)
+  @RequestMapping(value = "/setemail/{email}/", params = "email", method = RequestMethod.POST)
   public void setEmail(@PathVariable("email") String email) {
     userService.setEmail(email);
   }

@@ -54,13 +54,13 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     return posts;
   }
 
-  @Override
-  public Collection<Post> getPostsByUser(String firstName) {
-    final String sql = "SELECT * FROM posts WHERE author " +
-        "IN (SELECT userid FROM users WHERE firstname = ?) ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), firstName);
-    return posts;
-  }
+//  @Override
+//  public Collection<Post> getPostsByUser(String name) {
+//    final String sql = "SELECT p.* FROM posts p, users u WHERE author " +
+//        " ORDER BY time";
+//    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), firstName);
+//    return posts;
+//  }
 
   @Override
   public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {

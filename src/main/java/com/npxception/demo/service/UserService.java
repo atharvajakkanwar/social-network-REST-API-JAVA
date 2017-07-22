@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+/**
+ * Service class for User
+ */
 @Service
 public class UserService {
   PostgreSQLUserDaoImpl postgreSQLUserDao;
@@ -90,10 +93,6 @@ public class UserService {
     this.userDao.insertUserToDb(user);
   }
 
-//  //public void login(String email, String password) {
-//    new Login().login(email, password);
-//  }
-
   public void setFirst(String first) {
     this.userDao.setFirstName(first);
   }
@@ -101,15 +100,6 @@ public class UserService {
   public void setLast(String last) {
     this.userDao.setLastName(last);
   }
-
-    /*
-  email
-  age
-  gender
-  country
-  city
-   */
-
 
   public void setEmail(String email) {
     this.userDao.setEmail(email);

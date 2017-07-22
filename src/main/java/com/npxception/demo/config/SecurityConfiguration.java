@@ -28,6 +28,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
+  public RedirectLogoutHandler logoutHandler() {
+    return new RedirectLogoutHandler();
+  }
+
+  @Bean
   public RedirectLoginFailHandler loginFailedHandler() {
     return new RedirectLoginFailHandler();
   }
@@ -52,6 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/posts/**").hasAuthority("ADMIN")
         .antMatchers("/auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().formLogin().successHandler(loginSuccessHandler())
+        .and().logout().logoutSuccessHandler(logoutHandler())
         .and().httpBasic();
     httpSecurity.csrf().disable();
   }

@@ -26,9 +26,10 @@ public class User {
     this.city = city;
     this.password = password;
     this.role = role;
-    this.role = "USER";
+   // this.role = "USER";
+    // TODO: This is a followup -> WTF? We set role three times now. Thats not a fix...
     // TODO: Why isn't this set by default to "USER"?
-    this.role = role;
+  //  this.role = role;
   }
 
   public User(){}
@@ -104,6 +105,10 @@ public class User {
 
   public String getRole() {
     return role;
+  }
+
+  public void setRole(String role){
+    this.role = role;
   }
 
   public void setPassword(String password) {

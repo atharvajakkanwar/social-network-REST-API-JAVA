@@ -54,24 +54,22 @@ public class GroupService {
     return this.groupDao.getGroupByName(name);
   }
 
-//  public Collection<FbGroup> getGroupByAdmin(int admin) {
-//    return this.groupDao.getGroupByAdmin(admin);
-//  }
+  public Collection<FbGroup> getGroupByAdmin(String admin) {
+    return this.groupDao.getGroupByAdmin(admin);
+  }
 
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
     return this.groupDao.getAllGroupsForUser(memberid);
   }
 
+  public void addMemberToGroup(int groupid, int memberid) {
+    this.groupDao.addMemberToGroup(groupid, memberid);
+  }
+
+  public void removeMemberFromGroup(int groupid, int memberid) {
+    this.groupDao.removeMemberFromGroup(groupid, memberid);
+  }
 
 
-//  public void addMemberToGroup(int memberid) {
-//    this.groupDao.addMemberToGroup(memberid);
-//  }
-//
-//  public void removeMemberFromGroup(int memberid) {
-//    this.groupDao.removeMemberFromGroup(memberid);
-//  }
-//
-//
 
 }

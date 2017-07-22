@@ -42,13 +42,13 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public void removeGroupById(int id) {
-    final String sql = "DELETE FROM groups WHERE id = ?";
+    final String sql = "DELETE FROM groups WHERE groupid = ?";
     jdbcTemplate.update(sql, id);
   }
 
   @Override
   public void createGroup(FbGroup fbGroup) {
-    final String sql = "INSERT INTO groups (groupID, groupname, admin) VALUES (?, ?, ?)";
+    final String sql = "INSERT INTO groups (groupID, groupname, groupadmin) VALUES (?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
         fbGroup.getGroupID(),
         fbGroup.getName(),
@@ -58,6 +58,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByName(String name) {
+
     final String sql = "SELECT * FROM groups WHERE groupname = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
@@ -65,7 +66,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getGroupByAdmin(String name) {
-    final String sql = "SELECT * FROM groups WHERE adminname = ? ";
+    final String sql = "SELECT * FROM groups WHERE groupadmin = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
   }
@@ -100,6 +101,8 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   @Override
   public void addMemberToGroup(int groupid, int memberid) {
     // change status from 3 to 1
+    String sql = "UPDATE membership SET status = 1 WHERE groupid = ? AND memberid = ?";
+    jdbcTemplate.update(sql,new Object[]{groupid, memberid});
   }
 
   @Override

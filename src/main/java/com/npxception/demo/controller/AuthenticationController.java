@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Atharva Jakkanwar on 03-Jul-17.
+ * Represents a controller for the Authentication service.
+
  */
 @RestController
 @RequestMapping("/auth")
@@ -55,4 +57,6 @@ public class AuthenticationController {
   public String getEmail() {
     return new UserInformation().getEmail();
   }
+
+
 }

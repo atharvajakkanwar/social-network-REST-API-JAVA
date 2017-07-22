@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
+ *
  * Represents a controller for the Group Service.
  */
 
@@ -63,7 +64,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupid/{groupid}", params = "groupid", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/groupid/{groupid}",  method = RequestMethod.DELETE)
   public void removeGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid) {
     groupService.removeGroupById(groupid);
@@ -81,8 +82,6 @@ public class GroupController {
                           @RequestBody FbGroup group) {
     groupService.createGroup(group);
   }
-
-
 
 
   @ApiOperation(value = "Returns every group given name")
@@ -103,22 +102,22 @@ public class GroupController {
   }
 
 
-//  @ApiOperation(value = "Returns every group given Admin ID")
-//  @ApiResponses(value = {
-//      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
-//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-//  })
-//  @RequestMapping(value = "/admin={admin}", method = RequestMethod.GET)
-//  public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
-//                                             @PathVariable("admin") int admin) {
-//    try {
-//      return groupService.getGroupByAdmin(admin);
-//    } catch (EmptyResultDataAccessException e) {
-//      throw new ResourceNotFoundException(Integer.toString(admin));
-//    }
-//  }
+  @ApiOperation(value = "Returns every group given Admin ID")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved list of groups"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(value = "/admin/{admin}", method = RequestMethod.GET)
+  public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
+                                             @PathVariable("admin") String admin) {
+    Collection<FbGroup> result = groupService.getGroupByAdmin(admin);
+    if (result.size() == 0) {
+      throw new ResourceNotFoundException(admin);
+    }
+    return result;
+  }
 
   @ApiOperation(value = "Returns every group member is in given ID")
   @ApiResponses(value = {
@@ -130,38 +129,41 @@ public class GroupController {
   @RequestMapping(value = "/memberid/{memberid}", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroupsForUser(@ApiParam(value = "Membership ID", required = true)
                                                  @PathVariable("memberid") int memberid) {
-    try {
-      return groupService.getAllGroupsForUser(memberid);
-    } catch (EmptyResultDataAccessException e) {
+    Collection<FbGroup> result = groupService.getAllGroupsForUser(memberid);
+    if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(memberid));
     }
+    return result;
   }
 
-//  @ApiOperation(value = "Adds member to group")
-//  @ApiResponses(value = {
-//      @ApiResponse(code = 200, message = "Successfully added member to group"),
-//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-//  })
-//  @RequestMapping(value = "/memberid/{memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-//  public void addMemberToGroup(@ApiParam(value = "Membership ID", required = true)
-//                               @RequestBody int memberid) {
-//    groupService.addMemberToGroup(memberid);
-//
-//  }
+  @ApiOperation(value = "Adds member to group")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully added member to group"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(value = "/memberid/{memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void addMemberToGroup(@ApiParam(value = "group ID", required = true)
+                               @PathVariable("groupid") int groupid,
+                               @ApiParam(value = "Membership ID", required = true)
+                               @PathVariable("memberid") int memberid) {
+    groupService.addMemberToGroup(groupid, memberid);
 
-//  @ApiOperation(value = "Removes member from a group")
-//  @ApiResponses(value = {
-//      @ApiResponse(code = 200, message = "Successfully removed member from group"),
-//      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-//  })
-//  @RequestMapping(value = "/groupid/{groupid}/memberid/{memberid}",
-//      params = "memberid", method = RequestMethod.DELETE)
-//  public void removeMemberFromGroup(@ApiParam(value = "Membership ID", required = true)
-//                                    @PathVariable("memberid") int memberid) {
-//    groupService.removeMemberFromGroup(memberid);
-//  }
+  }
+
+  @ApiOperation(value = "Removes member from a group")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully removed member from group"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(value = "/groupid/{groupid}/memberid/{memberid}", method = RequestMethod.DELETE)
+  public void removeMemberFromGroup(@ApiParam(value = "group ID", required = true)
+                                    @PathVariable("groupid") int groupid,
+                                    @ApiParam(value = "Membership ID", required = true)
+                                    @PathVariable("memberid") int memberid) {
+    groupService.removeMemberFromGroup(groupid, memberid);
+  }
 }
