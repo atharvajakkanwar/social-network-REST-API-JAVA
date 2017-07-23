@@ -15,8 +15,10 @@ public class FbGroup {
    * @param groupadmin The group's groupadmin id in the database
    * @param name The group's name in the database
    */
-  public FbGroup(int groupid, String groupadmin, String name) {
-    this.groupid = groupid;
+ // public FbGroup(int groupid, String groupadmin, String name) {
+      public FbGroup(String groupadmin, String name) {
+
+//      this.groupid = groupid;
     this.groupadmin = groupadmin;
     this.groupname = name;
   }

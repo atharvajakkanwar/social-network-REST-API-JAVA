@@ -48,9 +48,9 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public void createGroup(FbGroup fbGroup) {
-    final String sql = "INSERT INTO groups (groupID, groupname, groupadmin) VALUES (?, ?, ?)";
+    final String sql = "INSERT INTO groups (groupname, groupadmin) VALUES ( ?, ?)";
+
     jdbcTemplate.update(sql, new Object[]{
-        fbGroup.getGroupID(),
         fbGroup.getName(),
         fbGroup.getAdmin(),
     });
