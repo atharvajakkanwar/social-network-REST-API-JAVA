@@ -1,4 +1,4 @@
-package com.npxception.demo.mapper;
+package com.npxception.demo.helperMethods;
 
 import com.npxception.demo.entity.User;
 
