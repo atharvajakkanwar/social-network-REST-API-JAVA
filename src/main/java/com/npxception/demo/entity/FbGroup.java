@@ -11,7 +11,7 @@ public class FbGroup {
 
   /**
    * Constructor for a facebook group.
-   * @param groupid The group's group id in the database
+  // * @param groupid The group's group id in the database
    * @param groupadmin The group's groupadmin id in the database
    * @param name The group's name in the database
    */

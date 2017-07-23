@@ -143,7 +143,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/memberid/{memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "groupid/{groupid}/memberid/{memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void addMemberToGroup(@ApiParam(value = "group ID", required = true)
                                @PathVariable("groupid") int groupid,
                                @ApiParam(value = "Membership ID", required = true)
