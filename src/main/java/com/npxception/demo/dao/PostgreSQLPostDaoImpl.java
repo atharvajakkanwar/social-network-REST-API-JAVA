@@ -91,9 +91,10 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsFromGroup(String name) {
-    final String sql = "SELECT * FROM posts WHERE visibility " +
-        "IN (SELECT groupid FROM groups WHERE name = ?) ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), name);
+    int groupid = jdbcTemplate.queryForObject("SELECT groupid FROM groups WHERE groupname = ?"
+        , new Object[]{name}, Integer.class);
+    final String sql = "SELECT * FROM posts WHERE visibility = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupid);
     return posts;
   }
 
