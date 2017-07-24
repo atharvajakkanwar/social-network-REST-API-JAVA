@@ -135,6 +135,21 @@ public class GroupController {
     }
     return result;
   }
+  
+  @ApiOperation(value = "Sends a joining request to a group")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully sent a joining request to a group"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(value = "join/groupid/{groupid}/memberid/{memberid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void sendJoinRequest(@ApiParam(value = "group ID", required = true)
+                               @PathVariable("groupid") int groupid,
+                               @ApiParam(value = "Membership ID", required = true)
+                               @PathVariable("memberid") int memberid) {
+    groupService.sendJoinRequest(groupid, memberid);
+  }
 
   @ApiOperation(value = "Adds member to group")
   @ApiResponses(value = {
