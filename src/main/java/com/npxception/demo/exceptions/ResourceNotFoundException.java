@@ -13,6 +13,8 @@ public class ResourceNotFoundException extends  RuntimeException {
     super(param1 + " not found!");
   }
 
+  public ResourceNotFoundException(int param1) { super(param1 + " not found!");}
+
   public ResourceNotFoundException(String param1, String param2) {
     super("Either one of " +param1+ " " +param2+ " not found!");
   }
