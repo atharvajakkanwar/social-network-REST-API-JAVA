@@ -106,7 +106,14 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   }
 
   @Override
+  public void sendJoinRequest(int groupid, int memberid){
+    String sql = "INSERT INTO membership(groupid, memberid, status) SELECT ?,?,? " +
+        "WHERE NOT EXISTS (SELECT * FROM membership WHERE (groupid = ? AND memberid = ?))";
+    jdbcTemplate.update(sql, new Object[]{groupid, memberid, 2, groupid, memberid});
+  }
 
+
+  @Override
   public void removeMemberFromGroup(int groupid, int memberid) {
     // remove
     final String sql = "DELETE FROM membership" +
