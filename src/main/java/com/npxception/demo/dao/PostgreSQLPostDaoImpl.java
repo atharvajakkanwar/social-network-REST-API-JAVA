@@ -3,8 +3,7 @@ package com.npxception.demo.dao;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
-import com.npxception.demo.helperMethods.UserInformation;
-import com.npxception.demo.mapper.UserRowMapper;
+import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
 
@@ -18,8 +17,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.ws.rs.HEAD;
 
 /**
  * Created by Atharva on 6/18/2017.
