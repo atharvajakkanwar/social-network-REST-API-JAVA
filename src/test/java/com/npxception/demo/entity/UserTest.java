@@ -15,9 +15,15 @@ public class UserTest {
   private User newUser;
   @Before
   public void setUp() throws Exception {
+<<<<<<< HEAD
     this.user1 = new User("Bobby", "McBob", "abc", 123, "truck", "ABC", "DEF", "1234", "USER");
     this.mt = new User();
     this.newUser = new User("f", "l", "e", 2, "g", "c", "c", "p", "Q");
+=======
+    this.user1 = new User("Bobby", "McBob", "abc", 123, "truck", "ABC", "DEF", "1234");
+    this.mt = new User();
+    this.newUser = new User("f", "l", "e", 2, "g", "c", "c", "p");
+>>>>>>> 92e900fd6296dd545f8e7896a0a716f416adc814
 
 
   }
