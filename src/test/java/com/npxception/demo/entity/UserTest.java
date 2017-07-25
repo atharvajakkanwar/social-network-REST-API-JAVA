@@ -15,9 +15,9 @@ public class UserTest {
   private User newUser;
   @Before
   public void setUp() throws Exception {
-    this.user1 = new User(1, "Bobby", "McBob", "abc", 123, "truck", "ABC", "DEF", "1234", "USER");
+    this.user1 = new User("Bobby", "McBob", "abc", 123, "truck", "ABC", "DEF", "1234");
     this.mt = new User();
-    this.newUser = new User(2, "f", "l", "e", 2, "g", "c", "c", "p", "Q");
+    this.newUser = new User("f", "l", "e", 2, "g", "c", "c", "p");
 
 
   }

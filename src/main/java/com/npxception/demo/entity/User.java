@@ -13,9 +13,9 @@ public class User {
   private String password;
   private String role;
 
-  public User(int userid, String firstName, String lastName, String email,
+  public User(String firstName, String lastName, String email,
               int age, String gender, String country, String city,
-              String password, String role) {
+              String password) {
     this.userid = userid;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -25,11 +25,7 @@ public class User {
     this.country = country;
     this.city = city;
     this.password = password;
-    //this.role = role;
     this.role = "USER";
-    // TODO: This is a followup -> WTF? We set role three times now. Thats not a fix...
-    // TODO: Why isn't this set by default to "USER"?
-  //  this.role = role;
   }
 
   public User(){}
