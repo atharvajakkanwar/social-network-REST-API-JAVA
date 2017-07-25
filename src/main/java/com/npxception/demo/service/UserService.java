@@ -42,10 +42,6 @@ public class UserService {
     this.userDao.updateUser(user);
   }
 
-  public void insertUser(User user) {
-    this.userDao.insertUserToDb(user);
-  }
-
   public Collection<User> getUsersByFirstName(String name) {
     return this.userDao.getUsersByFirstName(name);
   }

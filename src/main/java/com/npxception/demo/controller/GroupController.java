@@ -70,7 +70,7 @@ public class GroupController {
     groupService.removeGroupById(groupid);
   }
 
-  @ApiOperation(value = "Create a new group")
+  @ApiOperation(value = "Create a new group WHERE: id is not required")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully created group"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

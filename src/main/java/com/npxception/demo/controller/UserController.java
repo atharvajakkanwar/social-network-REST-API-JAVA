@@ -89,17 +89,6 @@ public class UserController {
     userService.updateUser(user);
   }
 
-  @ApiOperation(value = "Inserts User into database")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully inserted user"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
-  @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertUser(@ApiParam(value = "User", required = true) @RequestBody User user) {
-    userService.insertUser(user);
-  }
 
   @ApiOperation(value = "Gets List of User given first name")
   @ApiResponses(value = {
@@ -257,7 +246,7 @@ public class UserController {
     return result;
   }
 
-  @ApiOperation(value = "Registers User")
+  @ApiOperation(value = "Registers User WHERE: id is not required")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully registered user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

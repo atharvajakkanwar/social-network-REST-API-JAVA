@@ -123,7 +123,7 @@ public class PostController {
       postService.removePostsById(id);
     }
 
-    @ApiOperation(value = "Create post")
+    @ApiOperation(value = "Create post WHERE: id is not required")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully created post"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
