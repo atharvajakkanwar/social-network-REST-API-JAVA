@@ -23,9 +23,6 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
   private UserService userService;
   public static int userid = 0;
 
-  @Value("${server.port}")
-  private String port;
-
   @Override
   public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
