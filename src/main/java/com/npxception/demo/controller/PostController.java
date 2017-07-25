@@ -40,7 +40,7 @@ public class PostController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value= "/posts", method = RequestMethod.GET)
   public Collection<Post> getAllPosts() {
     return postService.getAllPosts();
   }
