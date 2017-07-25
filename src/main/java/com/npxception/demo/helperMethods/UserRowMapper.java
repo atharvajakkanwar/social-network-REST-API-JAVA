@@ -14,16 +14,28 @@ public class UserRowMapper implements RowMapper<User> {
   @Override
   public User mapRow(ResultSet resultSet, int i) throws SQLException {
 
-    return new User(
-        //resultSet.getInt("userid"),
-        resultSet.getString("firstname"),
-        resultSet.getString("lastname"),
-        resultSet.getString("email"),
-        resultSet.getInt("age"),
-        resultSet.getString("gender"),
-        resultSet.getString("country"),
-        resultSet.getString("city"),
-        resultSet.getString("password"));
-      //  resultSet.getString("role"));
+    User user = new User();//return new User(
+//        resultSet.getInt("userid"),
+    user.setAge(resultSet.getInt("age"));
+    user.setCity(resultSet.getString("city"));
+    user.setCountry(resultSet.getString("country"));
+    user.setEmail(resultSet.getString("email"));
+    user.setFirstName(resultSet.getString("firstname"));
+    user.setGender(resultSet.getString("gender"));
+    user.setId(resultSet.getInt("userid"));
+    user.setLastName(resultSet.getString("lastname"));
+    user.setPassword(resultSet.getString("password"));
+    user.setRole(resultSet.getString("role"));
+//        resultSet.getString("firstname"),
+//        resultSet.getString("lastname"),
+//        resultSet.getString("email"),
+//        resultSet.getInt("age"),
+//        resultSet.getString("gender"),
+//        resultSet.getString("country"),
+//        resultSet.getString("city"),
+//        resultSet.getString("password"),
+//        resultSet.getString("role");
+    return user;
   }
+
 }
