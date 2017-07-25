@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
         .authorizeRequests()
-        .antMatchers("/register").anonymous()
+        .antMatchers("**/register").anonymous()
         .antMatchers("/").hasAnyAuthority("ADMIN", "USER")
         .antMatchers("/users/**").hasAuthority("ADMIN")
         .antMatchers("/friends/**").hasAuthority("ADMIN")
