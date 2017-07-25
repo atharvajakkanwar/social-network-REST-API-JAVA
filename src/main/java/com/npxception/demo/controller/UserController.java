@@ -43,7 +43,7 @@ public class UserController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value = "/users", method = RequestMethod.GET)
 
   public Collection<User> getAllUsers() {
     return userService.getAllUsers();
@@ -112,10 +112,10 @@ public class UserController {
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
                                               @PathVariable("name") String name) {
     Collection<User> result = userService.getUsersByFirstName(name);
-      if (result.size() == 0) {
-        throw new ResourceNotFoundException(name);
-      }
-      return result;
+    if (result.size() == 0) {
+      throw new ResourceNotFoundException(name);
+    }
+    return result;
   }
 
   @ApiOperation(value = "Gets List of User given last name")
