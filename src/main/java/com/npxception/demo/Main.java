@@ -17,7 +17,5 @@ public class Main {
 //        flyway.baseline();
         flyway.migrate();
         SpringApplication.run(Main.class, args);
-
     }
-
 }
