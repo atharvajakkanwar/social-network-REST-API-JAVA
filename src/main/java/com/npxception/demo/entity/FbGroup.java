@@ -11,12 +11,14 @@ public class FbGroup {
 
   /**
    * Constructor for a facebook group.
-   * @param groupid The group's group id in the database
+  // * @param groupid The group's group id in the database
    * @param groupadmin The group's groupadmin id in the database
    * @param name The group's name in the database
    */
-  public FbGroup(int groupid, String groupadmin, String name) {
-    this.groupid = groupid;
+ // public FbGroup(int groupid, String groupadmin, String name) {
+      public FbGroup(String groupadmin, String name) {
+
+//      this.groupid = groupid;
     this.groupadmin = groupadmin;
     this.groupname = name;
   }

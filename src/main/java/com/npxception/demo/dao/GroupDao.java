@@ -71,7 +71,15 @@ public interface GroupDao {
    */
   Collection<FbGroup> getAllGroupsForUser(int memberid);
 
+  /**
+   * Send a joinging group request to a group, after the
+   * request is sent, the status is pending accepted(2).
+   * @param groupid the id of the group
+   * @param memberid the id of the user
+   */
 
+  void sendJoinRequest(int groupid, int memberid);
+  
   /**
    * Given member ID, adds member to group.
    *

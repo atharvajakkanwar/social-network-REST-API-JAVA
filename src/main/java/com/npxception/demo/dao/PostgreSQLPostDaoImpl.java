@@ -91,9 +91,10 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Override
   public Collection<Post> getPostsFromGroup(String name) {
-    final String sql = "SELECT * FROM posts WHERE visibility " +
-        "IN (SELECT groupid FROM groups WHERE name = ?) ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), name);
+    int groupid = jdbcTemplate.queryForObject("SELECT groupid FROM groups WHERE groupname = ?"
+        , new Object[]{name}, Integer.class);
+    final String sql = "SELECT * FROM posts WHERE visibility = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupid);
     return posts;
   }
 
@@ -112,10 +113,9 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public void createPost(Post post) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (id, author, content, likes, time, visibility) " +
-        "VALUES (?, ?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (author, content, likes, time, visibility) " +
+        "VALUES (?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
-        post.getId(),
         post.getAuthor(),
         post.getContent(),
         post.getLikes(),

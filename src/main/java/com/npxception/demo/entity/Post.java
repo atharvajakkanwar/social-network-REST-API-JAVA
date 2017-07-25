@@ -11,13 +11,10 @@ public class Post {
   private int time;
   private  int visibility;
 
-  public Post(int id, String author, String content, int likes, int time, int visibility) {
-
-    this.id = id;
+  public Post(String author, String content, int likes, int time, int visibility) {
     this.author = author;
     this.content = content;
     this.likes = likes;
-
     this.time = time;
     this.visibility = visibility;
   }
