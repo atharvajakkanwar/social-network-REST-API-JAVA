@@ -32,6 +32,7 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
     int id = user.getId();
     userid = id;
     // httpServletResponse.sendRedirect("http://localhost:"+ port +"/post/mainPage/" +id);
-    //httpServletResponse.sendRedirect("http://localhost:8080/post/mainPage/" +id);
+//    httpServletResponse.sendRedirect("http://localhost:8080/post/mainPage/" +id);
+    System.out.println();
   }
 }
