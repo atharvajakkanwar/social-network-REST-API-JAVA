@@ -37,7 +37,7 @@ public class GroupController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(method = RequestMethod.GET)
+  @RequestMapping(value= "/groups", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups() {
     return groupService.getAllGroup();
   }
@@ -70,7 +70,7 @@ public class GroupController {
     groupService.removeGroupById(groupid);
   }
 
-  @ApiOperation(value = "Create a new group")
+  @ApiOperation(value = "Create a new group WHERE: id is not required")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully created group"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

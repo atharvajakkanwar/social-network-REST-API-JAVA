@@ -3,8 +3,8 @@ package com.npxception.demo.entity;
 
 public class User {
   private int userid;
-  private String firstName;
-  private String lastName;
+  private String firstname;
+  private String lastname;
   private String email;
   private int age;
   private String gender;
@@ -13,11 +13,11 @@ public class User {
   private String password;
   private String role;
 
-  public User(String firstName, String lastName, String email,
+  public User(String firstname, String lastname, String email,
               int age, String gender, String country, String city,
               String password, String role) {
-    this.firstName = firstName;
-    this.lastName = lastName;
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.email = email;
     this.age = age;
     this.gender = gender;
@@ -25,8 +25,6 @@ public class User {
     this.city = city;
     this.password = password;
     this.role = "USER";
-    // TODO: This is a followup -> WTF? We set role three times now. Thats not a fix...
-    // TODO: Why isn't this set by default to "USER"?
   }
 
   public User(){}
@@ -40,7 +38,7 @@ public class User {
   }
 
   public String getFirstName() {
-    return firstName;
+    return firstname;
   }
 
   public int getAge() {
@@ -59,16 +57,16 @@ public class User {
     this.gender = gender;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setFirstName(String firstname) {
+    this.firstname = firstname;
   }
 
   public String getLastName() {
-    return lastName;
+    return lastname;
   }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
+  public void setLastName(String lastname) {
+    this.lastname = lastname;
   }
 
   public String getEmail() {
@@ -116,8 +114,8 @@ public class User {
   public String toString() {
     return "User{" +
         "userid=" + userid +
-        ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' +
+        ", firstName='" + firstname + '\'' +
+        ", lastName='" + lastname + '\'' +
         ", email='" + email + '\'' +
         ", age=" + age +
         ", gender='" + gender + '\'' +
@@ -136,9 +134,9 @@ public class User {
 
     if (userid != user.userid) return false;
     if (age != user.age) return false;
-    if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null)
+    if (firstname != null ? !firstname.equals(user.firstname) : user.firstname != null)
       return false;
-    if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
+    if (lastname != null ? !lastname.equals(user.lastname) : user.lastname != null) return false;
     if (email != null ? !email.equals(user.email) : user.email != null) return false;
     if (gender != null ? !gender.equals(user.gender) : user.gender != null) return false;
     if (country != null ? !country.equals(user.country) : user.country != null) return false;
@@ -149,8 +147,8 @@ public class User {
   @Override
   public int hashCode() {
     int result = userid;
-    result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-    result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+    result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
     result = 31 * result + age;
     result = 31 * result + (gender != null ? gender.hashCode() : 0);

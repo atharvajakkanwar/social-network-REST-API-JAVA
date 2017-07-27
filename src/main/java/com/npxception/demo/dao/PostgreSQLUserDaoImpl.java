@@ -47,7 +47,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public void updateUser(User user) {
     final String sql = "UPDATE users SET email = ?, age = ?, gender = ?, country = ?, " +
-        "city = ?, password = ? WHERE firstName = ? AND lastName = ?";
+        "city = ?, password = ? WHERE firstname = ? AND lastname = ?";
     jdbcTemplate.update(sql, new Object[]{user.getEmail(), user.getAge()
         , user.getGender(), user.getCountry(), user.getCity(), user.getPassword()
         , user.getFirstName(), user.getLastName()});
@@ -55,7 +55,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public void insertUserToDb(User user) {
-    final String sql = "INSERT INTO users (firstName, lastName, email, age, gender, country, " +
+    final String sql = "INSERT INTO users (firstname, lastname, email, age, gender, country, " +
         "city, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{user.getFirstName(), user.getLastName(), user.getEmail()
         , user.getAge(), user.getGender(), user.getCountry(), user.getCity(), user.getPassword(), "USER"});
@@ -63,13 +63,13 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public Collection<User> getUsersByFirstName(String name) {
-    final String sql = "SELECT * FROM users WHERE firstName = ?";
+    final String sql = "SELECT * FROM users WHERE firstname = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), name);
     return users;
   }
 
   public Collection<User> getUsersByLastName(String name) {
-    final String sql = "SELECT * FROM users WHERE lastName = ?";
+    final String sql = "SELECT * FROM users WHERE lastname = ?";
     List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), name);
     return users;
   }
@@ -78,7 +78,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public User getUsersByFullName(String name) {
     String[] names = new UserInformation().splitUserNameWithoutDot(name);
-    final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
+    final String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
     return user;
@@ -87,7 +87,7 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public User getUserByUserName(String name) {
     String[] names = new UserInformation().splitUserNameWithDot(name);
-    final String sql = "SELECT * FROM users WHERE firstName = ? AND lastName = ?";
+    final String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
     User user = jdbcTemplate.queryForObject(sql, new UserRowMapper()
         , new Object[]{names[0], names[1]});
     return user;

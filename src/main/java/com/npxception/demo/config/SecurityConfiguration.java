@@ -48,15 +48,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.anonymous().and().antMatcher("**/register");
     httpSecurity
         .authorizeRequests()
+        .antMatchers("**/register").anonymous()
         .antMatchers("/").hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/users/**").hasAuthority("ADMIN")
-        .antMatchers("/friends/**").hasAuthority("ADMIN")
-        .antMatchers("/groups/**").hasAuthority("ADMIN")
-        .antMatchers("/posts/**").hasAuthority("ADMIN")
-        .antMatchers("/auth/**").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers("/user/users").hasAuthority("ADMIN")
+        .antMatchers("/Fbgroup/groups").hasAuthority("ADMIN")
+        .antMatchers("/post/posts").hasAuthority("ADMIN")
+        .antMatchers("**/auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().formLogin().successHandler(loginSuccessHandler())
         .and().logout().logoutSuccessHandler(logoutHandler())
         .and().httpBasic();
