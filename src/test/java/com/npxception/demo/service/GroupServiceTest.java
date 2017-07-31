@@ -11,8 +11,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by bryan on 6/21/2017.
  */
@@ -47,23 +45,23 @@ public class GroupServiceTest {
    List<FbGroup> groupTwoList = new ArrayList<>();
    groupTwoList.add(group2);
 
-   Mockito.doReturn(group1).when(postgreSQLGroupDao).getGroupById(1);
-   Assert.assertEquals(group1, postgreSQLGroupDao.getGroupById(1));
+   Mockito.doReturn(group1).when(postgreSQLGroupDao).getGroupById(userid, 1);
+   Assert.assertEquals(group1, postgreSQLGroupDao.getGroupById(userid, 1));
 
 //   Mockito.doReturn(groupOneList).when(postgreSQLGroupDao).getGroupByAdmin(1);
 //   Assert.assertEquals(groupOneList, postgreSQLGroupDao.getGroupByAdmin(1));
 
-   Mockito.doReturn(groupTwoList).when(postgreSQLGroupDao).getGroupByAdmin("b");
-   Assert.assertEquals(groupTwoList, postgreSQLGroupDao.getGroupByAdmin("b"));
+   Mockito.doReturn(groupTwoList).when(postgreSQLGroupDao).getGroupByAdmin(userid, "b");
+   Assert.assertEquals(groupTwoList, postgreSQLGroupDao.getGroupByAdmin(userid, "b"));
 
-   Mockito.doReturn(groupOneList).when(postgreSQLGroupDao).getGroupByName("a");
-   Assert.assertEquals(groupOneList, postgreSQLGroupDao.getGroupByName("a"));
+   Mockito.doReturn(groupOneList).when(postgreSQLGroupDao).getGroupByName(userid, "a");
+   Assert.assertEquals(groupOneList, postgreSQLGroupDao.getGroupByName(userid, "a"));
 
-   Mockito.doReturn(allGroups).when(postgreSQLGroupDao).getAllGroup();
-   Assert.assertEquals(allGroups, postgreSQLGroupDao.getAllGroup());
+   Mockito.doReturn(allGroups).when(postgreSQLGroupDao).getAllGroup(userid);
+   Assert.assertEquals(allGroups, postgreSQLGroupDao.getAllGroup(userid));
 
-   Mockito.doReturn(groupOneList).when(postgreSQLGroupDao).getAllGroupsForUser(1);
-   Assert.assertEquals(groupOneList, postgreSQLGroupDao.getAllGroupsForUser(1));
+   Mockito.doReturn(groupOneList).when(postgreSQLGroupDao).getAllGroupsForUser(userid, 1);
+   Assert.assertEquals(groupOneList, postgreSQLGroupDao.getAllGroupsForUser(userid, 1));
 
  }
 
