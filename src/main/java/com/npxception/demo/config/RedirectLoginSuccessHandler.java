@@ -32,14 +32,18 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
                                       HttpServletResponse httpServletResponse,
                                       Authentication authentication)
       throws IOException, ServletException {
-    String sql = "TRUNCATE loginfo";
-    jdbcTemplate.update(sql);
-    String email = new AuthenticationController().getEmail();
+//    String sql = "TRUNCATE loginfo";
+//    jdbcTemplate.update(sql);
+    AuthenticationController auth = new AuthenticationController();
+    String email = auth.getEmail();
+    String header = auth.getHeader();
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
     String password = user.getPassword();
     userid = user.getId();
-    String sql2 = "INSERT INTO loginfo (userid, email, password) " +
-        "SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";
-    jdbcTemplate.update(sql2, new Object[]{userid, email, password, userid});
+    String sql2 = "INSERT INTO loginfo (userid, email, password, token) " +
+        "SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";
+    jdbcTemplate.update(sql2, new Object[]
+        {userid, email, password,
+            "nokey", userid});
   }
 }

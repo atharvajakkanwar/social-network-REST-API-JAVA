@@ -50,6 +50,12 @@ public class UserInformation {
     return currentPrincipalName;
   }
 
+  public String getHeaders() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentHeader = authentication.getDetails().toString();
+    return currentHeader;
+  }
+
 //  public String getPassword() {
 //   // UserDetails user=userDetailsService.loadUserByUsername(username);
 //    AbstractAuthenticationToken authentication = (AbstractAuthenticationToken)
