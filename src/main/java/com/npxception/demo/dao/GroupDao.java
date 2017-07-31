@@ -14,27 +14,23 @@ public interface GroupDao {
    * Returns every group in the database.
    *
    * @return every group in the database
-   * @param userid
    */
-  Collection<FbGroup> getAllGroup(int userid);
+  Collection<FbGroup> getAllGroup();
 
   /**
    * Given a ID return the corresponding group.
    *
-   *
-   * @param userid
    * @param id The group id in the group database
    * @return a group given an ID
    */
-  FbGroup getGroupById(int userid, int id);
+  FbGroup getGroupById(int id);
 
   /**
    * Given an ID removes the group from the database.
    *
-   * @param userid
    * @param id The group id in the group database
    */
-  void removeGroupById(int userid, int id);
+  void removeGroupById(int id);
 
 
   /**
@@ -47,22 +43,18 @@ public interface GroupDao {
   /**
    * Given a name, returns every group that has that name.
    *
-   *
-   * @param userid
    * @param name The group's name in the database
    * @return every group with the given name
    */
-  Collection<FbGroup> getGroupByName(int userid, String name);
+  Collection<FbGroup> getGroupByName(String name);
 
   /**
    * Given an admin, returns every group with that administrator.
    *
-   *
-   * @param userid
    * @param name The group's admin ID in the database
    * @returnevery group with the administrator
    */
-  Collection<FbGroup> getGroupByAdmin(int userid, String name);
+  Collection<FbGroup> getGroupByAdmin(String name);
 
 //  /**
 //   * Given an admin, returns every group with that administrator.
@@ -74,12 +66,10 @@ public interface GroupDao {
   /**
    * Given a member ID, returns every group that the member is in.
    *
-   *
-   * @param userid
    * @param memberid The member's ID in the database
    * @return Every group taht the member is in
    */
-  Collection<FbGroup> getAllGroupsForUser(int userid, int memberid);
+  Collection<FbGroup> getAllGroupsForUser(int memberid);
 
   /**
    * Send a joinging group request to a group, after the
@@ -89,22 +79,22 @@ public interface GroupDao {
    */
 
   void sendJoinRequest(int groupid, int memberid);
-  
+
   /**
    * Given member ID, adds member to group.
    *
-   * @param userid
    * @param memberid The group's ID in the database
+   * @param memberid The member's ID in the database
    */
-  void addMemberToGroup(int userid, int groupid, int memberid);
+  void addMemberToGroup(int groupid, int memberid);
 
   /**
    * Given member ID, removes member from group.
    *
-   * @param userid
    * @param memberid The group's ID in the database
+   * @param memberid The member's ID in the database
    */
-  void removeMemberFromGroup(int userid, int groupid, int memberid);
+  void removeMemberFromGroup(int groupid, int memberid);
 
 
 }

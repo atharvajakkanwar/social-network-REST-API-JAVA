@@ -5,6 +5,7 @@ import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.helperMethods.AccessManager;
 import com.npxception.demo.service.GroupService;
 
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
@@ -30,15 +31,6 @@ import io.swagger.annotations.ApiResponses;
 public class GroupController {
 
   private AccessManager accessManager;
-  /*
-  @RequestMapping(value = "/all",
-      method = RequestMethod.GET)
-  public Collection<User> getAllFriends(@ApiParam(value = "User ID", required = true)
-                                        @PathVariable("user") int id, @RequestHeader("authorization") String token) {
-    accessManager.checkUser(id, token);
-    return service.getAllFriends(id);
-  }
-   */
 
   @Autowired
   private GroupService groupService;
@@ -54,10 +46,12 @@ public class GroupController {
                                             @PathVariable("userid") int userid,
                                           @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
-    return groupService.getAllGroup(userid);
+    return groupService.getAllGroup();
   }
 
 
+  // TODO: This method needs refactoring. Doesn't logically make sense?
+  // Given a group ID, return that group? sounds internal helperish
   @ApiOperation(value = "Return group given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved group"),
@@ -68,8 +62,10 @@ public class GroupController {
   @RequestMapping(value = "/groupid/{groupid}", method = RequestMethod.GET)
   public FbGroup getGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid,
-                              @PathVariable("userid") int userid) {
-    return groupService.getGroupById(userid, groupid);
+                              @PathVariable("userid") int userid,
+                              @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    return groupService.getGroupById(groupid);
   }
 
 
@@ -80,11 +76,13 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupid/{groupid}",  method = RequestMethod.DELETE)
+  @RequestMapping(value = "/remove/{groupid}",  method = RequestMethod.DELETE)
   public void removeGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid,
-                              @PathVariable("userid") int userid) {
-    groupService.removeGroupById(userid, groupid);
+                              @PathVariable("userid") int userid,
+                              @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    groupService.removeGroupById(groupid);
   }
 
   @ApiOperation(value = "Create a new group WHERE: id is not required")
@@ -96,7 +94,11 @@ public class GroupController {
   })
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void createGroup(@ApiParam(value = "Group", required = true)
-                          @RequestBody FbGroup group) {
+                          @RequestBody FbGroup group,
+                          @ApiParam(value = "User ID calling method", required = true)
+                          @PathVariable("userid") int userid,
+                          @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
     groupService.createGroup(group);
   }
 
@@ -111,9 +113,12 @@ public class GroupController {
   @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByName(@ApiParam(value = "Group name", required = true)
                                             @PathVariable("name") String name,
-                                            @PathVariable("userid") int userid) {
-    try {
-      return groupService.getGroupByName(userid, name);
+                                            @ApiParam(value = "User ID calling method", required = true)
+                                            @PathVariable("userid") int userid,
+                                            @RequestHeader("authorization") String token) {
+      try {
+        accessManager.checkUser(userid, token);
+        return groupService.getGroupByName(name);
     } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(name);
     }
@@ -130,8 +135,10 @@ public class GroupController {
   @RequestMapping(value = "/admin/{admin}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
                                              @PathVariable("admin") String admin,
-                                             @PathVariable("userid") int userid) {
-    Collection<FbGroup> result = groupService.getGroupByAdmin(userid, admin);
+                                             @PathVariable("userid") int userid,
+                                             @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    Collection<FbGroup> result = groupService.getGroupByAdmin(admin);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(admin);
     }
@@ -149,8 +156,10 @@ public class GroupController {
   public Collection<FbGroup> getAllGroupsForUser(@ApiParam(value = "Membership ID", required = true)
                                                  @PathVariable("memberid") int memberid,
                                                  @ApiParam(value = "User ID calling method", required = true)
-                                                 @PathVariable("userid") int userid) {
-    Collection<FbGroup> result = groupService.getAllGroupsForUser(userid, memberid);
+                                                 @PathVariable("userid") int userid,
+                                                 @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    Collection<FbGroup> result = groupService.getAllGroupsForUser(memberid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(memberid));
     }
@@ -167,9 +176,13 @@ public class GroupController {
   @RequestMapping(value = "/join/groupid/{groupid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void sendJoinRequest(@ApiParam(value = "group ID", required = true)
                                @PathVariable("groupid") int groupid,
-                               @ApiParam(value = "Membership ID", required = true)
-                               @PathVariable("memberid") int userid) {
-    groupService.sendJoinRequest(groupid, userid);
+                              @ApiParam(value = "User ID calling method", required = true)
+                              @PathVariable("userid") int userid,
+                              @ApiParam(value = "Membership ID", required = true)
+                               @PathVariable("memberid") int memberid,
+                              @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    groupService.sendJoinRequest(groupid, memberid);
   }
 
   @ApiOperation(value = "Adds member to group")
@@ -185,8 +198,10 @@ public class GroupController {
                                @ApiParam(value = "Membership ID", required = true)
                                @PathVariable("memberid") int memberid,
                                @ApiParam(value = "User ID calling method", required = true)
-                               @PathVariable("userid") int userid) {
-    groupService.addMemberToGroup(userid, groupid, memberid);
+                               @PathVariable("userid") int userid,
+                               @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    groupService.addMemberToGroup(groupid, memberid);
 
   }
 
@@ -203,7 +218,9 @@ public class GroupController {
                                     @ApiParam(value = "Membership ID", required = true)
                                     @PathVariable("memberid") int memberid,
                                     @ApiParam(value = "User ID calling method", required = true)
-                                    @PathVariable("userid") int userid) {
-    groupService.removeMemberFromGroup(userid, groupid, memberid);
+                                    @PathVariable("userid") int userid,
+                                    @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid, token);
+    groupService.removeMemberFromGroup(groupid, memberid);
   }
 }

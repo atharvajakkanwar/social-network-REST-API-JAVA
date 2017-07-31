@@ -57,9 +57,9 @@ public class PostgresSQLGroupDaoImplTest {
     list.add(mockGroup);
     list.add(mockGroup2);
 
-    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(userid, 1));
-    Mockito.doReturn(mockGroup).when(postgresSQLGroupDao).getGroupById(userid, 2);
-    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(userid, 1));
+    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(1));
+    Mockito.doReturn(mockGroup).when(postgresSQLGroupDao).getGroupById(2);
+    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(1));
 
 
 
