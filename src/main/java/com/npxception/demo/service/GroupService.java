@@ -29,18 +29,18 @@ public class GroupService {
   @Qualifier("PostgresGroupRepo")
   private GroupDao groupDao;
 
-  public Collection<FbGroup> getAllGroup() {
-    return this.groupDao.getAllGroup();
+  public Collection<FbGroup> getAllGroup(int userid) {
+    return this.groupDao.getAllGroup(userid);
   }
 
 
-  public FbGroup getGroupById(int id) {
+  public FbGroup getGroupById(int userid, int id) {
 
-    return this.groupDao.getGroupById(id);
+    return this.groupDao.getGroupById(userid, id);
   }
 
-  public void removeGroupById(int id) {
-    this.groupDao.removeGroupById(id);
+  public void removeGroupById(int userid, int id) {
+    this.groupDao.removeGroupById(userid, id);
   }
 
 
@@ -50,28 +50,28 @@ public class GroupService {
   }
 
 
-  public Collection<FbGroup> getGroupByName(String name) {
-    return this.groupDao.getGroupByName(name);
+  public Collection<FbGroup> getGroupByName(int userid, String name) {
+    return this.groupDao.getGroupByName(userid, name);
   }
 
-  public Collection<FbGroup> getGroupByAdmin(String admin) {
-    return this.groupDao.getGroupByAdmin(admin);
+  public Collection<FbGroup> getGroupByAdmin(int userid, String admin) {
+    return this.groupDao.getGroupByAdmin(userid, admin);
   }
 
-  public Collection<FbGroup> getAllGroupsForUser(int memberid) {
-    return this.groupDao.getAllGroupsForUser(memberid);
+  public Collection<FbGroup> getAllGroupsForUser(int userid, int memberid) {
+    return this.groupDao.getAllGroupsForUser(userid, memberid);
   }
   
   public void sendJoinRequest(int groupid, int memberid) {
     this.groupDao.sendJoinRequest(groupid, memberid);
   }
   
-  public void addMemberToGroup(int groupid, int memberid) {
-    this.groupDao.addMemberToGroup(groupid, memberid);
+  public void addMemberToGroup(int userid, int groupid, int memberid) {
+    this.groupDao.addMemberToGroup(userid, groupid, memberid);
   }
 
-  public void removeMemberFromGroup(int groupid, int memberid) {
-    this.groupDao.removeMemberFromGroup(groupid, memberid);
+  public void removeMemberFromGroup(int userid, int groupid, int memberid) {
+    this.groupDao.removeMemberFromGroup(userid, groupid, memberid);
   }
 
 

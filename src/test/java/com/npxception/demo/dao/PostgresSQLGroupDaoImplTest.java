@@ -2,12 +2,11 @@ package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.service.GroupService;
-import org.springframework.jdbc.core.JdbcTemplate;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,8 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by bryan on 6/21/2017.
@@ -60,9 +57,9 @@ public class PostgresSQLGroupDaoImplTest {
     list.add(mockGroup);
     list.add(mockGroup2);
 
-    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(1));
-    Mockito.doReturn(mockGroup).when(postgresSQLGroupDao).getGroupById(2);
-    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(1));
+    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(userid, 1));
+    Mockito.doReturn(mockGroup).when(postgresSQLGroupDao).getGroupById(userid, 2);
+    Assert.assertEquals(mockGroup, postgresSQLGroupDao.getGroupById(userid, 1));
 
 
 

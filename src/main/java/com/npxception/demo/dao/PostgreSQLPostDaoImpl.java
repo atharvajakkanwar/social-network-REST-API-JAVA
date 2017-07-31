@@ -167,7 +167,7 @@ public class PostgreSQLPostDaoImpl implements PostDao {
         result.add(post);
       }
     }
-    Collection<FbGroup> groups = groupService.getAllGroupsForUser(userid);
+    Collection<FbGroup> groups = groupService.getAllGroupsForUser(userid, userid);
     for (FbGroup group : groups) {
       Collection<Post> posts = getPostsFromGroup(group.getGroupID());
       for (Post post : posts) {
