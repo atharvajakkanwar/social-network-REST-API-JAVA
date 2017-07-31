@@ -61,11 +61,11 @@ public class GroupService {
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
     return this.groupDao.getAllGroupsForUser(memberid);
   }
-  
+
   public void sendJoinRequest(int groupid, int memberid) {
     this.groupDao.sendJoinRequest(groupid, memberid);
   }
-  
+
   public void addMemberToGroup(int groupid, int memberid) {
     this.groupDao.addMemberToGroup(groupid, memberid);
   }

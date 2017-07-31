@@ -79,7 +79,7 @@ public interface GroupDao {
    */
 
   void sendJoinRequest(int groupid, int memberid);
-  
+
   /**
    * Given member ID, adds member to group.
    *
