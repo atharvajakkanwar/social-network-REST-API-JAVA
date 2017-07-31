@@ -5,14 +5,16 @@ package com.npxception.demo.entity;
  */
 public class Post {
   private int id;
-  private String author;
+  private String authorFirst;
+  private String authorLast;
   private String content;
   private int likes;
   private int time;
   private  int visibility;
 
-  public Post(String author, String content, int likes, int time, int visibility) {
-    this.author = author;
+  public Post(String authorFirst, String authorLast, String content, int likes, int time, int visibility) {
+    this.authorFirst = authorFirst;
+    this.authorLast = authorLast;
     this.content = content;
     this.likes = likes;
     this.time = time;
@@ -29,12 +31,20 @@ public class Post {
     this.id = id;
   }
 
-  public String getAuthor() {
-    return author;
+  public String getAuthorFirstName() {
+    return this.authorFirst;
   }
 
-  public void setAuthor(String author) {
-    this.author = author;
+  public String getAuthorLastName() {
+    return this.authorLast;
+  }
+
+  public void setAuthorFirstName(String authorFirst) {
+    this.authorFirst = authorFirst;
+  }
+
+  public void setAuthorLastName(String authorLast) {
+    this.authorLast = authorLast;
   }
 
   public String getContent() {
@@ -52,7 +62,6 @@ public class Post {
   public void setLikes(int likes) {
     this.likes = likes;
   }
-
 
   public int getTime() {
     return time;
@@ -74,7 +83,9 @@ public class Post {
     Post post = (Post) o;
 
     if (id != post.id) return false;
-    if (author != post.author) return false;
+    if (authorFirst != post.authorFirst) return false;
+    if (authorLast != post.authorLast) return false;
+
     if (likes != post.likes) return false;
     if (time != post.time) return false;
     if (visibility != post.visibility) return false;
@@ -83,12 +94,13 @@ public class Post {
 
   @Override
   public int hashCode() {
-    int result = id;
-    result = 31 * result + author.hashCode();
-    result = 31 * result + (content != null ? content.hashCode() : 0);
-    result = 31 * result + likes;
-    result = 31 * result + time;
-    result = 31 * result + visibility;
+    int result = getId();
+    result = 31 * result + (authorFirst != null ? authorFirst.hashCode() : 0);
+    result = 31 * result + (authorLast != null ? authorLast.hashCode() : 0);
+    result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
+    result = 31 * result + getLikes();
+    result = 31 * result + getTime();
+    result = 31 * result + getVisibility();
     return result;
   }
 
@@ -96,7 +108,8 @@ public class Post {
   public String toString() {
     return "Post{" +
         "id=" + id +
-        ", author=" + author +
+        ", authorFirst='" + authorFirst + '\'' +
+        ", authorLast='" + authorLast + '\'' +
         ", content='" + content + '\'' +
         ", likes=" + likes +
         ", time=" + time +

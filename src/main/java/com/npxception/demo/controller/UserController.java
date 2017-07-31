@@ -40,18 +40,6 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @ApiOperation(value = "Gets all User")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved list of user"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-  })
-  @RequestMapping(value= "/users", method = RequestMethod.GET)
-
-  public Collection<User> getAllUsers() {
-    return userService.getAllUsers();
-  }
-
   @ApiOperation(value = "Gets User given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved user"),

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Qualifier("primary")
   @Autowired
   private DataSource dataSource;
+
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
 
   @Bean
   public RedirectLoginSuccessHandler loginSuccessHandler() {
@@ -39,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//    String sql = "TRUNCATE loginfo";
+//    jdbcTemplate.update(sql);
         auth.jdbcAuthentication().dataSource(dataSource)
         .usersByUsernameQuery("SELECT email AS principal, password AS credentials" +
             ", true FROM users WHERE email = ?")

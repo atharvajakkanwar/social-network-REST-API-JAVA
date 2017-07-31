@@ -34,17 +34,6 @@ public class PostController {
   @Autowired
   private PostService postService;
 
-  @ApiOperation(value = "Return every post in the database")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-  })
-  @RequestMapping(value= "/posts", method = RequestMethod.GET)
-  public Collection<Post> getAllPosts() {
-    return postService.getAllPosts();
-  }
-
   @ApiOperation(value = "Return post given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved post"),
