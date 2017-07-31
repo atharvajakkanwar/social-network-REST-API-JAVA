@@ -3,6 +3,7 @@ package com.npxception.demo.dao;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
@@ -196,6 +197,20 @@ public class PostgreSQLPostDaoImpl implements PostDao {
       post.setTime(resultSet.getInt("time"));
       post.setVisibility(resultSet.getInt("visibility"));
       return post;
+    }
+  }
+
+  public void checkUser(int id){
+    String sql0 = "SELECT * FROM users WHERE userid = ?";
+    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
+    String email = user.getEmail();
+    String password = user.getPassword();
+    String sql1 = "SELECT email FROM loginfo";
+    String sql2 = "SELECT password FROM loginfo";
+    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
+    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
+    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
+      throw new AuthenticationException(id);
     }
   }
 }
