@@ -38,9 +38,6 @@ public class AuthenticationController {
     return new UserInformation().getEmail();
   }
 
-//  public String getPassword() {
-//    return new UserInformation().getPassword();
-//  }
 
 
 }

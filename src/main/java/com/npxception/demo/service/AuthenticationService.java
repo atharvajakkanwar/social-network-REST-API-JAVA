@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
  */
 @RestController
-@RequestMapping("/auth")
 public class AuthenticationService {
 
   @Autowired
@@ -44,7 +43,6 @@ public class AuthenticationService {
     return this.authService.getRoleById(roleid);
   }
 
-  @RequestMapping(value = "/useremail", method = RequestMethod.GET)
   public String getEmail() {
     return new UserInformation().getEmail();
   }

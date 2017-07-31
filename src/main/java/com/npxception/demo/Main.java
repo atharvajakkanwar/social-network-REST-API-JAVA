@@ -17,8 +17,8 @@ public class Main {
      // flyway.repair(); // Do not use this in production!! Clears the entire DB at each run.
 //        flyway.baseline();
       flyway.setValidateOnMigrate(false);
-      flyway.clean();
-     // flyway.repair();
+//      flyway.clean();
+      flyway.repair();
       flyway.migrate();
       SpringApplication.run(Main.class, args);
 
