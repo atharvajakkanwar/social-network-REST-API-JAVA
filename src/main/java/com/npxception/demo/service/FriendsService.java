@@ -33,6 +33,7 @@ public class FriendsService {
   }
 
   public void removeAllFriends(int id) {
+    System.out.println("IN SERVICE IN SERVICE IN SERVICE IN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICE");
     this.dao.removeAllFriends(id);
   }
 

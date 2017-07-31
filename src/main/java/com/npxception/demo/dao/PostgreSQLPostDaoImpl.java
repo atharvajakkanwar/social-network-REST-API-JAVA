@@ -3,6 +3,7 @@ package com.npxception.demo.dao;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
@@ -113,10 +114,11 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public void createPost(Post post) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (author, content, likes, time, visibility) " +
-        "VALUES (?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility) " +
+        "VALUES (?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
-        post.getAuthor(),
+        post.getAuthorFirstName(),
+        post.getAuthorLastName(),
         post.getContent(),
         post.getLikes(),
         post.getTime(),
@@ -132,9 +134,10 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
-  public Collection<Post> getPostsByAuthor(String author) {
-    final String sql = "SELECT * FROM users WHERE author = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), author);
+  public Collection<Post> getPostsByAuthor(String authorFirst, String authorLast) {
+    final String sql = "SELECT * FROM users WHERE authorfirst = ? AND authorlast = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(),
+        new Object[]{authorFirst, authorLast});
     return posts;
   }
 
@@ -187,12 +190,27 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {
       Post post = new Post();
       post.setId(resultSet.getInt("id"));
-      post.setAuthor(resultSet.getString("author"));
+      post.setAuthorFirstName(resultSet.getString("authorfirst"));
+      post.setAuthorLastName(resultSet.getString("authorlast"));
       post.setContent(resultSet.getString("content"));
       post.setLikes(resultSet.getInt("likes"));
       post.setTime(resultSet.getInt("time"));
       post.setVisibility(resultSet.getInt("visibility"));
       return post;
+    }
+  }
+
+  public void checkUser(int id){
+    String sql0 = "SELECT * FROM users WHERE userid = ?";
+    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
+    String email = user.getEmail();
+    String password = user.getPassword();
+    String sql1 = "SELECT email FROM loginfo";
+    String sql2 = "SELECT password FROM loginfo";
+    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
+    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
+    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
+      throw new AuthenticationException(id);
     }
   }
 }

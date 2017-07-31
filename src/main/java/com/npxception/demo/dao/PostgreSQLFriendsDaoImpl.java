@@ -1,6 +1,8 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.helperMethods.AccessManager;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 
@@ -18,6 +20,9 @@ import javax.sql.DataSource;
  */
 @Repository("PostgreFriends")
 public class PostgreSQLFriendsDaoImpl implements FriendsDao {
+
+  @Autowired
+  private AccessManager accessManager = new AccessManager();
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.usertwoid AND f.useroneid = ? " +
@@ -152,7 +157,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     } else {
       currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
           new Object[]{id2, id}, Integer.class);
-      System.out.print(currentStatus);
       // this statement means, if id1 is blocked by id2, then id2 has the
       // right to unblock
       if ((currentStatus == 2 || currentStatus == 5)) {
@@ -185,4 +189,5 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }
+
 }

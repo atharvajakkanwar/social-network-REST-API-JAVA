@@ -1,33 +1,24 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.config.RedirectLoginSuccessHandler;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.DuplicateEmailException;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
 
-import org.hibernate.annotations.SourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
 /**
  * Represents a controller for the User service.
  */
@@ -39,18 +30,6 @@ public class UserController {
 
   @Autowired
   private UserService userService;
-
-  @ApiOperation(value = "Gets all User")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved list of user"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-  })
-  @RequestMapping(value= "/users", method = RequestMethod.GET)
-
-  public Collection<User> getAllUsers() {
-    return userService.getAllUsers();
-  }
 
   @ApiOperation(value = "Gets User given ID")
   @ApiResponses(value = {

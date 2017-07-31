@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 
@@ -107,6 +108,13 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return null;
   }
 
+//  @Override
+//  public User getUserByEmailID(String email, int id) {
+//    final String checkUser = "SELECT * FROM users WHERE userid = ? AND email = ?";
+//    return jdbcTemplate.queryForObject(checkUser,
+//        new Object[]{id, new UserInformation().getEmail()}, new UserRowMapper());
+//  }
+
   @Override
   public Collection<User> getUsersByAge(int age) {
     final String sql = "SELECT * FROM users WHERE age = ?";
@@ -181,5 +189,19 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   public void setPassword(String pass) {
     final String sql = "UPDATE users SET password = ?";
     jdbcTemplate.update(sql, pass);
+  }
+
+  public void checkUser(int id){
+    String sql0 = "SELECT * FROM users WHERE userid = ?";
+    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
+    String email = user.getEmail();
+    String password = user.getPassword();
+    String sql1 = "SELECT email FROM loginfo";
+    String sql2 = "SELECT password FROM loginfo";
+    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
+    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
+    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
+      throw new AuthenticationException(id);
+    }
   }
 }

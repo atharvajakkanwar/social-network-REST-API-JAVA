@@ -1,6 +1,9 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.Role;
+import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.helperMethods.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +38,6 @@ public class PostgreSQLRoleDaoImpl implements  RoleDao {
       return role;
     }
   }
+
 
 }

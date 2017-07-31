@@ -52,23 +52,6 @@ public class GroupController {
 
   // TODO: This method needs refactoring. Doesn't logically make sense?
   // Given a group ID, return that group? sounds internal helperish
-  @ApiOperation(value = "Return group given ID")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully retrieved group"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
-  @RequestMapping(value = "/groupid/{groupid}", method = RequestMethod.GET)
-  public FbGroup getGroupById(@ApiParam(value = "group ID", required = true)
-                              @PathVariable("groupid") int groupid,
-                              @PathVariable("userid") int userid,
-                              @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid, token);
-    return groupService.getGroupById(groupid);
-  }
-
-
   @ApiOperation(value = "Removes a group given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully removed group"),
