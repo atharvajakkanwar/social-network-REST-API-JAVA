@@ -93,7 +93,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
-   // new UserInformation().checkUser(memberid);
+    // new UserInformation().checkUser(memberid);
     final String sql = "SELECT g.* FROM groups g, membership m " +
         "WHERE g.groupid = m.groupid AND memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);
