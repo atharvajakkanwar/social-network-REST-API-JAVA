@@ -49,11 +49,7 @@ public class FriendsController {
       method = RequestMethod.GET)
   public Collection<User> getAllFriends(@ApiParam(value = "User ID", required = true)
                                         @PathVariable("user") int id, @RequestHeader("authorization") String token) {
-    System.out.println("BEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFOREBEFORE");
-    System.out.println(id);
-    System.out.println(token);
     accessManager.checkUser(id, token);
-    System.out.println("AFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTERAFTER");
     return service.getAllFriends(id);
   }
 

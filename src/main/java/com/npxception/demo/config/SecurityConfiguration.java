@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,7 +25,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Bean
   public RedirectLoginSuccessHandler loginSuccessHandler() {
-    return new RedirectLoginSuccessHandler();
+    RedirectLoginSuccessHandler successHandler = new RedirectLoginSuccessHandler();
+    successHandler.setDefaultTargetUrl("/successLogin");
+    return successHandler;
   }
 
   @Bean

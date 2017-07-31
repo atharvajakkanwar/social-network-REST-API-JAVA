@@ -125,11 +125,5 @@ public class PostController {
       postService.createPost(assignment);
     }
 
-    @RequestMapping(value = "/mainPage/{userid}", method = RequestMethod.GET)
-    public Collection<Post> getPostUserMainPage() {
-     // return new ArrayList<>();
-     // int id = new UserInformation().getUserId();
-      System.out.print(RedirectLoginSuccessHandler.userid);
-      return postService.getPostUserMainPage(RedirectLoginSuccessHandler.userid);
-  }
+
 }
