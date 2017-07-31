@@ -61,7 +61,6 @@ public class UserInformation {
 //    return password;
 //  }
 
-
   public String getFullNameById(int id){
     User user = userService.getUserById(id);
     String name = user.getFirstName() + " " + user.getFirstName();
