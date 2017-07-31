@@ -138,7 +138,7 @@ public class FriendsController {
     this.service.blockFriend(id1, username);
   }
 
-  @ApiOperation(value = "Block another User")
+  @ApiOperation(value = "Find common friends with another User")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),

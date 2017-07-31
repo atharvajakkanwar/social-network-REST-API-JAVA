@@ -3,6 +3,7 @@ package com.npxception.demo.helperMethods;
 import com.npxception.demo.controller.AuthenticationController;
 import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,20 @@ public class UserInformation {
     return name;
   }
 
-
+//  public void checkUser(int id){
+////    User user = userService.getUserById(id);
+//    String sql0 = "SELECT * FROM users WHERE userid = id";
+//    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
+//    String email = user.getEmail();
+//    String password = user.getPassword();
+//    String sql1 = "SELECT email FROM logingfo";
+//    String sql2 = "SELECT password FROM loginfo";
+//    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
+//    System.out.println(loginEmail);
+//    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
+//    System.out.println(loginPass);
+//    if (email != loginEmail || password != loginPass){
+//       throw new AuthenticationException(id);
+//    }
+//  }
 }

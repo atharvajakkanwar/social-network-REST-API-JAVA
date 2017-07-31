@@ -1,6 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 
@@ -69,11 +70,13 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getAllFriends(int id) {
+    checkUser(id);
     return jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id);
   }
 
   @Override
   public Collection<User> commonFriends(int id, String username) {
+    checkUser(id);
     int id2 = getIdByname(username);
     Collection<User> res = new HashSet<>();
     Collection<User> list1 = jdbcTemplate.query(GET_ALL_FRIENDS, new UserRowMapper(), id);
@@ -90,6 +93,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getFriendsByName(String username, int id) {
+    checkUser(id);
     String[] names = new UserInformation().splitUserNameWithDot(username);
 
     Collection<User> result = jdbcTemplate.query(GET_FRIEND_BY_NAME, new UserRowMapper(),
@@ -104,32 +108,38 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public Collection<User> getInvitationList(int id) {
+    checkUser(id);
     return jdbcTemplate.query(GET_INVITATION_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
   public Collection<User> getBlockList(int id) {
+    checkUser(id);
     return jdbcTemplate.query(GET_BLOCK_LIST, new UserRowMapper(), new Object[]{id, id});
   }
 
   @Override
   public void removeAllFriends(int id) {
+    checkUser(id);
     jdbcTemplate.update(REMOVE_ALL_FRIENDS, new Object[]{id, id});
   }
 
   @Override
   public void unFriend(int id, String username) {
+    checkUser(id);
     int id2 = getIdByname(username);
     jdbcTemplate.update(UN_FRIENDS, new Object[]{id, id2});
   }
 
   @Override
   public int countFriends(int id) {
+    checkUser(id);
     return getAllFriends(id).size();
   }
 
   @Override
   public void sendRequest(int id, String username) {
+    checkUser(id);
     int id2 = getIdByname(username);
     if (id < id2) {
       jdbcTemplate.update(SEND_REQUEST, new Object[]{id, id2, 2, id, id2,});
@@ -140,6 +150,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void becomeFriend(int id, String username) {
+    checkUser(id);
     int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
@@ -152,7 +163,6 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     } else {
       currentStatus = jdbcTemplate.queryForObject(GET_STATUS,
           new Object[]{id2, id}, Integer.class);
-      System.out.print(currentStatus);
       // this statement means, if id1 is blocked by id2, then id2 has the
       // right to unblock
       if ((currentStatus == 2 || currentStatus == 5)) {
@@ -163,6 +173,7 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
 
   @Override
   public void blockFriend(int id, String username) {
+    checkUser(id);
     int id2 = getIdByname(username);
     int currentStatus;
     if (id < id2) {
@@ -184,5 +195,19 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     String[] result = new UserInformation().splitUserNameWithDot(name);
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
+  }
+
+  public void checkUser(int id){
+    String sql0 = "SELECT * FROM users WHERE userid = ?";
+    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
+    String email = user.getEmail();
+    String password = user.getPassword();
+    String sql1 = "SELECT email FROM loginfo";
+    String sql2 = "SELECT password FROM loginfo";
+    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
+    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
+    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
+      throw new AuthenticationException(id);
+    }
   }
 }

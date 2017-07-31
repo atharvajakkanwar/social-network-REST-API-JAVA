@@ -44,8 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//    String sql = "TRUNCATE loginfo";
-//    jdbcTemplate.update(sql);
+
         auth.jdbcAuthentication().dataSource(dataSource)
         .usersByUsernameQuery("SELECT email AS principal, password AS credentials" +
             ", true FROM users WHERE email = ?")
