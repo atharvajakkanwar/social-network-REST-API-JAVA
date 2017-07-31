@@ -72,7 +72,7 @@ public interface PostDao {
 
   Collection<Post> getPostsByContent(String content);
 
-  Collection<Post> getPostsByAuthor(String author);
+  Collection<Post> getPostsByAuthor(String authorFirs, String authorLast);
 
   Collection<Post> getPostsByLikes(int likes);
 

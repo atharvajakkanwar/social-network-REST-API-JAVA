@@ -2,6 +2,7 @@ package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.helperMethods.UserInformation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,6 +27,8 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   @Autowired
   private UserDao userDao;
 
+
+
   @Override
   public Collection<FbGroup> getAllGroup() {
     final String sql = "SELECT * FROM groups";
@@ -35,6 +38,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public FbGroup getGroupById(int id) {
+//    new UserInformation().checkUser(id);
     final String sql = "SELECT * FROM groups WHERE groupid = ?";
     FbGroup group = jdbcTemplate.queryForObject(sql, new GroupRowMapper(), id);
     return group;
@@ -91,6 +95,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
+    new UserInformation().checkUser(memberid);
     final String sql = "SELECT g.* FROM groups g, membership m " +
         "WHERE g.groupid = m.groupid AND memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);

@@ -107,6 +107,13 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     return null;
   }
 
+//  @Override
+//  public User getUserByEmailID(String email, int id) {
+//    final String checkUser = "SELECT * FROM users WHERE userid = ? AND email = ?";
+//    return jdbcTemplate.queryForObject(checkUser,
+//        new Object[]{id, new UserInformation().getEmail()}, new UserRowMapper());
+//  }
+
   @Override
   public Collection<User> getUsersByAge(int age) {
     final String sql = "SELECT * FROM users WHERE age = ?";

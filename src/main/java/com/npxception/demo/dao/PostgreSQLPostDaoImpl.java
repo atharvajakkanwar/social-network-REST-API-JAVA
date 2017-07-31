@@ -113,10 +113,11 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public void createPost(Post post) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (author, content, likes, time, visibility) " +
-        "VALUES (?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility) " +
+        "VALUES (?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
-        post.getAuthor(),
+        post.getAuthorFirstName(),
+        post.getAuthorLastName(),
         post.getContent(),
         post.getLikes(),
         post.getTime(),
@@ -132,9 +133,10 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
-  public Collection<Post> getPostsByAuthor(String author) {
-    final String sql = "SELECT * FROM users WHERE author = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), author);
+  public Collection<Post> getPostsByAuthor(String authorFirst, String authorLast) {
+    final String sql = "SELECT * FROM users WHERE authorfirst = ? AND authorlast = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(),
+        new Object[]{authorFirst, authorLast});
     return posts;
   }
 
@@ -187,7 +189,8 @@ public class PostgreSQLPostDaoImpl implements PostDao {
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {
       Post post = new Post();
       post.setId(resultSet.getInt("id"));
-      post.setAuthor(resultSet.getString("author"));
+      post.setAuthorFirstName(resultSet.getString("authorfirst"));
+      post.setAuthorLastName(resultSet.getString("authorlast"));
       post.setContent(resultSet.getString("content"));
       post.setLikes(resultSet.getInt("likes"));
       post.setTime(resultSet.getInt("time"));

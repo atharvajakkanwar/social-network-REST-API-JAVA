@@ -65,6 +65,11 @@ public class UserService {
     return this.userDao.getUserByEmail(email);
   }
 
+//  // Email
+//  public User getUserByEmailID(String email, int id) {
+//    return this.userDao.getUserByEmailID(email, id);
+//  }
+
   // Age
   public Collection<User> getUsersByAge(int age) {
     return this.userDao.getUsersByAge(age);
