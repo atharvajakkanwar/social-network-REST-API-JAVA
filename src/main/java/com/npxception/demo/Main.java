@@ -15,6 +15,8 @@ public class Main {
 //        flyway.setDataSource("jdbc:postgresql://localhost/", "postgres", "1234");
         flyway.repair(); // Do not use this in production!! Clears the entire DB at each run.
 //        flyway.baseline();
+        flyway.setValidateOnMigrate(false);
+        flyway.repair();
         flyway.migrate();
         SpringApplication.run(Main.class, args);
 

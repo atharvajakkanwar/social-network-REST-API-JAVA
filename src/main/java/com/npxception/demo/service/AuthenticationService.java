@@ -32,14 +32,5 @@ public class AuthenticationService implements UserDetailsService{
     return null;
   }
 
-//  @Override
-//  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//    com.npxception.demo.entity.User user = userDao.getUserByUserName(s);
-//    GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-//    String fullName = new UserInformation().getFullName(user.getFirstName(), user.getLastName());
-//    UserDetails details = (UserDetails)new org.springframework.security.core.userdetails
-//        .User(fullName, user.getPassword(), Arrays.asList(authority));
-//    return details;
-//  }
 }
 
