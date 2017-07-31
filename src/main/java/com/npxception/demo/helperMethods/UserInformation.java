@@ -46,6 +46,11 @@ public class UserInformation {
     return currentPrincipalName;
   }
 
+  public String getPassword() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentPassword = authentication.getCredentials().toString();
+    return currentPassword;
+  }
   public String getFullNameById(int id){
     User user = userService.getUserById(id);
     String name = user.getFirstName() + " " + user.getFirstName();
