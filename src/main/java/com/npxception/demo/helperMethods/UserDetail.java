@@ -2,8 +2,6 @@ package com.npxception.demo.helperMethods;
 
 import com.npxception.demo.entity.User;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 /**
  * Created by RachelDi on 27/07/2017.
  */

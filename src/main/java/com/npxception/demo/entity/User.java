@@ -1,6 +1,5 @@
 package com.npxception.demo.entity;
 
-
 public class User {
   private int userid;
   private String firstname;

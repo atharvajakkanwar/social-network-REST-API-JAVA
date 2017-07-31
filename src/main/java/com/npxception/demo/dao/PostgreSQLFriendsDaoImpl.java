@@ -1,7 +1,7 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.helperMethods.AccessManager;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 
@@ -19,6 +19,9 @@ import javax.sql.DataSource;
  */
 @Repository("PostgreFriends")
 public class PostgreSQLFriendsDaoImpl implements FriendsDao {
+
+  @Autowired
+  private AccessManager accessManager = new AccessManager();
 
   final String GET_ALL_FRIENDS = "SELECT u.* FROM users u," +
       "friends f  WHERE u.userid = f.usertwoid AND f.useroneid = ? " +

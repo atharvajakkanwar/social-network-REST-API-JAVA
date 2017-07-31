@@ -1,10 +1,8 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.config.RedirectLoginSuccessHandler;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.helperMethods.AccessManager;
-import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import io.swagger.annotations.Api;
@@ -36,7 +33,7 @@ public class PostController {
   private PostService postService;
 
   @Autowired
-  AccessManager accessManager;
+  AccessManager accessManager = new AccessManager();
 
   @ApiOperation(value = "Return post given ID")
   @ApiResponses(value = {

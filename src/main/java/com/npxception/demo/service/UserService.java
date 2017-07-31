@@ -3,7 +3,6 @@ package com.npxception.demo.service;
 import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
-import com.npxception.demo.login.Login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -64,11 +63,6 @@ public class UserService {
   public User getUserByEmail(String email) {
     return this.userDao.getUserByEmail(email);
   }
-
-//  // Email
-//  public User getUserByEmailID(String email, int id) {
-//    return this.userDao.getUserByEmailID(email, id);
-//  }
 
   // Age
   public Collection<User> getUsersByAge(int age) {

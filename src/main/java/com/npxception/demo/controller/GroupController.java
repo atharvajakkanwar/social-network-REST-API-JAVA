@@ -2,7 +2,6 @@ package com.npxception.demo.controller;
 
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
-import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
