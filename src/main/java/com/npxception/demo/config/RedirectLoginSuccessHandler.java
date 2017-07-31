@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -32,14 +34,5 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
                                       HttpServletResponse httpServletResponse,
                                       Authentication authentication)
       throws IOException, ServletException {
-    String sql = "TRUNCATE loginfo";
-    jdbcTemplate.update(sql);
-    String email = new AuthenticationController().getEmail();
-    com.npxception.demo.entity.User user = userService.getUserByEmail(email);
-    String password = user.getPassword();
-    userid = user.getId();
-    String sql2 = "INSERT INTO loginfo (userid, email, password) " +
-        "SELECT ?, ?, ? WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";
-    jdbcTemplate.update(sql2, new Object[]{userid, email, password, userid});
   }
 }

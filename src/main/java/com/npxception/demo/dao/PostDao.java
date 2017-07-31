@@ -14,7 +14,7 @@ public interface PostDao {
 
   void updatePosts(Post post);
 
-  void removePostsById(int id);
+  void removePostsById(int id1, int id);
 
 
   /**
@@ -67,7 +67,7 @@ public interface PostDao {
   Collection<Post> getPostsByUserFromGroup(int userId, int groupId);
 
 
-//  Collection<Post> getPostsByUser(String firstName, int time);
+  Collection<Post> getPostsByUserFromGroupName(int id, String name);
 
 
   Collection<Post> getPostsByContent(String content);

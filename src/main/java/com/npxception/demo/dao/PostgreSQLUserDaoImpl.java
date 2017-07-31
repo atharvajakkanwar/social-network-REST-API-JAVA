@@ -190,18 +190,4 @@ public class PostgreSQLUserDaoImpl implements UserDao {
     final String sql = "UPDATE users SET password = ?";
     jdbcTemplate.update(sql, pass);
   }
-
-  public void checkUser(int id){
-    String sql0 = "SELECT * FROM users WHERE userid = ?";
-    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
-    String email = user.getEmail();
-    String password = user.getPassword();
-    String sql1 = "SELECT email FROM loginfo";
-    String sql2 = "SELECT password FROM loginfo";
-    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
-    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
-    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
-      throw new AuthenticationException(id);
-    }
-  }
 }

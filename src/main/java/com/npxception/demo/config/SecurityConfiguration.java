@@ -23,10 +23,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
-  @Autowired
-  private JdbcTemplate jdbcTemplate;
-
-
   @Bean
   public RedirectLoginSuccessHandler loginSuccessHandler() {
     return new RedirectLoginSuccessHandler();
@@ -44,7 +40,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
         auth.jdbcAuthentication().dataSource(dataSource)
         .usersByUsernameQuery("SELECT email AS principal, password AS credentials" +
             ", true FROM users WHERE email = ?")

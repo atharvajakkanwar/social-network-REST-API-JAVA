@@ -45,12 +45,14 @@ public class PostService {
 
   public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {return this.postDao.getPostsByUserFromGroup(userId, groupId); }
 
+
+
   public Post getPostsById(int id) {
     return this.postDao.getPostsById(id);
   }
 
-  public void removePostsById(int id) {
-    this.postDao.removePostsById(id);
+  public void removePostsById(int id1, int id) {
+    this.postDao.removePostsById(id1, id);
   }
 
   public void updatePosts (Post assignment) {
@@ -72,4 +74,7 @@ public class PostService {
   }
 
 
+  public Collection<Post> getPostsByUserFromGroupName(int id, String name) {
+    return this.postDao.getPostsByUserFromGroupName(id, name);
+  }
 }
