@@ -33,29 +33,13 @@ public class AuthenticationController {
   @Autowired
   private UserService userService;
 
-//  @RequestMapping(method = RequestMethod.GET, value = "/login")
-//  public void login(HttpServletResponse httpServletResponse) {
-//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//    String email = new AuthenticationController().getEmail();
-//    com.npxception.demo.entity.User user = userService.getUserByEmail(email);
-//    String fullName = new UserInformation().getFullName(user.getFirstName(), user.getLastName());
-//    if (authentication.isAuthenticated()){
-//      try {
-//        httpServletResponse.sendRedirect("http://localhost:8081/" + fullName);
-//      } catch (IOException e) {
-//        e.printStackTrace();
-//      }
-//    }
-//  }
-
-  @RequestMapping(method = RequestMethod.GET, value = "/login/{roleid}")
-  public Role getRoleById(@PathVariable int roleid) {
-    return this.authService.getRoleById(roleid);
-  }
-
   @RequestMapping(value = "/useremail", method = RequestMethod.GET)
   public String getEmail() {
     return new UserInformation().getEmail();
+  }
+
+  public String getPassword() {
+    return new UserInformation().getPassword();
   }
 
 

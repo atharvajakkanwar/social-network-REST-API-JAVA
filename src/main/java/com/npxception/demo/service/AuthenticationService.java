@@ -49,5 +49,4 @@ public class AuthenticationService {
     return new UserInformation().getEmail();
   }
 
-
 }

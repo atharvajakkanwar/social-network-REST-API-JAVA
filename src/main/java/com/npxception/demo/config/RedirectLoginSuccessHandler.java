@@ -29,10 +29,6 @@ public class RedirectLoginSuccessHandler implements AuthenticationSuccessHandler
       throws IOException, ServletException {
     String email = new AuthenticationController().getEmail();
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
-    int id = user.getId();
-    userid = id;
-    // httpServletResponse.sendRedirect("http://localhost:"+ port +"/post/mainPage/" +id);
-//    httpServletResponse.sendRedirect("http://localhost:8080/post/mainPage/" +id);
-    System.out.println();
+    userid = user.getId();
   }
 }
