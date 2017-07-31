@@ -19,11 +19,16 @@ public class AccessManager {
 
   public void checkUser(int id, String token){
     try {
+      System.out.println("Line 22\n");
       String database_token_sql = "SELECT token FROM loginfo WHERE userid = ?";
+      System.out.println("Line 24\n");
       String database_token = jdbcTemplate.queryForObject(database_token_sql, new Object[]{id}, String.class);
+      System.out.println("Line 26\n");
       String database_id_sql = "SELECT userid FROM loginfo WHERE token = ?";
+      System.out.println("Line 28\n");
       Integer database_id = jdbcTemplate.queryForObject(database_id_sql, new Object[]{token}, Integer.class);
       if ((!database_id.equals(id)) || (!database_token.equals(token))){
+        System.out.println("Line 31\n");
         throw new AuthenticationException(id);
       }
     }
