@@ -28,3 +28,4 @@ ALTER TABLE friends
   FOREIGN KEY (usertwoid)
   REFERENCES users (userid)
   ON DELETE CASCADE;
+
