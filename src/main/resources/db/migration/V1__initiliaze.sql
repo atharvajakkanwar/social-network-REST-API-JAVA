@@ -50,6 +50,12 @@ CREATE TABLE role (
   role VARCHAR(255) NOT NULL,
   roleid INT NOT NULL);
 
+
+CREATE TABLE loginfo (
+  userid INT NOT NULL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL);
+
 /*
   Data
  */
@@ -57,6 +63,9 @@ CREATE TABLE role (
 /*
   Friends relations
  */
+
+
+
 insert into friends (useroneid, usertwoid, status) values (9, 14, 5);
 insert into friends (useroneid, usertwoid, status) values (7, 4, 3);
 insert into friends (useroneid, usertwoid, status) values (31, 14, 3);
