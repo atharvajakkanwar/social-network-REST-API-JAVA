@@ -40,7 +40,7 @@ public class RedirectLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
     String password = user.getPassword();
     Integer userid = user.getId();
-    String token = authService.getToken() ;
+    String token = authService.getToken();
     String create_session_sql = "INSERT INTO loginfo (userid, email, password, token) " +
         "SELECT ?, ?, ?, ? " +
         "WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";

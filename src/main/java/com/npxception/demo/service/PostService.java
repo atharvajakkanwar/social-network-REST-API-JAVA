@@ -21,7 +21,7 @@ public class PostService {
   PostgreSQLPostDaoImpl postgreSQLPostDao;
 
 
-  PostService (PostgreSQLPostDaoImpl postgreSQLPostDao) {
+  PostService(PostgreSQLPostDaoImpl postgreSQLPostDao) {
     this.postgreSQLPostDao = postgreSQLPostDao;
   }
 
@@ -33,18 +33,25 @@ public class PostService {
     return this.postDao.getAllPosts();
   }
 
-  public Collection<Post> getPostsByUser(int userId) { return this.postDao.getPostsByUser(userId); }
+  public Collection<Post> getPostsByUser(int userId) {
+    return this.postDao.getPostsByUser(userId);
+  }
 
 //  public Collection<Post> getPostsByUser(String firstName) { return this.postDao.getPostsByUser(firstName); }
 
 //  public Collection<Post> getPostsByUser(String firstName, int time) { return this.postDao.getPostsByUser(firstName, time); }
 
-  public Collection<Post> getPostsFromGroup(int groupId) {return this.postDao.getPostsFromGroup(groupId); }
+  public Collection<Post> getPostsFromGroup(int groupId) {
+    return this.postDao.getPostsFromGroup(groupId);
+  }
 
-  public Collection<Post> getPostsFromGroup(String name) {return this.postDao.getPostsFromGroup(name); }
+  public Collection<Post> getPostsFromGroup(String name) {
+    return this.postDao.getPostsFromGroup(name);
+  }
 
-  public Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId) {return this.postDao.getPostsByUserFromGroup(id1, id2, groupId); }
-
+  public Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId) {
+    return this.postDao.getPostsByUserFromGroup(id1, id2, groupId);
+  }
 
 
   public Post getPostsById(int id) {
@@ -55,11 +62,11 @@ public class PostService {
     this.postDao.removePostsById(id1, id);
   }
 
-  public void updatePosts (Post assignment) {
+  public void updatePosts(Post assignment) {
     this.postDao.updatePosts(assignment);
   }
 
-  public Collection<Post> getPostUserMainPage(int userid){
+  public Collection<Post> getPostUserMainPage(int userid) {
     return this.postDao.getPostUserMainPage(userid);
   }
 

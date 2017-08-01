@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class UserInformation {
 
 
-  public String[] splitUserNameWithDot(String name){
+  public String[] splitUserNameWithDot(String name) {
     String[] result = name.split("\\.");
     return result;
   }

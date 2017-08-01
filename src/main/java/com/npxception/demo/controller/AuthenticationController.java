@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by Atharva Jakkanwar on 03-Jul-17.
  * Represents a controller for the Authentication service.
-
  */
 @RestController
 public class AuthenticationController {

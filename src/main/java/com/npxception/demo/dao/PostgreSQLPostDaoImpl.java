@@ -5,9 +5,11 @@ import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
+import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,6 +38,9 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   @Autowired
   private GroupService groupService;
+
+  @Autowired
+  private UserService userService;
 
   @Override
   public Collection<Post> getAllPosts() {
@@ -169,15 +174,17 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public void createPost(Post post) {
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility) " +
-        "VALUES (?, ?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility, wall) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
         post.getAuthorFirstName(),
         post.getAuthorLastName(),
         post.getContent(),
         post.getLikes(),
         post.getTime(),
-        post.getVisibility()
+        post.getVisibility(),
+        //get id by name
+        userService.getUserByUserName(post.getWallName()).getId()
     });
   }
 
@@ -216,6 +223,13 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   }
 
   @Override
+  public Collection<Post> getPostsByWall(int wall) {
+    final String sql = "SELECT * FROM users WHERE wall = ?";
+    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), wall);
+    return posts;
+  }
+
+  @Override
   public Collection<Post> getPostUserMainPage(int userid) {
     Collection<Post> result = new ArrayList<>();
     Collection<User> friends = friendsService.getAllFriends(userid);
@@ -232,8 +246,8 @@ public class PostgreSQLPostDaoImpl implements PostDao {
         result.add(post);
       }
     }
-    Collection<Post> myPosts = getPostsByUser(userid);
-    for (Post post : myPosts) {
+    Collection<Post> wallPosts = getPostsByWall(userid);
+    for (Post post : wallPosts) {
       result.add(post);
     }
     return result;
@@ -241,6 +255,9 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
 
   private static class PostRowMapper implements RowMapper<Post> {
+    @Autowired
+    private UserService userService;
+
     @Override
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {
       Post post = new Post();
@@ -251,6 +268,8 @@ public class PostgreSQLPostDaoImpl implements PostDao {
       post.setLikes(resultSet.getInt("likes"));
       post.setTime(resultSet.getInt("time"));
       post.setVisibility(resultSet.getInt("visibility"));
+      post.setWallName(userService.getUserById(resultSet.getInt("wall")).getFirstName()
+          + "." + userService.getUserById(resultSet.getInt("wall")).getLastName());
       return post;
     }
   }

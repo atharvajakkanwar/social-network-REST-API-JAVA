@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Created by Atharva Jakkanwar on 31-Jul-17.
  */
 @Controller
-public class SuccessLoginController{
+public class SuccessLoginController {
 
   @Autowired
   private UserService userService;
@@ -23,9 +23,11 @@ public class SuccessLoginController{
   AuthenticationService authenticationService;
 
   @RequestMapping(method = RequestMethod.GET, value = "/successLogin")
-  public @ResponseBody String createToken() {
+  public
+  @ResponseBody
+  String createToken() {
     User user = userService.getUserByEmail(authenticationService.getEmail());
-    String token = "authorization_token = "  + authenticationService.getToken();
+    String token = "authorization_token = " + authenticationService.getToken();
     Integer id = user.getId();
     return token + "\n" + "userid = " + id;
   }

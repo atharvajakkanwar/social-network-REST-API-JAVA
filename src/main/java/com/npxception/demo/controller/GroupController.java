@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 /**
- *
  * Represents a controller for the Group Service.
  */
 
@@ -42,9 +41,9 @@ public class GroupController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(value= "/all", method = RequestMethod.GET)
+  @RequestMapping(value = "/all", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups(@ApiParam(value = "User ID", required = true)
-                                            @PathVariable("userid") int userid,
+                                          @PathVariable("userid") int userid,
                                           @RequestHeader("authorization") String token) {
     System.out.println("Before manager");
     accessManager.checkUser(userid, token);
@@ -62,7 +61,7 @@ public class GroupController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/remove/{groupid}",  method = RequestMethod.DELETE)
+  @RequestMapping(value = "/remove/{groupid}", method = RequestMethod.DELETE)
   public void removeGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid,
                               @PathVariable("userid") int userid,
@@ -102,9 +101,9 @@ public class GroupController {
                                             @ApiParam(value = "User ID calling method", required = true)
                                             @PathVariable("userid") int userid,
                                             @RequestHeader("authorization") String token) {
-      try {
-        accessManager.checkUser(userid, token);
-        return groupService.getGroupByName(name);
+    try {
+      accessManager.checkUser(userid, token);
+      return groupService.getGroupByName(name);
     } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(name);
     }
@@ -151,7 +150,7 @@ public class GroupController {
     }
     return result;
   }
-  
+
   @ApiOperation(value = "Sends a joining request to a group")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully sent a joining request to a group"),
@@ -161,14 +160,13 @@ public class GroupController {
   })
   @RequestMapping(value = "/join/groupid/{groupid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
   public void sendJoinRequest(@ApiParam(value = "group ID", required = true)
-                               @PathVariable("groupid") int groupid,
+                              @PathVariable("groupid") int groupid,
                               @ApiParam(value = "User ID calling method", required = true)
                               @PathVariable("userid") int userid,
                               @ApiParam(value = "Membership ID", required = true)
-                               @PathVariable("memberid") int memberid,
                               @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
-    groupService.sendJoinRequest(groupid, memberid);
+    groupService.sendJoinRequest(groupid, userid);
   }
 
   @ApiOperation(value = "Adds member to group")
@@ -187,7 +185,7 @@ public class GroupController {
                                @PathVariable("userid") int userid,
                                @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
-    groupService.addMemberToGroup(groupid, memberid);
+    groupService.addMemberToGroup(userid, groupid, memberid);
 
   }
 
@@ -207,6 +205,6 @@ public class GroupController {
                                     @PathVariable("userid") int userid,
                                     @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
-    groupService.removeMemberFromGroup(groupid, memberid);
+    groupService.removeMemberFromGroup(userid, groupid, memberid);
   }
 }
