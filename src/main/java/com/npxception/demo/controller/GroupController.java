@@ -30,7 +30,8 @@ import io.swagger.annotations.ApiResponses;
 
 public class GroupController {
 
-  private AccessManager accessManager;
+  @Autowired
+  private AccessManager accessManager = new AccessManager();
 
   @Autowired
   private GroupService groupService;
@@ -41,11 +42,13 @@ public class GroupController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(value= "/{userid}/groups", method = RequestMethod.GET)
+  @RequestMapping(value= "/all", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups(@ApiParam(value = "User ID", required = true)
                                             @PathVariable("userid") int userid,
                                           @RequestHeader("authorization") String token) {
+    System.out.println("Before manager");
     accessManager.checkUser(userid, token);
+    System.out.println("After manager");
     return groupService.getAllGroup();
   }
 
