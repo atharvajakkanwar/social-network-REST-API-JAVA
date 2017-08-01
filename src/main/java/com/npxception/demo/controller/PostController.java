@@ -61,13 +61,14 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
+  @RequestMapping(value = "/group/{groupid}/member/{memberid}", method = RequestMethod.GET)
   public Collection<Post> getPostsByUserFromGroup(@ApiParam(value = "group ID", required = true)
-                                            @PathVariable("user") int id,
-                                            @PathVariable("groupid") int groupid,
-                                            @RequestHeader("authorization") String token) {
-    accessManager.checkUser(id, token);
-    Collection<Post> result = postService.getPostsByUserFromGroup(id, groupid);
+                                                  @PathVariable("user") int id1,
+                                                  @PathVariable("memberid") int id2,
+                                                  @PathVariable("groupid") int groupid,
+                                                  @RequestHeader("authorization") String token) {
+    accessManager.checkUser(id1, token);
+    Collection<Post> result = postService.getPostsByUserFromGroup(id1, id2, groupid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(groupid));
     }
@@ -81,12 +82,13 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/groupname/{name}/member/{memberid}", method = RequestMethod.GET)
   public Collection<Post> getPostsByUserFromGroupName(@PathVariable("user") int id,
-                                            @PathVariable("name") String name,
-                                            @RequestHeader("authorization") String token) {
+                                                      @PathVariable("memberid") int id2,
+                                                      @PathVariable("name") String name,
+                                                      @RequestHeader("authorization") String token) {
     accessManager.checkUser(id, token);
-    Collection<Post> result = postService.getPostsByUserFromGroupName(id, name);
+    Collection<Post> result = postService.getPostsByUserFromGroupName(id, id2, name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
     }

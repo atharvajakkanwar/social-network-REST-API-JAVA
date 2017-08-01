@@ -4,11 +4,13 @@ import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -46,9 +48,9 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public Collection<Post> getPostsByUser(int userId) {
     final String sql1 = "SELECT * FROM users WHERE userid = ? ";
     User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
-    String author = user.getFirstName() + " " + user.getLastName();
-    final String sql2 = "SELECT * FROM posts WHERE author = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), author);
+    final String sql2 = "SELECT * FROM posts WHERE authorfirst = ? AND authorlast = ? ORDER BY time";
+    List<Post> posts = jdbcTemplate.query(sql2,
+        new PostRowMapper(), user.getFirstName(), user.getLastName());
     return posts;
   }
 
@@ -61,28 +63,35 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 //  }
 
   @Override
-  public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {
-    checkMember(userId, groupId);
+  public Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId) {
+    checkMember(id1, groupId);
     final String sql1 = "SELECT * FROM users WHERE userid = ? ";
-    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
-    String author = user.getFirstName() + " " + user.getLastName();
-    final String sql2 = "SELECT * FROM posts WHERE author = ? " +
+    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), id2);
+    String authorfirst = user.getFirstName();
+    String authorlast = user.getLastName();
+    final String sql2 = "SELECT * FROM posts WHERE authorfirst = ? AND authorlast = ?" +
         "AND visibility = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), new Object[]{author, groupId});
+    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(),
+        new Object[]{authorfirst, authorlast, groupId});
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostsByUserFromGroupName(int id, String name) {
+  public Collection<Post> getPostsByUserFromGroupName(int id1, int id2, String name) {
     int groupid = jdbcTemplate.queryForObject("SELECT groupid FROM groups WHERE groupname = ?"
         , new Object[]{name}, Integer.class);
-    return getPostsByUserFromGroup(id, groupid);
+    return getPostsByUserFromGroup(id1, id2, groupid);
   }
 
   public void checkMember(int userId, int groupId) {
-    final String sql = "SELECT * FROM membership WHERE memberid = ? AND groupid = ?";
-    Object object = jdbcTemplate.queryForObject(sql, new Object[]{userId, groupId}, Object.class);
-    if (object == null) {
+    final String sql = "SELECT memberid FROM membership WHERE memberid = ? AND groupid = ?";
+    Integer result = -1;
+    try {
+      result = jdbcTemplate.queryForObject(sql, new Object[]{userId, groupId}, Integer.class);
+    } catch (EmptyResultDataAccessException e) {
+      result = null;
+    }
+    if (result == null) {
       throw new AuthenticationException(userId);
     }
   }
@@ -124,21 +133,32 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
   //to see if the post(id) is written by the user(id1)
   public void checkAuthor(int id1, int id) {
-    String authorfirst = jdbcTemplate.queryForObject
-        ("SELECT authorfirst FROM posts WHERE id = ?",
-        new Object[]{id},
-        String.class);
-    String authorlast = jdbcTemplate.queryForObject
-        ("SELECT authorlast FROM posts WHERE id = ?",
-            new Object[]{id},
-            String.class);
-    String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
-    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(),
-        new Object[]{authorfirst, authorlast});
-    if (user == null){
+    String result = "yes";
+    String authorfirst = "yes";
+    String authorlast = "yes";
+    try {
+      authorfirst = jdbcTemplate.queryForObject
+          ("SELECT authorfirst FROM posts WHERE id = ?",
+              new Object[]{id},
+              String.class);
+      authorlast = jdbcTemplate.queryForObject
+          ("SELECT authorlast FROM posts WHERE id = ?",
+              new Object[]{id},
+              String.class);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(authorfirst, authorlast);
+    }
+    try {
+      String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
+      result = jdbcTemplate.queryForObject(sql, new Object[]{authorfirst, authorlast}, String.class);
+    } catch (EmptyResultDataAccessException e) {
+      result = null;
+    }
+    if (result == null) {
       throw new AuthenticationException(id1);
     }
   }
+
 
   @Override
   public void updatePosts(Post assignment) {

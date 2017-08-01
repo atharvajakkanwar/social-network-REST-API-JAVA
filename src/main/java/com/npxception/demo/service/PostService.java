@@ -43,7 +43,7 @@ public class PostService {
 
   public Collection<Post> getPostsFromGroup(String name) {return this.postDao.getPostsFromGroup(name); }
 
-  public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {return this.postDao.getPostsByUserFromGroup(userId, groupId); }
+  public Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId) {return this.postDao.getPostsByUserFromGroup(id1, id2, groupId); }
 
 
 
@@ -74,7 +74,7 @@ public class PostService {
   }
 
 
-  public Collection<Post> getPostsByUserFromGroupName(int id, String name) {
-    return this.postDao.getPostsByUserFromGroupName(id, name);
+  public Collection<Post> getPostsByUserFromGroupName(int id1, int id2, String name) {
+    return this.postDao.getPostsByUserFromGroupName(id1, id2, name);
   }
 }
