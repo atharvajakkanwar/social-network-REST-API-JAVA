@@ -1,9 +1,8 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.config.RedirectLoginSuccessHandler;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
-import com.npxception.demo.helperMethods.UserInformation;
+import com.npxception.demo.helperMethods.AccessManager;
 import com.npxception.demo.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import io.swagger.annotations.Api;
@@ -26,13 +24,16 @@ import io.swagger.annotations.ApiResponses;
  */
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/{user}/post")
 @Api(description = "Post Controller")
 
 public class PostController {
 
   @Autowired
   private PostService postService;
+
+  @Autowired
+  AccessManager accessManager = new AccessManager();
 
   @ApiOperation(value = "Return post given ID")
   @ApiResponses(value = {
@@ -42,8 +43,11 @@ public class PostController {
   })
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Post getPostsById(@ApiParam(value = "post ID", required = true)
-                           @PathVariable int id) {
+                           @PathVariable("user") int id1,
+                           @PathVariable("id") int id,
+                           @RequestHeader("authorization") String token) {
     try {
+      accessManager.checkUser(id1, token);
       return postService.getPostsById(id);
     } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(Integer.toString(id));
@@ -57,10 +61,14 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
-  public Collection<Post> getPostsFromGroup(@ApiParam(value = "group ID", required = true)
-                                            @PathVariable int groupid) {
-    Collection<Post> result = postService.getPostsFromGroup(groupid);
+  @RequestMapping(value = "/group/{groupid}/member/{memberid}", method = RequestMethod.GET)
+  public Collection<Post> getPostsByUserFromGroup(@ApiParam(value = "group ID", required = true)
+                                                  @PathVariable("user") int id1,
+                                                  @PathVariable("memberid") int id2,
+                                                  @PathVariable("groupid") int groupid,
+                                                  @RequestHeader("authorization") String token) {
+    accessManager.checkUser(id1, token);
+    Collection<Post> result = postService.getPostsByUserFromGroup(id1, id2, groupid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(groupid));
     }
@@ -74,9 +82,13 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
-  public Collection<Post> getPostsFromGroup(@PathVariable String name) {
-    Collection<Post> result = postService.getPostsFromGroup(name);
+  @RequestMapping(value = "/groupname/{name}/member/{memberid}", method = RequestMethod.GET)
+  public Collection<Post> getPostsByUserFromGroupName(@PathVariable("user") int id,
+                                                      @PathVariable("memberid") int id2,
+                                                      @PathVariable("name") String name,
+                                                      @RequestHeader("authorization") String token) {
+    accessManager.checkUser(id, token);
+    Collection<Post> result = postService.getPostsByUserFromGroupName(id, id2, name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
     }
@@ -102,28 +114,39 @@ public class PostController {
 //  }
 
   @ApiOperation(value = "Removes post from database given ID")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully removed post from database"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-    })
-    @RequestMapping(value = "/d/id/{id}", method = RequestMethod.DELETE)
-    public void removePostById(@PathVariable("id") int id) {
-      postService.removePostsById(id);
-    }
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully removed post from database"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+  })
+  @RequestMapping(value = "/id/{id}", method = RequestMethod.DELETE)
+  public void removePostById(@PathVariable("user") int id1,
+                             @PathVariable("id") int id,
+                             @RequestHeader("authorization") String token) {
+    //?????????
+    accessManager.checkUser(id1, token);
+    postService.removePostsById(id1, id);
+  }
 
-    @ApiOperation(value = "Create post WHERE: id is not required")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successfully created post"),
-        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createPost(@ApiParam(value = "Post", required = true)
-    @RequestBody Post assignment) {
-      postService.createPost(assignment);
-    }
+  @ApiOperation(value = "Create post WHERE: id is not required")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully created post"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+  })
+  @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void createPost(@ApiParam(value = "Post", required = true)
+                         @RequestHeader("authorization") String token,
+                         @RequestBody Post assignment) {
+    ///?????????
+    postService.createPost(assignment);
+  }
 
-
+  @RequestMapping(value = "/wall", method = RequestMethod.GET)
+  public Collection<Post> getPostUserMainPage(@PathVariable("user") int id,
+                                              @RequestHeader("authorization") String token) {
+    accessManager.checkUser(id, token);
+    return postService.getPostUserMainPage(id);
+  }
 }

@@ -42,8 +42,8 @@ public class RedirectLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
     Integer userid = user.getId();
     String token = authService.getToken() ;
     String create_session_sql = "INSERT INTO loginfo (userid, email, password, token) " +
-                  "SELECT ?, ?, ?, ? " +
-                  "WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";
+        "SELECT ?, ?, ?, ? " +
+        "WHERE NOT EXISTS (SELECT * FROM loginfo WHERE userid = ?)";
     jdbcTemplate.update(create_session_sql, new Object[]{userid, email, password, token, userid});
     super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
   }

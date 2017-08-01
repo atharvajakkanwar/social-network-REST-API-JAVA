@@ -1,10 +1,6 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.FbGroup;
-import com.npxception.demo.entity.User;
-import com.npxception.demo.exceptions.AuthenticationException;
-import com.npxception.demo.helperMethods.UserInformation;
-import com.npxception.demo.helperMethods.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -97,7 +93,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
-   // new UserInformation().checkUser(memberid);
+    // new UserInformation().checkUser(memberid);
     final String sql = "SELECT g.* FROM groups g, membership m " +
         "WHERE g.groupid = m.groupid AND memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);
@@ -141,17 +137,4 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
     }
   }
 
-  public void checkUser(int id){
-    String sql0 = "SELECT * FROM users WHERE userid = ?";
-    User user = jdbcTemplate.queryForObject(sql0, new Object[]{id}, new UserRowMapper());
-    String email = user.getEmail();
-    String password = user.getPassword();
-    String sql1 = "SELECT email FROM loginfo";
-    String sql2 = "SELECT password FROM loginfo";
-    String loginEmail = jdbcTemplate.queryForObject(sql1, new Object[]{}, String.class);
-    String loginPass = jdbcTemplate.queryForObject(sql2, new Object[]{}, String.class);
-    if ((!email.equals(loginEmail)) || (!password.equals(loginPass))){
-      throw new AuthenticationException(id);
-    }
-  }
 }
