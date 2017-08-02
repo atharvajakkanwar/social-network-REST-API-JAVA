@@ -14,7 +14,7 @@ public interface PostDao {
 
   void updatePosts(Post post);
 
-  void removePostsById(int id);
+  void removePostsById(int id1, int id);
 
 
   /**
@@ -60,14 +60,15 @@ public interface PostDao {
 
   /**
    * Get all the posts from a particular group by a particular user.
-   * @param userId The user id of the user whose posts are required.
+   * @param id1 The user id of the user whose makes request.
+   * @param id2 The user id of the user whose posts are required.
    * @param groupId The group id of the group from where the posts are required.
    * @return All the posts by the user with user id as {@code userId} from the group with groupId as {@code groupId}.
    */
-  Collection<Post> getPostsByUserFromGroup(int userId, int groupId);
+  Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId);
 
 
-//  Collection<Post> getPostsByUser(String firstName, int time);
+  Collection<Post> getPostsByUserFromGroupName(int id1, int id2, String name);
 
 
   Collection<Post> getPostsByContent(String content);

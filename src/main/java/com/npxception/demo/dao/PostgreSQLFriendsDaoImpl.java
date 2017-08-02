@@ -1,7 +1,6 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
-import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.helperMethods.AccessManager;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
@@ -189,5 +188,4 @@ public class PostgreSQLFriendsDaoImpl implements FriendsDao {
     return jdbcTemplate.queryForObject(GET_ID_BY_NAME,
         new Object[]{result[0], result[1]}, Integer.class);
   }
-
 }
