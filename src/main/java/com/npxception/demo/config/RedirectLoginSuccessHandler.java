@@ -1,6 +1,5 @@
 package com.npxception.demo.config;
 
-import com.npxception.demo.controller.AuthenticationController;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.service.AuthenticationService;
 import com.npxception.demo.service.UserService;

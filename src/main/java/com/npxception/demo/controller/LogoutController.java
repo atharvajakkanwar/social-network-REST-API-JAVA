@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiParam;
  * Represents a controller for the Authentication service.
  */
 @RestController
-public class AuthenticationController {
+public class LogoutController {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
