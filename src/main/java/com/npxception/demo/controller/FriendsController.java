@@ -120,7 +120,7 @@ public class FriendsController {
     this.service.sendRequest(id1, username);
   }
 
-  @ApiOperation(value = "Becomes a friend with another user")
+  @ApiOperation(value = "Becomes a friend with given username")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully became friend with another user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -138,7 +138,7 @@ public class FriendsController {
     this.service.becomeFriend(id1, username);
   }
 
-  @ApiOperation(value = "Block another User")
+  @ApiOperation(value = "Block the given username")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -154,7 +154,7 @@ public class FriendsController {
     this.service.blockFriend(id1, username);
   }
 
-  @ApiOperation(value = "Find common friends with another User")
+  @ApiOperation(value = "Find common friends with given username")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -174,7 +174,7 @@ public class FriendsController {
     }
   }
 
-  @ApiOperation(value = "Get friends by input name")
+  @ApiOperation(value = "Get friends with given username EVEN THOUGH THEY ARE UNIQUE")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved friend"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
