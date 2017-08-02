@@ -83,6 +83,7 @@ public class GroupController {
   @RequestMapping(value = "/admin/{admin}", method = RequestMethod.GET)
   public Collection<FbGroup> getGroupByAdmin(@ApiParam(value = "Group Admin", required = true)
                                              @PathVariable("admin") String admin,
+                                             @ApiParam(value = "User ID", required = true)
                                              @PathVariable("userid") int userid,
                                              @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
@@ -197,6 +198,7 @@ public class GroupController {
   @RequestMapping(value = "/remove/{groupid}",  method = RequestMethod.DELETE)
   public void removeGroupById(@ApiParam(value = "group ID", required = true)
                               @PathVariable("groupid") int groupid,
+                              @ApiParam(value = "User ID", required = true)
                               @PathVariable("userid") int userid,
                               @RequestHeader("authorization") String token) {
     accessManager.checkUser(userid, token);
