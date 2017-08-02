@@ -21,11 +21,6 @@ public class AuthenticationController {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
-  public String getEmail() {
-    return new UserInformation().getEmail();
-  }
-
   @RequestMapping(value = "{userid}/logout", method = RequestMethod.DELETE)
   public void logout(@PathVariable("userid") int id) {
     try {

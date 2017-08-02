@@ -1,6 +1,7 @@
 package com.npxception.demo.config;
 
 import com.npxception.demo.controller.AuthenticationController;
+import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.service.AuthenticationService;
 import com.npxception.demo.service.UserService;
 
@@ -35,8 +36,7 @@ public class RedirectLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
                                       HttpServletResponse httpServletResponse,
                                       Authentication authentication)
       throws IOException, ServletException {
-    AuthenticationController auth = new AuthenticationController();
-    String email = auth.getEmail();
+    String email = new UserInformation().getEmail();
     com.npxception.demo.entity.User user = userService.getUserByEmail(email);
     String password = user.getPassword();
     Integer userid = user.getId();
