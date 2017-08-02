@@ -11,12 +11,13 @@ public class FbGroup {
 
   /**
    * Constructor for a facebook group.
-  // * @param groupid The group's group id in the database
+   * // * @param groupid The group's group id in the database
+   *
    * @param groupadmin The group's groupadmin id in the database
-   * @param name The group's name in the database
+   * @param name       The group's name in the database
    */
- // public FbGroup(int groupid, String groupadmin, String name) {
-      public FbGroup(String groupadmin, String name) {
+  // public FbGroup(int groupid, String groupadmin, String name) {
+  public FbGroup(String groupadmin, String name) {
 
 //      this.groupid = groupid;
     this.groupadmin = groupadmin;
@@ -28,6 +29,7 @@ public class FbGroup {
 
   /**
    * Getter for group's ID in the database.
+   *
    * @return group's ID in the database
    */
   public int getGroupID() {
@@ -36,6 +38,7 @@ public class FbGroup {
 
   /**
    * Setter for group's ID in the database.
+   *
    * @param groupid The group's group id in the database
    */
   public void setGroupID(int groupid) {
@@ -44,6 +47,7 @@ public class FbGroup {
 
   /**
    * Getter for group's groupadmin id in the database.
+   *
    * @return group's groupadmin id in the database
    */
   public String getAdmin() {
@@ -52,6 +56,7 @@ public class FbGroup {
 
   /**
    * Setter for group's groupadmin id in the database.
+   *
    * @param groupadmin The group's groupadmin id in the database
    */
   public void setAdmin(String groupadmin) {
@@ -60,6 +65,7 @@ public class FbGroup {
 
   /**
    * Getter for group's name in the database.
+   *
    * @return group's name in the database
    */
   public String getName() {
@@ -68,6 +74,7 @@ public class FbGroup {
 
   /**
    * Setter for group's name in the database.
+   *
    * @param name The group's name in the database
    */
   public void setName(String name) {

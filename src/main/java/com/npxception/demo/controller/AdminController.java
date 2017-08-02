@@ -45,7 +45,7 @@ public class AdminController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(value= "/users", method = RequestMethod.GET)
+  @RequestMapping(value = "/users", method = RequestMethod.GET)
   public Collection<User> getAllUsers() {
     return userService.getAllUsers();
   }
@@ -56,7 +56,7 @@ public class AdminController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(value= "/posts", method = RequestMethod.GET)
+  @RequestMapping(value = "/posts", method = RequestMethod.GET)
   public Collection<Post> getAllPosts() {
     return postService.getAllPosts();
   }
@@ -105,7 +105,7 @@ public class AdminController {
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
-  @RequestMapping(value= "/groups", method = RequestMethod.GET)
+  @RequestMapping(value = "/groups", method = RequestMethod.GET)
   public Collection<FbGroup> getAllGroups() {
     return groupService.getAllGroup();
   }

@@ -83,10 +83,10 @@ public class UserController {
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
                                               @PathVariable("name") String name) {
     Collection<User> result = userService.getUsersByFirstName(name);
-      if (result.size() == 0) {
-        throw new ResourceNotFoundException(name);
-      }
-      return result;
+    if (result.size() == 0) {
+      throw new ResourceNotFoundException(name);
+    }
+    return result;
   }
 
   @ApiOperation(value = "Gets List of User given last name")
@@ -268,21 +268,21 @@ public class UserController {
   @ApiOperation(value = "Set the first name of the user")
   @RequestMapping(value = "/setfirst/{first}", params = "first", method = RequestMethod.POST)
   public void setFirst(@ApiParam(value = "First name", required = true)
-                         @PathVariable("first") String first) {
+                       @PathVariable("first") String first) {
     userService.setFirst(first);
   }
 
   @ApiOperation(value = "Set the last name of the user")
   @RequestMapping(value = "/setlast/{last}", params = "last", method = RequestMethod.POST)
   public void setLast(@ApiParam(value = "Last name", required = true)
-                        @PathVariable("last") String last) {
+                      @PathVariable("last") String last) {
     userService.setLast(last);
   }
 
   @ApiOperation(value = "Set email of the user")
   @RequestMapping(value = "/setemail/{email}/", params = "email", method = RequestMethod.POST)
   public void setEmail(@ApiParam(value = "Email", required = true)
-                         @PathVariable("email") String email) {
+                       @PathVariable("email") String email) {
     try {
       userService.setEmail(email);
     } catch (DataIntegrityViolationException e) {
@@ -293,35 +293,35 @@ public class UserController {
   @ApiOperation(value = "Set age of the user")
   @RequestMapping(value = "/setage/{age}", method = RequestMethod.POST)
   public void setAge(@ApiParam(value = "Age", required = true)
-                       @PathVariable("age") int age) {
+                     @PathVariable("age") int age) {
     userService.setAge(age);
   }
 
   @ApiOperation(value = "Set gender of the user")
   @RequestMapping(value = "/setgender/{gender}", params = "gender", method = RequestMethod.POST)
   public void setGender(@ApiParam(value = "Gender", required = true)
-                          @PathVariable("gender") String gender) {
+                        @PathVariable("gender") String gender) {
     userService.setGender(gender);
   }
 
   @ApiOperation(value = "Set country of the user")
   @RequestMapping(value = "/setcountry/{country}", params = "country", method = RequestMethod.POST)
   public void setCountry(@ApiParam(value = "Country", required = true)
-                           @PathVariable("country") String country) {
+                         @PathVariable("country") String country) {
     userService.setCountry(country);
   }
 
   @ApiOperation(value = "Set city of the user")
   @RequestMapping(value = "/setcity/{city}", params = "city", method = RequestMethod.POST)
   public void setCity(@ApiParam(value = "City", required = true)
-                        @PathVariable("city") String city) {
+                      @PathVariable("city") String city) {
     userService.setCity(city);
   }
 
   @ApiOperation(value = "Set password for the user")
   @RequestMapping(value = "/setpassword/{password}", params = "password", method = RequestMethod.POST)
   public void setPassword(@ApiParam(value = "Password", required = true)
-                            @PathVariable("password") String password) {
+                          @PathVariable("password") String password) {
     userService.setPassword(password);
   }
 }

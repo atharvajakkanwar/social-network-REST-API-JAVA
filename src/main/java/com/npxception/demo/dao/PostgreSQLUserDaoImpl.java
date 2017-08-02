@@ -96,11 +96,11 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   @Override
   public User getUserByEmail(String email) {
     try {
-      String decoded = URLDecoder.decode(email,"UTF-8");
+      String decoded = URLDecoder.decode(email, "UTF-8");
       System.out.print(decoded);
-    final String sql = "SELECT * FROM users WHERE email = ?";
-    User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), decoded);
-    return user;
+      final String sql = "SELECT * FROM users WHERE email = ?";
+      User user = jdbcTemplate.queryForObject(sql, new UserRowMapper(), decoded);
+      return user;
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }

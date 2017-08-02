@@ -33,8 +33,13 @@ ALTER TABLE posts
 ADD wall INT NOT NULL
 DEFAULT -1;
 
-
 UPDATE posts
 SET wall = (SELECT userid FROM users
 WHERE (posts.authorfirst = users.firstname AND posts.authorlast = users.lastname));
+
+ALTER TABLE posts
+ADD CONSTRAINT wall_fk
+  FOREIGN KEY (wall)
+  REFERENCES users (userid)
+  ON DELETE CASCADE;
 

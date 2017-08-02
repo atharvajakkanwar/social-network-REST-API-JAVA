@@ -74,7 +74,8 @@ public interface GroupDao {
   /**
    * Send a joinging group request to a group, after the
    * request is sent, the status is pending accepted(2).
-   * @param groupid the id of the group
+   *
+   * @param groupid  the id of the group
    * @param memberid the id of the user
    */
 
@@ -86,7 +87,7 @@ public interface GroupDao {
    * @param memberid The group's ID in the database
    * @param memberid The member's ID in the database
    */
-  void addMemberToGroup(int groupid, int memberid);
+  void addMemberToGroup(int userid, int groupid, int memberid);
 
   /**
    * Given member ID, removes member from group.
@@ -94,7 +95,7 @@ public interface GroupDao {
    * @param memberid The group's ID in the database
    * @param memberid The member's ID in the database
    */
-  void removeMemberFromGroup(int groupid, int memberid);
+  void removeMemberFromGroup(int userid, int groupid, int memberid);
 
 
 }

@@ -95,6 +95,17 @@ public class PostController {
     return result;
   }
 
+  @RequestMapping(value = "/update/postid/{postid}", method = RequestMethod.PUT,
+      consumes = MediaType.APPLICATION_JSON_VALUE)
+  public void updatePost(@PathVariable("user") int id,
+                         @PathVariable("postid") int postid,
+                         @RequestHeader("authorization") String token,
+                         @RequestBody Post post) {
+    accessManager.checkUser(id, token);
+    postService.updatePosts(id, post);
+  }
+
+
 //
 //  @ApiOperation(value = "Return every post written by author given author")
 //  @ApiResponses(value = {

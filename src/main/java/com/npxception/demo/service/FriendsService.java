@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 @org.springframework.stereotype.Service
 public class FriendsService {
-  PostgreSQLFriendsDaoImpl postgreSQLFriendsDao ;
+  PostgreSQLFriendsDaoImpl postgreSQLFriendsDao;
 
   FriendsService(PostgreSQLFriendsDaoImpl postgreSQLFriendsDao) {
     this.postgreSQLFriendsDao = postgreSQLFriendsDao;
