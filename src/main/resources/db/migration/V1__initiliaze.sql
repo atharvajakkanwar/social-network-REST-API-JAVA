@@ -28,9 +28,11 @@ CREATE TABLE groups (
 
 CREATE TABLE posts (
   id serial NOT NULL PRIMARY KEY,
-  author VARCHAR(255) NOT NULL,
+  authorfirst VARCHAR(255) NOT NULL,
+  authorlast VARCHAR(255) NOT NULL,
   content VARCHAR(500) NOT NULL,
-  likes INT NOT NULL, time INT NOT NULL,
+  likes INT NOT NULL,
+  time INT NOT NULL,
   visibility INT NOT NULL);
 
 CREATE TABLE users (
@@ -49,6 +51,13 @@ CREATE TABLE role (
   role VARCHAR(255) NOT NULL,
   roleid INT NOT NULL);
 
+
+CREATE TABLE loginfo (
+  userid INT NOT NULL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  token VARCHAR(255) NOT NULL);
+
 /*
   Data
  */
@@ -56,6 +65,9 @@ CREATE TABLE role (
 /*
   Friends relations
  */
+
+
+
 insert into friends (useroneid, usertwoid, status) values (9, 14, 5);
 insert into friends (useroneid, usertwoid, status) values (7, 4, 3);
 insert into friends (useroneid, usertwoid, status) values (31, 14, 3);
@@ -289,106 +301,106 @@ insert into groups (groupname, groupadmin) values ('Electronics', 'King Swithenb
 /*
   User post details
  */
-insert into posts (author, content, likes, time, visibility) values ('Muffin Baiyle', 'Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 12, 23, -1);
-insert into posts (author, content, likes, time, visibility) values ('Beilul Butchart', 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.', 12, 19, 1);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti.', 19, 1, 6);
-insert into posts (author, content, likes, time, visibility) values ('Aubry Maton', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 20, 23, 0);
-insert into posts (author, content, likes, time, visibility) values ('Wally Drakeley', 'Proin eu mi. Nulla ac enim.', 13, 3, 2);
-insert into posts (author, content, likes, time, visibility) values ('Aubry Maton', 'Morbi non quam nec dui luctus rutrum.', 18, 9, 7);
-insert into posts (author, content, likes, time, visibility) values ('Katalin Punshon', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 2, 0, 5);
-insert into posts (author, content, likes, time, visibility) values ('Heddi Geke', 'Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.', 2, 5, 0);
-insert into posts (author, content, likes, time, visibility) values ('Deni Vogeller', 'Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.', 16, 4, 7);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.', 4, 11, 7);
-insert into posts (author, content, likes, time, visibility) values ('Violante Armatidge', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat.', 4, 14, 7);
-insert into posts (author, content, likes, time, visibility) values ('Shelley Royse', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.', 18, 23, 8);
-insert into posts (author, content, likes, time, visibility) values ('Heddi Geke', 'Nam dui.', 15, 7, 1);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis.', 10, 15, 6);
-insert into posts (author, content, likes, time, visibility) values ('King Swithenby', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue.', 6, 0, 5);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh.', 9, 14, 7);
-insert into posts (author, content, likes, time, visibility) values ('Delano Broomfield', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst.', 11, 6, 8);
-insert into posts (author, content, likes, time, visibility) values ('Alysa Paaso', 'Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', 4, 9, 6);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.', 2, 3, 5);
-insert into posts (author, content, likes, time, visibility) values ('Delano Broomfield', 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.', 10, 18, 9);
-insert into posts (author, content, likes, time, visibility) values ('King Swithenby', 'Donec semper sapien a libero.', 11, 6, 2);
-insert into posts (author, content, likes, time, visibility) values ('Katalin Punshon', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.', 5, 10, 0);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 6, 22, 3);
-insert into posts (author, content, likes, time, visibility) values ('Holly Rickesies', 'Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 4, 12, 8);
-insert into posts (author, content, likes, time, visibility) values ('Wally Drakeley', 'Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 4, 0, 1);
-insert into posts (author, content, likes, time, visibility) values ('Sofie Gritsunov', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 14, 11, 8);
-insert into posts (author, content, likes, time, visibility) values ('Wally Drakeley', 'Phasellus in felis. Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla.', 8, 23, 9);
-insert into posts (author, content, likes, time, visibility) values ('Holly Rickesies', 'In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna.', 12, 5, 1);
-insert into posts (author, content, likes, time, visibility) values ('Hamid Caldeyroux', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.', 9, 3, 2);
-insert into posts (author, content, likes, time, visibility) values ('Mommy Maccree', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', 19, 2, 3);
-insert into posts (author, content, likes, time, visibility) values ('Beilul Butchart', 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.', 7, 21, 2);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 19, 9, 0);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 19, 16, 8);
-insert into posts (author, content, likes, time, visibility) values ('Stearne Ligoe', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', 20, 11, 0);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.', 18, 5, 3);
-insert into posts (author, content, likes, time, visibility) values ('Holly Rickesies', 'Duis consequat dui nec nisi volutpat eleifend.', 2, 17, 5);
-insert into posts (author, content, likes, time, visibility) values ('Wally Drakeley', 'Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 12, 6, -1);
-insert into posts (author, content, likes, time, visibility) values ('Sidonia Surtees', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 18, 17, 10);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem.', 11, 19, 7);
-insert into posts (author, content, likes, time, visibility) values ('Lauren Leggan', 'Donec dapibus.', 17, 18, 4);
-insert into posts (author, content, likes, time, visibility) values ('Aubry Maton', 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', 3, 8, 8);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet.', 10, 3, -1);
-insert into posts (author, content, likes, time, visibility) values ('Lauren Leggan', 'Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 19, 5, 2);
-insert into posts (author, content, likes, time, visibility) values ('Mommy Maccree', 'Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.', 7, 6, 0);
-insert into posts (author, content, likes, time, visibility) values ('Wally Drakeley', 'In hac habitasse platea dictumst.', 4, 0, 10);
-insert into posts (author, content, likes, time, visibility) values ('Muffin Baiyle', 'Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo.', 19, 20, 5);
-insert into posts (author, content, likes, time, visibility) values ('Heddi Geke', 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo.', 18, 0, 9);
-insert into posts (author, content, likes, time, visibility) values ('Katalin Punshon', 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis.', 5, 7, 8);
-insert into posts (author, content, likes, time, visibility) values ('Hamid Caldeyroux', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 1, 4, 4);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Nulla ut erat id mauris vulputate elementum.', 14, 3, 6);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.', 19, 22, 7);
-insert into posts (author, content, likes, time, visibility) values ('Ivar Cottrell', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 17, 4, -1);
-insert into posts (author, content, likes, time, visibility) values ('Broderick Saward', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 20, 8, 1);
-insert into posts (author, content, likes, time, visibility) values ('Gretel Johnsey', 'Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', 2, 6, 10);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.', 16, 19, 0);
-insert into posts (author, content, likes, time, visibility) values ('Beilul Butchart', 'Etiam justo. Etiam pretium iaculis justo.', 5, 14, -1);
-insert into posts (author, content, likes, time, visibility) values ('Violante Armatidge', 'Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 16, 16, 0);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 8, 8, 8);
-insert into posts (author, content, likes, time, visibility) values ('Broderick Saward', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.', 9, 4, 7);
-insert into posts (author, content, likes, time, visibility) values ('Gretel Johnsey', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.', 7, 13, -1);
-insert into posts (author, content, likes, time, visibility) values ('Sofie Gritsunov', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 11, 12, 8);
-insert into posts (author, content, likes, time, visibility) values ('Farrel Lammerts', 'Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', 16, 1, 8);
-insert into posts (author, content, likes, time, visibility) values ('Stu Jessel', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 19, 18, 6);
-insert into posts (author, content, likes, time, visibility) values ('Heddi Geke', 'In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.', 4, 13, 7);
-insert into posts (author, content, likes, time, visibility) values ('Aubry Maton', 'Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.', 17, 23, 9);
-insert into posts (author, content, likes, time, visibility) values ('Holly Rickesies', 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.', 9, 9, 6);
-insert into posts (author, content, likes, time, visibility) values ('Deni Vogeller', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.', 16, 1, 9);
-insert into posts (author, content, likes, time, visibility) values ('Alysa Paaso', 'In quis justo. Maecenas rhoncus aliquam lacus.', 8, 23, 5);
-insert into posts (author, content, likes, time, visibility) values ('Gran Turrell', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 12, 5, 2);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 6, 19, 10);
-insert into posts (author, content, likes, time, visibility) values ('Jemimah Inkin', 'Aenean fermentum.', 4, 20, 0);
-insert into posts (author, content, likes, time, visibility) values ('Shalom Powney', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 8, 11, -1);
-insert into posts (author, content, likes, time, visibility) values ('Jemimah Inkin', 'Nulla tellus. In sagittis dui vel nisl.', 16, 14, 7);
-insert into posts (author, content, likes, time, visibility) values ('Shalom Powney', 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 8, 1, -1);
-insert into posts (author, content, likes, time, visibility) values ('Muffin Baiyle', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.', 12, 4, 8);
-insert into posts (author, content, likes, time, visibility) values ('Beilul Butchart', 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.', 4, 18, 9);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.', 15, 1, 8);
-insert into posts (author, content, likes, time, visibility) values ('Viva Story', 'Phasellus in felis.', 11, 21, 4);
-insert into posts (author, content, likes, time, visibility) values ('Katalin Punshon', 'Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis.', 13, 3, 7);
-insert into posts (author, content, likes, time, visibility) values ('Deni Vogeller', 'Sed ante. Vivamus tortor.', 7, 21, 6);
-insert into posts (author, content, likes, time, visibility) values ('Shalom Powney', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.', 7, 14, 8);
-insert into posts (author, content, likes, time, visibility) values ('Aubry Maton', 'Pellentesque ultrices mattis odio.', 20, 21, 5);
-insert into posts (author, content, likes, time, visibility) values ('Ivar Cottrell', 'Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.', 13, 10, 7);
-insert into posts (author, content, likes, time, visibility) values ('Shalom Powney', 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 14, 0, 8);
-insert into posts (author, content, likes, time, visibility) values ('Brion Caston', 'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 3, 9, -1);
-insert into posts (author, content, likes, time, visibility) values ('Carla Oxberry', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 14, 10, 5);
-insert into posts (author, content, likes, time, visibility) values ('Deni Vogeller', 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 2, 21, 1);
-insert into posts (author, content, likes, time, visibility) values ('Heddi Geke', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci.', 13, 6, 3);
-insert into posts (author, content, likes, time, visibility) values ('Delano Broomfield', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.', 10, 16, 6);
-insert into posts (author, content, likes, time, visibility) values ('Lauren Leggan', 'Phasellus in felis. Donec semper sapien a libero.', 18, 5, 8);
-insert into posts (author, content, likes, time, visibility) values ('Viva Story', 'Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 15, 15, 8);
-insert into posts (author, content, likes, time, visibility) values ('Violante Armatidge', 'Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 16, 7, 3);
-insert into posts (author, content, likes, time, visibility) values ('Viva Story', 'Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 17, 8, 10);
-insert into posts (author, content, likes, time, visibility) values ('King Swithenby', 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum.', 8, 18, -1);
-insert into posts (author, content, likes, time, visibility) values ('Delano Broomfield', 'Donec ut dolor.', 11, 22, 2);
-insert into posts (author, content, likes, time, visibility) values ('Ivar Cottrell', 'Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 15, 17, 1);
-insert into posts (author, content, likes, time, visibility) values ('Catina Queyeiro', 'Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl.', 18, 6, 9);
-insert into posts (author, content, likes, time, visibility) values ('Stearne Ligoe', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 7, 2, 4);
-insert into posts (author, content, likes, time, visibility) values ('Shelley Royse', 'Nullam varius. Nulla facilisi.', 6, 19, -1);
-insert into posts (author, content, likes, time, visibility) values ('Farrel Lammerts', 'Etiam faucibus cursus urna.', 7, 5, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Rolfe', 'Cryer', 'Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 12, 23, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Palm', 'Mealham', 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue.', 12, 19, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Titus', 'Sinnett', 'Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti.', 19, 1, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Rowney', 'Menel', 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 20, 23, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Proin eu mi. Nulla ac enim.', 13, 3, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Morbi non quam nec dui luctus rutrum.', 18, 9, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 2, 0, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque. Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.', 2, 5, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam.', 16, 4, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio. Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo.', 4, 11, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat.', 4, 14, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum.', 18, 23, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nam dui.', 15, 7, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Aenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum. Curabitur in libero ut massa volutpat convallis.', 10, 15, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat. In congue.', 6, 0, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl. Duis ac nibh.', 9, 14, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst.', 11, 6, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', 4, 9, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti.', 2, 3, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.', 10, 18, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec semper sapien a libero.', 11, 6, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam.', 5, 10, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 6, 22, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 4, 12, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.', 4, 0, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 14, 11, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Phasellus in felis. Donec semper sapien a libero. Nam dui. Proin leo odio, porttitor id, consequat in, consequat ut, nulla.', 8, 23, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In congue. Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna.', 12, 5, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum.', 9, 3, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue.', 19, 2, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.', 7, 21, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 19, 9, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Integer non velit. Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi.', 19, 16, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio.', 20, 11, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla justo. Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros.', 18, 5, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Duis consequat dui nec nisi volutpat eleifend.', 2, 17, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nullam molestie nibh in lectus. Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.', 12, 6, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 18, 17, 10);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem.', 11, 19, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec dapibus.', 17, 18, 4);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', 3, 8, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet.', 10, 3, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 19, 5, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam. Nam tristique tortor eu pede.', 7, 6, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In hac habitasse platea dictumst.', 4, 0, 10);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Sed accumsan felis. Ut at dolor quis odio consequat varius. Integer ac leo.', 19, 20, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Curabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo.', 18, 0, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis.', 5, 7, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis.', 1, 4, 4);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla ut erat id mauris vulputate elementum.', 14, 3, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi. Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit.', 19, 22, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 17, 4, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.', 20, 8, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec dapibus. Duis at velit eu est congue elementum. In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.', 2, 6, 10);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst.', 16, 19, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Etiam justo. Etiam pretium iaculis justo.', 5, 14, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla tempus. Vivamus in felis eu sapien cursus vestibulum. Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.', 16, 16, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.', 8, 8, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.', 9, 4, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla.', 7, 13, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 11, 12, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum.', 16, 1, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus. Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 19, 18, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In est risus, auctor sed, tristique in, tempus sit amet, sem. Fusce consequat. Nulla nisl.', 4, 13, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla nisl. Nunc nisl. Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa.', 17, 23, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Proin leo odio, porttitor id, consequat in, consequat ut, nulla.', 9, 9, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit. Nam nulla.', 16, 1, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In quis justo. Maecenas rhoncus aliquam lacus.', 8, 23, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.', 12, 5, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc.', 6, 19, 10);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Aenean fermentum.', 4, 20, 0);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.', 8, 11, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla tellus. In sagittis dui vel nisl.', 16, 14, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Aenean auctor gravida sem. Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 8, 1, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Cras pellentesque volutpat dui. Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti. Nullam porttitor lacus at turpis.', 12, 4, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat. Praesent blandit.', 4, 18, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.', 15, 1, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Phasellus in felis.', 11, 21, 4);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Sed ante. Vivamus tortor. Duis mattis egestas metus. Aenean fermentum. Donec ut mauris eget massa tempor convallis.', 13, 3, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Sed ante. Vivamus tortor.', 7, 21, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante.', 7, 14, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Pellentesque ultrices mattis odio.', 20, 21, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Mauris sit amet eros. Suspendisse accumsan tortor quis turpis. Sed ante. Vivamus tortor. Duis mattis egestas metus.', 13, 10, 7);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Suspendisse potenti. Cras in purus eu magna vulputate luctus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.', 14, 0, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.', 3, 9, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh.', 14, 10, 5);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem. Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 2, 21, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci.', 13, 6, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Praesent lectus. Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio.', 10, 16, 6);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Phasellus in felis. Donec semper sapien a libero.', 18, 5, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 15, 15, 8);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.', 16, 7, 3);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Etiam justo. Etiam pretium iaculis justo. In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.', 17, 8, 10);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec pharetra, magna vestibulum aliquet ultrices, erat tortor sollicitudin mi, sit amet lobortis sapien sapien non mi. Integer ac neque. Duis bibendum.', 8, 18, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Donec ut dolor.', 11, 22, 2);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nulla suscipit ligula in lacus. Curabitur at ipsum ac tellus semper interdum. Mauris ullamcorper purus sit amet nulla. Quisque arcu libero, rutrum ac, lobortis vel, dapibus at, diam.', 15, 17, 1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Integer ac neque. Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus. In sagittis dui vel nisl.', 18, 6, 9);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'In congue. Etiam justo. Etiam pretium iaculis justo.', 7, 2, 4);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Nullam varius. Nulla facilisi.', 6, 19, -1);
+insert into posts (authorfirst, authorlast, content, likes, time, visibility) values ('Iolanthe', 'Janman', 'Etiam faucibus cursus urna.', 7, 5, 3);
 
 
 /*

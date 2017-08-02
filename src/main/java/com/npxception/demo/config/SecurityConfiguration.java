@@ -22,9 +22,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   private DataSource dataSource;
 
+
   @Bean
   public RedirectLoginSuccessHandler loginSuccessHandler() {
-    return new RedirectLoginSuccessHandler();
+    RedirectLoginSuccessHandler successHandler = new RedirectLoginSuccessHandler();
+    successHandler.setDefaultTargetUrl("/successLogin");
+    return successHandler;
   }
 
   @Bean
@@ -52,10 +55,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("**/register").anonymous()
         .antMatchers("/").hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/user/users").hasAuthority("ADMIN")
-        .antMatchers("/Fbgroup/groups").hasAuthority("ADMIN")
-        .antMatchers("/post/posts").hasAuthority("ADMIN")
-        .antMatchers("/auth").hasAnyAuthority("ADMIN", "USER")
+        .antMatchers("/users").hasAuthority("ADMIN")
+        .antMatchers("/groups").hasAuthority("ADMIN")
+        .antMatchers("/posts").hasAuthority("ADMIN")
+        .antMatchers("**/auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().formLogin().successHandler(loginSuccessHandler())
         .and().logout().logoutSuccessHandler(logoutHandler())
         .and().httpBasic();

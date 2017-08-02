@@ -1,7 +1,8 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.FbGroup;
-import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +25,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   private JdbcTemplate jdbcTemplate;
 
   @Autowired
-  private UserDao userDao;
+  private UserService userService;
 
   @Override
   public Collection<FbGroup> getAllGroup() {
@@ -35,6 +36,7 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
   @Override
   public FbGroup getGroupById(int id) {
+//    new UserInformation().checkUser(id);
     final String sql = "SELECT * FROM groups WHERE groupid = ?";
     FbGroup group = jdbcTemplate.queryForObject(sql, new GroupRowMapper(), id);
     return group;
@@ -80,17 +82,9 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 //    return groups;
 //  }
 
-//  @Override
-//  public Collection<FbGroup> getGroupByAdmin(int admin) {
-//    User user = userDao.getUserById(admin);
-//    String fullName = user.getFirstName() + " " + user.getLastName();
-//    final String sql = "SELECT * FROM groups WHERE admin = ? ";
-//    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
-//    return groups;
-//  }
-
   @Override
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
+    // new UserInformation().checkUser(memberid);
     final String sql = "SELECT g.* FROM groups g, membership m " +
         "WHERE g.groupid = m.groupid AND memberid = ? ";
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), memberid);
@@ -99,14 +93,24 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
 
   @Override
-  public void addMemberToGroup(int groupid, int memberid) {
+  public void addMemberToGroup(int userid, int groupid, int memberid) {
     // change status from 3 to 1
+    checkAdmin(userid, groupid);
     String sql = "UPDATE membership SET status = 1 WHERE groupid = ? AND memberid = ?";
-    jdbcTemplate.update(sql,new Object[]{groupid, memberid});
+    jdbcTemplate.update(sql, new Object[]{groupid, memberid});
+  }
+
+  public void checkAdmin(int id, int groupid) {
+    String sql = "SELECT groupadmin FROM groups WHERE groupid = ?";
+    String admin = jdbcTemplate.queryForObject(sql, new Object[]{groupid}, String.class);
+    int adminId = userService.getUserByUserName(admin).getId();
+    if (adminId != id) {
+      throw new AuthenticationException(id);
+    }
   }
 
   @Override
-  public void sendJoinRequest(int groupid, int memberid){
+  public void sendJoinRequest(int groupid, int memberid) {
     String sql = "INSERT INTO membership(groupid, memberid, status) SELECT ?,?,? " +
         "WHERE NOT EXISTS (SELECT * FROM membership WHERE (groupid = ? AND memberid = ?))";
     jdbcTemplate.update(sql, new Object[]{groupid, memberid, 2, groupid, memberid});
@@ -114,8 +118,9 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
 
 
   @Override
-  public void removeMemberFromGroup(int groupid, int memberid) {
+  public void removeMemberFromGroup(int userid, int groupid, int memberid) {
     // remove
+    checkAdmin(userid, groupid);
     final String sql = "DELETE FROM membership" +
         " WHERE  groupid = ? AND memberid = ?";
     jdbcTemplate.update(sql, new Object[]{groupid, memberid});
@@ -133,4 +138,5 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
       return group;
     }
   }
+
 }

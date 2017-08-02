@@ -1,13 +1,18 @@
 package com.npxception.demo.dao;
 
+import com.npxception.demo.entity.DBPost;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.AuthenticationException;
+import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
+import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -34,20 +39,23 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   @Autowired
   private GroupService groupService;
 
+  @Autowired
+  private UserService userService;
+
   @Override
-  public Collection<Post> getAllPosts() {
+  public Collection<DBPost> getAllPosts() {
     final String sql = "SELECT * FROM posts";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper());
-    return posts;
+    List<DBPost> DBposts = jdbcTemplate.query(sql, new PostRowMapper());
+    return DBposts;
   }
 
   @Override
-  public Collection<Post> getPostsByUser(int userId) {
+  public Collection<DBPost> getPostsByUser(int userId) {
     final String sql1 = "SELECT * FROM users WHERE userid = ? ";
     User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
-    String author = user.getFirstName() + " " + user.getLastName();
-    final String sql2 = "SELECT * FROM posts WHERE author = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), author);
+    final String sql2 = "SELECT * FROM posts WHERE authorfirst = ? AND authorlast = ? ORDER BY time";
+    List<DBPost> posts = jdbcTemplate.query(sql2,
+        new PostRowMapper(), user.getFirstName(), user.getLastName());
     return posts;
   }
 
@@ -60,14 +68,37 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 //  }
 
   @Override
-  public Collection<Post> getPostsByUserFromGroup(int userId, int groupId) {
+  public Collection<DBPost> getPostsByUserFromGroup(int id1, int id2, int groupId) {
+    checkMember(id1, groupId);
     final String sql1 = "SELECT * FROM users WHERE userid = ? ";
-    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), userId);
-    String author = user.getFirstName() + " " + user.getLastName();
-    final String sql2 = "SELECT * FROM posts WHERE author = ? " +
+    User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), id2);
+    String authorfirst = user.getFirstName();
+    String authorlast = user.getLastName();
+    final String sql2 = "SELECT * FROM posts WHERE authorfirst = ? AND authorlast = ?" +
         "AND visibility = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql2, new PostRowMapper(), new Object[]{author, groupId});
+    List<DBPost> posts = jdbcTemplate.query(sql2, new PostRowMapper(),
+        new Object[]{authorfirst, authorlast, groupId});
     return posts;
+  }
+
+  @Override
+  public Collection<DBPost> getPostsByUserFromGroupName(int id1, int id2, String name) {
+    int groupid = jdbcTemplate.queryForObject("SELECT groupid FROM groups WHERE groupname = ?"
+        , new Object[]{name}, Integer.class);
+    return getPostsByUserFromGroup(id1, id2, groupid);
+  }
+
+  public void checkMember(int userId, int groupId) {
+    final String sql = "SELECT memberid FROM membership WHERE memberid = ? AND groupid = ?";
+    Integer result = -1;
+    try {
+      result = jdbcTemplate.queryForObject(sql, new Object[]{userId, groupId}, Integer.class);
+    } catch (EmptyResultDataAccessException e) {
+      result = null;
+    }
+    if (result == null) {
+      throw new AuthenticationException(userId);
+    }
   }
 
 //  @Override
@@ -76,122 +107,178 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 //  }
 
   @Override
-  public Post getPostsById(int id) {
+  public DBPost getPostsById(int id) {
     final String sql = "SELECT * FROM posts WHERE id = ?";
-    Post post = jdbcTemplate.queryForObject(sql, new PostRowMapper(), id);
+    DBPost post = jdbcTemplate.queryForObject(sql, new PostRowMapper(), id);
     return post;
   }
 
   @Override
-  public Collection<Post> getPostsFromGroup(int groupId) {
+  public Collection<DBPost> getPostsFromGroup(int groupId) {
     final String sql = "SELECT * FROM posts WHERE visibility = ?";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupId);
+    List<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupId);
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostsFromGroup(String name) {
+  public Collection<DBPost> getPostsFromGroup(String name) {
     int groupid = jdbcTemplate.queryForObject("SELECT groupid FROM groups WHERE groupname = ?"
         , new Object[]{name}, Integer.class);
     final String sql = "SELECT * FROM posts WHERE visibility = ? ORDER BY time";
-    List<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupid);
+    List<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), groupid);
     return posts;
   }
 
   @Override
-  public void removePostsById(int id) {
+  public void removePostsById(int id1, int id) {
+    checkAuthor(id1, id);
     final String sql = "DELETE FROM posts WHERE id = ?";
     jdbcTemplate.update(sql, id);
   }
 
-  @Override
-  public void updatePosts(Post assignment) {
+  //to see if the post(id) is written by the user(id1)
+  public void checkAuthor(int id1, int id) {
+    String result = "yes";
+    String authorfirst = "yes";
+    String authorlast = "yes";
+    try {
+      authorfirst = jdbcTemplate.queryForObject
+          ("SELECT authorfirst FROM posts WHERE id = ?",
+              new Object[]{id},
+              String.class);
+      authorlast = jdbcTemplate.queryForObject
+          ("SELECT authorlast FROM posts WHERE id = ?",
+              new Object[]{id},
+              String.class);
+    } catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(authorfirst, authorlast);
+    }
+    try {
+      String sql = "SELECT * FROM users WHERE firstname = ? AND lastname = ?";
+      result = jdbcTemplate.queryForObject(sql, new Object[]{authorfirst, authorlast}, String.class);
+    } catch (EmptyResultDataAccessException e) {
+      result = null;
+    }
+    if (result == null) {
+      throw new AuthenticationException(id1);
+    }
+  }
 
+
+  @Override
+  public void updatePosts(int id, Post assignment) {
+    checkAuthor(id, assignment.getId());
+    int wall = userService.getUserByUserName(assignment.getWallName()).getId();
+    DBPost dbpost = new DBPost(assignment.getAuthorFirstName(),
+        assignment.getAuthorLastName(), assignment.getContent(),
+        assignment.getLikes(), assignment.getTime(), assignment.getVisibility(), wall);
+    final String sql = "UPDATE posts SET content = ?, likes = ?, " +
+        "time = ?, visibility = ?, wall = ? WHERE id = ?";
+    jdbcTemplate.update(sql, new Object[]{dbpost.getContent(), dbpost.getLikes()
+        , dbpost.getTime(), dbpost.getVisibility(), wall, dbpost.getId()});
   }
 
   @Override
   public void createPost(Post post) {
+    //convert post intp DBPost
+    int wall = userService.getUserByUserName(post.getWallName()).getId();
+    DBPost dbpost = new DBPost(post.getAuthorFirstName(),
+        post.getAuthorLastName(), post.getContent(),
+        post.getLikes(), post.getTime(), post.getVisibility(), wall);
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
-    final String sql = "INSERT INTO posts (author, content, likes, time, visibility) " +
-        "VALUES (?, ?, ?, ?, ?)";
+    final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility, wall) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?)";
     jdbcTemplate.update(sql, new Object[]{
-        post.getAuthor(),
-        post.getContent(),
-        post.getLikes(),
-        post.getTime(),
-        post.getVisibility()
+        dbpost.getAuthorFirst(),
+        dbpost.getAuthorLast(),
+        dbpost.getContent(),
+        dbpost.getLikes(),
+        dbpost.getTime(),
+        dbpost.getVisibility(),
+        wall
     });
   }
 
   @Override
-  public Collection<Post> getPostsByContent(String content) {
+  public Collection<DBPost> getPostsByContent(String content) {
     final String sql = "SELECT * FROM users WHERE content = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), content);
+    Collection<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), content);
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostsByAuthor(String author) {
-    final String sql = "SELECT * FROM users WHERE author = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), author);
+  public Collection<DBPost> getPostsByAuthor(String authorFirst, String authorLast) {
+    final String sql = "SELECT * FROM users WHERE authorfirst = ? AND authorlast = ?";
+    Collection<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(),
+        new Object[]{authorFirst, authorLast});
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostsByLikes(int likes) {
+  public Collection<DBPost> getPostsByLikes(int likes) {
     final String sql = "SELECT * FROM users WHERE likes = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), likes);
+    Collection<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), likes);
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostsByLikedBy(int likedBy) {
+  public Collection<DBPost> getPostsByLikedBy(int likedBy) {
     return null;
   }
 
   @Override
-  public Collection<Post> getPostsByTime(int time) {
+  public Collection<DBPost> getPostsByTime(int time) {
     final String sql = "SELECT * FROM users WHERE time = ?";
-    Collection<Post> posts = jdbcTemplate.query(sql, new PostRowMapper(), time);
+    Collection<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), time);
     return posts;
   }
 
   @Override
-  public Collection<Post> getPostUserMainPage(int userid) {
-    Collection<Post> result = new ArrayList<>();
+  public Collection<DBPost> getPostsByWall(int wall) {
+    final String sql = "SELECT * FROM users WHERE wall = ?";
+    Collection<DBPost> posts = jdbcTemplate.query(sql, new PostRowMapper(), wall);
+    return posts;
+  }
+
+  @Override
+  public Collection<DBPost> getPostUserMainPage(int userid) {
+    Collection<DBPost> result = new ArrayList<>();
     Collection<User> friends = friendsService.getAllFriends(userid);
     for (User user : friends) {
-      Collection<Post> posts = getPostsByUser(user.getId());
-      for (Post post : posts) {
+      Collection<DBPost> posts = getPostsByUser(user.getId());
+      for (DBPost post : posts) {
         result.add(post);
       }
     }
     Collection<FbGroup> groups = groupService.getAllGroupsForUser(userid);
     for (FbGroup group : groups) {
-      Collection<Post> posts = getPostsFromGroup(group.getGroupID());
-      for (Post post : posts) {
+      Collection<DBPost> posts = getPostsFromGroup(group.getGroupID());
+      for (DBPost post : posts) {
         result.add(post);
       }
     }
-    Collection<Post> myPosts = getPostsByUser(userid);
-    for (Post post : myPosts) {
+    Collection<DBPost> wallPosts = getPostsByWall(userid);
+    for (DBPost post : wallPosts) {
       result.add(post);
     }
     return result;
   }
 
 
-  private static class PostRowMapper implements RowMapper<Post> {
+  private static class PostRowMapper implements RowMapper<DBPost> {
+
     @Override
-    public Post mapRow(ResultSet resultSet, int i) throws SQLException {
-      Post post = new Post();
+    public DBPost mapRow(ResultSet resultSet, int i) throws SQLException {
+      DBPost post = new DBPost();
       post.setId(resultSet.getInt("id"));
-      post.setAuthor(resultSet.getString("author"));
+      post.setAuthorFirst(resultSet.getString("authorfirst"));
+      post.setAuthorLast(resultSet.getString("authorlast"));
       post.setContent(resultSet.getString("content"));
       post.setLikes(resultSet.getInt("likes"));
       post.setTime(resultSet.getInt("time"));
       post.setVisibility(resultSet.getInt("visibility"));
+      post.setWall(resultSet.getInt("wall"));
       return post;
     }
   }

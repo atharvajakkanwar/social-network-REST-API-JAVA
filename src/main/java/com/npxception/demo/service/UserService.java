@@ -3,7 +3,6 @@ package com.npxception.demo.service;
 import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.dao.UserDao;
 import com.npxception.demo.entity.User;
-import com.npxception.demo.login.Login;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,10 +39,6 @@ public class UserService {
 
   public void updateUser(User user) {
     this.userDao.updateUser(user);
-  }
-
-  public void insertUser(User user) {
-    this.userDao.insertUserToDb(user);
   }
 
   public Collection<User> getUsersByFirstName(String name) {

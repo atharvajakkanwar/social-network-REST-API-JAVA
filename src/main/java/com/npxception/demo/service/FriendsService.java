@@ -2,7 +2,6 @@ package com.npxception.demo.service;
 
 import com.npxception.demo.dao.FriendsDao;
 import com.npxception.demo.dao.PostgreSQLFriendsDaoImpl;
-import com.npxception.demo.dao.PostgreSQLUserDaoImpl;
 import com.npxception.demo.entity.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import java.util.Collection;
  */
 @org.springframework.stereotype.Service
 public class FriendsService {
-  PostgreSQLFriendsDaoImpl postgreSQLFriendsDao ;
+  PostgreSQLFriendsDaoImpl postgreSQLFriendsDao;
 
   FriendsService(PostgreSQLFriendsDaoImpl postgreSQLFriendsDao) {
     this.postgreSQLFriendsDao = postgreSQLFriendsDao;
@@ -33,6 +32,7 @@ public class FriendsService {
   }
 
   public void removeAllFriends(int id) {
+    System.out.println("IN SERVICE IN SERVICE IN SERVICE IN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICEIN SERVICE");
     this.dao.removeAllFriends(id);
   }
 

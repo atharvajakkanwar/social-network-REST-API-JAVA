@@ -35,7 +35,8 @@ public class PostControllerTest {
   public void postControllerTest() throws Exception {
     Post mockPost = new Post();
     mockPost.setId(1);
-    mockPost.setAuthor("a");
+    mockPost.setAuthorFirstName("a");
+    mockPost.setAuthorLastName("A");
     mockPost.setContent("a");
     mockPost.setLikes(1);
     mockPost.setTime(1);

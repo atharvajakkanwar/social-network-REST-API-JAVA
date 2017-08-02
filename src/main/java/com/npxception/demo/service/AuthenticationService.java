@@ -1,45 +1,26 @@
 package com.npxception.demo.service;
 
-import com.npxception.demo.dao.RoleDao;
-import com.npxception.demo.entity.Role;
+import com.npxception.demo.helperMethods.UserInformation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.HEAD;
-
 /**
- * Service class for authentication
- * Created by Atharva Jakkanwar on 30-Jun-17.
+ * Created by Atharva Jakkanwar on 03-Jul-17.
+ * Represents a controller for the Authentication service.
  */
 @Service
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService {
 
   @Autowired
-  @Qualifier("PostgreRoleRepo")
-  private RoleDao roledao;
+  private UserService userService;
 
-  public Role getRoleById(int roleid) {
-    return this.roledao.getRoleById(roleid);
+  public String getEmail() {
+    return new UserInformation().getEmail();
   }
 
-  @Override
-  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-    return null;
+  public String getToken() {
+    Integer token = new UserInformation().getEmail().hashCode();
+    return token.toString();
   }
-
-//  @Override
-//  public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-//    com.npxception.demo.entity.User user = userDao.getUserByUserName(s);
-//    GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-//    String fullName = new UserInformation().getFullName(user.getFirstName(), user.getLastName());
-//    UserDetails details = (UserDetails)new org.springframework.security.core.userdetails
-//        .User(fullName, user.getPassword(), Arrays.asList(authority));
-//    return details;
-//  }
 }
-

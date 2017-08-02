@@ -1,30 +1,24 @@
 package com.npxception.demo.controller;
 
-import com.npxception.demo.config.RedirectLoginSuccessHandler;
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.DuplicateEmailException;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.Collection;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
 /**
  * Represents a controller for the User service.
  */
@@ -89,17 +83,6 @@ public class UserController {
     userService.updateUser(user);
   }
 
-  @ApiOperation(value = "Inserts User into database")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully inserted user"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
-  @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void insertUser(@ApiParam(value = "User", required = true) @RequestBody User user) {
-    userService.insertUser(user);
-  }
 
   @ApiOperation(value = "Gets List of User given first name")
   @ApiResponses(value = {
@@ -257,7 +240,7 @@ public class UserController {
     return result;
   }
 
-  @ApiOperation(value = "Registers User")
+  @ApiOperation(value = "Registers User WHERE: id is not required")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully registered user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -270,9 +253,13 @@ public class UserController {
   public void register(
       //@ApiParam(value = "User", required = true)
       @RequestBody User user) {
-    System.out.println(user.getFirstName());
-    System.out.println(user.getLastName());
-    userService.register(user);
+    try {
+      System.out.println(user.getFirstName());
+      System.out.println(user.getLastName());
+      userService.register(user);
+    } catch (DataIntegrityViolationException e) {
+      throw new DuplicateEmailException(user);
+    }
   }
 
 //  @ApiOperation(value = "Login")
@@ -290,43 +277,63 @@ public class UserController {
 
   // will prob need to add methods for country/city/password
 
+  @ApiOperation(value = "Set the first name of the user")
   @RequestMapping(value = "/setfirst/{first}", params = "first", method = RequestMethod.POST)
-  public void setFirst(@PathVariable("first") String first) {
+  public void setFirst(@ApiParam(value = "First name", required = true)
+                       @PathVariable("first") String first) {
     userService.setFirst(first);
   }
 
+  @ApiOperation(value = "Set the last name of the user")
   @RequestMapping(value = "/setlast/{last}", params = "last", method = RequestMethod.POST)
-  public void setLast(@PathVariable("last") String last) {
+  public void setLast(@ApiParam(value = "Last name", required = true)
+                      @PathVariable("last") String last) {
     userService.setLast(last);
   }
 
+  @ApiOperation(value = "Set email of the user")
   @RequestMapping(value = "/setemail/{email}/", params = "email", method = RequestMethod.POST)
-  public void setEmail(@PathVariable("email") String email) {
-    userService.setEmail(email);
+  public void setEmail(@ApiParam(value = "Email", required = true)
+                       @PathVariable("email") String email) {
+    try {
+      userService.setEmail(email);
+    } catch (DataIntegrityViolationException e) {
+      throw new DuplicateEmailException(email);
+    }
   }
 
-  @RequestMapping(value = "/setage/{age}", params = "age", method = RequestMethod.POST)
-  public void setAge(@PathVariable("age") int age) {
+  @ApiOperation(value = "Set age of the user")
+  @RequestMapping(value = "/setage/{age}", method = RequestMethod.POST)
+  public void setAge(@ApiParam(value = "Age", required = true)
+                     @PathVariable("age") int age) {
     userService.setAge(age);
   }
 
+  @ApiOperation(value = "Set gender of the user")
   @RequestMapping(value = "/setgender/{gender}", params = "gender", method = RequestMethod.POST)
-  public void setGender(@PathVariable("gender") String gender) {
+  public void setGender(@ApiParam(value = "Gender", required = true)
+                        @PathVariable("gender") String gender) {
     userService.setGender(gender);
   }
 
+  @ApiOperation(value = "Set country of the user")
   @RequestMapping(value = "/setcountry/{country}", params = "country", method = RequestMethod.POST)
-  public void setCountry(@PathVariable("country") String country) {
+  public void setCountry(@ApiParam(value = "Country", required = true)
+                         @PathVariable("country") String country) {
     userService.setCountry(country);
   }
 
+  @ApiOperation(value = "Set city of the user")
   @RequestMapping(value = "/setcity/{city}", params = "city", method = RequestMethod.POST)
-  public void setCity(@PathVariable("city") String city) {
+  public void setCity(@ApiParam(value = "City", required = true)
+                      @PathVariable("city") String city) {
     userService.setCity(city);
   }
 
+  @ApiOperation(value = "Set password for the user")
   @RequestMapping(value = "/setpassword/{password}", params = "password", method = RequestMethod.POST)
-  public void setPassword(@PathVariable("password") String password) {
+  public void setPassword(@ApiParam(value = "Password", required = true)
+                          @PathVariable("password") String password) {
     userService.setPassword(password);
   }
 }

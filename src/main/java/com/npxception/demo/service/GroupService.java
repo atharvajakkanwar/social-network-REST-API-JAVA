@@ -20,7 +20,7 @@ public class GroupService {
   PostgreSQLGroupDaoImpl postgreSQLGroupDao;
 
 
-  GroupService (PostgreSQLGroupDaoImpl postgreSQLGroupDao) {
+  GroupService(PostgreSQLGroupDaoImpl postgreSQLGroupDao) {
     this.postgreSQLGroupDao = postgreSQLGroupDao;
   }
 
@@ -44,7 +44,6 @@ public class GroupService {
   }
 
 
-
   public void createGroup(FbGroup fbGroup) {
     this.groupDao.createGroup(fbGroup);
   }
@@ -61,19 +60,18 @@ public class GroupService {
   public Collection<FbGroup> getAllGroupsForUser(int memberid) {
     return this.groupDao.getAllGroupsForUser(memberid);
   }
-  
+
   public void sendJoinRequest(int groupid, int memberid) {
     this.groupDao.sendJoinRequest(groupid, memberid);
   }
-  
-  public void addMemberToGroup(int groupid, int memberid) {
-    this.groupDao.addMemberToGroup(groupid, memberid);
+
+  public void addMemberToGroup(int userid, int groupid, int memberid) {
+    this.groupDao.addMemberToGroup(userid, groupid, memberid);
   }
 
-  public void removeMemberFromGroup(int groupid, int memberid) {
-    this.groupDao.removeMemberFromGroup(groupid, memberid);
+  public void removeMemberFromGroup(int userid, int groupid, int memberid) {
+    this.groupDao.removeMemberFromGroup(userid, groupid, memberid);
   }
-
 
 
 }

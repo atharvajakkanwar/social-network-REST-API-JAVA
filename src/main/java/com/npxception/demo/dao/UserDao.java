@@ -31,6 +31,9 @@ public interface UserDao {
   // Email
   User getUserByEmail(String email);
 
+//  User getUserByEmailID(String email, int id);
+
+
   // Age
   Collection<User> getUsersByAge(int age);
 
