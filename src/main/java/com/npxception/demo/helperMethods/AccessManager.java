@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AccessManager {
+
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
