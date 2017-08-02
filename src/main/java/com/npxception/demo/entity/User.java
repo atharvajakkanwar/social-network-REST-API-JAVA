@@ -26,7 +26,8 @@ public class User {
     this.role = "USER";
   }
 
-  public User(){}
+  public User() {
+  }
 
   public int getId() {
     return userid;
@@ -93,7 +94,7 @@ public class User {
   }
 
 
-  public String getPassword(){
+  public String getPassword() {
     return this.password;
   }
 
@@ -101,7 +102,7 @@ public class User {
     return role;
   }
 
-  public void setRole(String role){
+  public void setRole(String role) {
     this.role = role;
   }
 

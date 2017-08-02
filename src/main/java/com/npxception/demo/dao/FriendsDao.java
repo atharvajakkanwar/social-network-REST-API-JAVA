@@ -22,7 +22,7 @@ public interface FriendsDao {
   /**
    * Get a list of common friends between 2 users
    *
-   * @param id id of user1
+   * @param id       id of user1
    * @param username id of user2
    * @return a list of common friends between 2 users
    */
@@ -32,7 +32,7 @@ public interface FriendsDao {
    * Get a list of friends, who have same last name or first name, of a user
    *
    * @param username the name of the friend
-   * @param id   the id of the user
+   * @param id       the id of the user
    * @return a list of friends, who have same last name or first name, of a user
    */
   Collection<User> getFriendsByName(String username, int id);
@@ -61,7 +61,7 @@ public interface FriendsDao {
   /**
    * Remove a friend of a user from the friend list
    *
-   * @param id the user
+   * @param id       the user
    * @param username the friend
    */
   void unFriend(int id, String username) throws SQLException;
@@ -77,7 +77,7 @@ public interface FriendsDao {
   /**
    * Sending a friend request to a user2 from user1, put them on the friends table
    *
-   * @param id the id of user1
+   * @param id       the id of user1
    * @param username the id of user2
    */
   void sendRequest(int id, String username) throws SQLException;
@@ -85,7 +85,7 @@ public interface FriendsDao {
   /**
    * Make user2 become the friend of user1
    *
-   * @param id id of user1
+   * @param id       id of user1
    * @param username id of user2
    */
   void becomeFriend(int id, String username);
@@ -93,7 +93,7 @@ public interface FriendsDao {
   /**
    * Block user2, who is friend of user1, by user1
    *
-   * @param id the id of user1
+   * @param id       the id of user1
    * @param username the id of user2
    */
   void blockFriend(int id, String username);

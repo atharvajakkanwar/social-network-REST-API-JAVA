@@ -31,7 +31,8 @@ CREATE TABLE posts (
   authorfirst VARCHAR(255) NOT NULL,
   authorlast VARCHAR(255) NOT NULL,
   content VARCHAR(500) NOT NULL,
-  likes INT NOT NULL, time INT NOT NULL,
+  likes INT NOT NULL,
+  time INT NOT NULL,
   visibility INT NOT NULL);
 
 CREATE TABLE users (

@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Created by Atharva Jakkanwar on 30-Jun-17.
  */
 @Repository("PostgreRoleRepo")
-public class PostgreSQLRoleDaoImpl implements  RoleDao {
+public class PostgreSQLRoleDaoImpl implements RoleDao {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;

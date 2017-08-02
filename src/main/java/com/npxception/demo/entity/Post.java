@@ -10,18 +10,32 @@ public class Post {
   private String content;
   private int likes;
   private int time;
-  private  int visibility;
+  private int visibility;
+  private String wallName;
 
-  public Post(String authorFirst, String authorLast, String content, int likes, int time, int visibility) {
+
+  public Post(String authorFirst, String authorLast, String content,
+              int likes, int time, int visibility, String wallName) {
     this.authorFirst = authorFirst;
     this.authorLast = authorLast;
     this.content = content;
     this.likes = likes;
     this.time = time;
     this.visibility = visibility;
+    this.wallName = wallName;
+
   }
 
-  public Post() {}
+  public String getWallName() {
+    return wallName;
+  }
+
+  public void setWallName(String wallName) {
+    this.wallName = wallName;
+  }
+
+  public Post() {
+  }
 
   public int getId() {
     return id;
@@ -71,9 +85,13 @@ public class Post {
     this.time = time;
   }
 
-  public int getVisibility() { return visibility; }
+  public int getVisibility() {
+    return visibility;
+  }
 
-  public void setVisibility(int visibility) {  this.visibility = visibility; }
+  public void setVisibility(int visibility) {
+    this.visibility = visibility;
+  }
 
   @Override
   public boolean equals(Object o) {
@@ -89,6 +107,7 @@ public class Post {
     if (likes != post.likes) return false;
     if (time != post.time) return false;
     if (visibility != post.visibility) return false;
+    if (wallName != post.wallName) return false;
     return content != null ? content.equals(post.content) : post.content == null;
   }
 
@@ -101,6 +120,8 @@ public class Post {
     result = 31 * result + getLikes();
     result = 31 * result + getTime();
     result = 31 * result + getVisibility();
+    result = 31 * result + getVisibility();
+    result = 31 * result + (wallName != null ? wallName.hashCode() : 0);
     return result;
   }
 
@@ -114,6 +135,7 @@ public class Post {
         ", likes=" + likes +
         ", time=" + time +
         ", visibility=" + visibility +
+        ", wallName='" + wallName + '\'' +
         '}';
   }
 }
