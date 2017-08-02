@@ -6,7 +6,6 @@ import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
 import com.npxception.demo.exceptions.AuthenticationException;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
-import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 import com.npxception.demo.service.FriendsService;
 import com.npxception.demo.service.GroupService;
@@ -170,19 +169,22 @@ public class PostgreSQLPostDaoImpl implements PostDao {
   public void updatePosts(int id, Post assignment) {
     checkAuthor(id, assignment.getId());
     int wall = userService.getUserByUserName(assignment.getWallName()).getId();
+    DBPost dbpost = new DBPost(assignment.getAuthorFirstName(),
+        assignment.getAuthorLastName(), assignment.getContent(),
+        assignment.getLikes(), assignment.getTime(), assignment.getVisibility(), wall);
     final String sql = "UPDATE posts SET content = ?, likes = ?, " +
         "time = ?, visibility = ?, wall = ? WHERE id = ?";
-    jdbcTemplate.update(sql, new Object[]{assignment.getContent(), assignment.getLikes()
-        , assignment.getTime(), assignment.getVisibility(), wall, assignment.getId()});
+    jdbcTemplate.update(sql, new Object[]{dbpost.getContent(), dbpost.getLikes()
+        , dbpost.getTime(), dbpost.getVisibility(), wall, dbpost.getId()});
   }
 
   @Override
   public void createPost(Post post) {
     //convert post intp DBPost
-    int wall =userService.getUserByUserName(post.getWallName()).getId();
+    int wall = userService.getUserByUserName(post.getWallName()).getId();
     DBPost dbpost = new DBPost(post.getAuthorFirstName(),
         post.getAuthorLastName(), post.getContent(),
-        post.getLikes(), post.getTime(), post.getVisibility(), wall) ;
+        post.getLikes(), post.getTime(), post.getVisibility(), wall);
     //INSERT INTO table_name (column1, column2, column3,...)
     //VALUES (value1, value2, value3,...)
     final String sql = "INSERT INTO posts (authorfirst, authorlast, content, likes, time, visibility, wall) " +

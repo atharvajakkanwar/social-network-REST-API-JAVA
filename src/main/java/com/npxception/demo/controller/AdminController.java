@@ -29,7 +29,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @RequestMapping("/")
-@Api(description = "Admin Controller")
+@Api(description = "Controller for Admin ONLY")
 public class AdminController {
   @Autowired
   private PostService postService;
@@ -40,7 +40,7 @@ public class AdminController {
   @Autowired
   private GroupService groupService;
 
-  @ApiOperation(value = "Gets all User")
+  @ApiOperation(value = "Returns every user in the database")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -62,7 +62,7 @@ public class AdminController {
     return postService.getAllPosts();
   }
 
-  @ApiOperation(value = "Return every post in group given group name")
+  @ApiOperation(value = "Return every post in group given Group name")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of posts"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -70,9 +70,8 @@ public class AdminController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
-  public Collection<DBPost> getPostsFromGroup(@PathVariable("user") int id,
-                                            @PathVariable("name") String name,
-                                            @RequestHeader("authorization") String token) {
+  public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Name of the group", required = true)
+                                                @PathVariable("name") String name) {
     Collection<DBPost> result = postService.getPostsFromGroup(name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
@@ -80,19 +79,16 @@ public class AdminController {
     return result;
   }
 
-  @ApiOperation(value = "Return every post in group given group name")
+  @ApiOperation(value = "Return every post in group given Group ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of posts"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-
   @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
-  public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "group ID", required = true)
-                                            @PathVariable("user") int id,
-                                            @PathVariable("groupid") int groupid,
-                                            @RequestHeader("authorization") String token) {
+  public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Group ID", required = true)
+                                                @PathVariable("groupid") int groupid) {
     Collection<DBPost> result = postService.getPostsFromGroup(groupid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(groupid));

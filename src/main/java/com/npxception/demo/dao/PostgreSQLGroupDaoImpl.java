@@ -27,7 +27,6 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
   @Autowired
   private UserService userService;
 
-
   @Override
   public Collection<FbGroup> getAllGroup() {
     final String sql = "SELECT * FROM groups";
@@ -73,15 +72,6 @@ public class PostgreSQLGroupDaoImpl implements GroupDao {
     List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), name);
     return groups;
   }
-
-//  @Override
-//  public Collection<FbGroup> getGroupByAdmin(int admin) {
-//    User user = userDao.getUserById(admin);
-//    String fullName = user.getFirstName() + " " + user.getLastName();
-//    final String sql = "SELECT * FROM groups WHERE admin = ? ";
-//    List<FbGroup> groups = jdbcTemplate.query(sql, new GroupRowMapper(), fullName);
-//    return groups;
-//  }
 
 //  @Override
 //  public Collection<FbGroup> getGroupByAdmin(int admin) {
