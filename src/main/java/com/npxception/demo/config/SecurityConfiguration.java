@@ -42,7 +42,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
     auth.jdbcAuthentication().dataSource(dataSource)
         .usersByUsernameQuery("SELECT email AS principal, password AS credentials" +
             ", true FROM users WHERE email = ?")
@@ -56,9 +55,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("**/register").anonymous()
         .antMatchers("/").hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/user/users").hasAuthority("ADMIN")
-        .antMatchers("/Fbgroup/groups").hasAuthority("ADMIN")
-        .antMatchers("/post/posts").hasAuthority("ADMIN")
+        .antMatchers("/users").hasAuthority("ADMIN")
+        .antMatchers("/groups").hasAuthority("ADMIN")
+        .antMatchers("/posts").hasAuthority("ADMIN")
         .antMatchers("**/auth/**").hasAnyAuthority("ADMIN", "USER")
         .and().formLogin().successHandler(loginSuccessHandler())
         .and().logout().logoutSuccessHandler(logoutHandler())

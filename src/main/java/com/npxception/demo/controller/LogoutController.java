@@ -19,15 +19,10 @@ import io.swagger.annotations.ApiParam;
  * Represents a controller for the Authentication service.
  */
 @RestController
-public class AuthenticationController {
+public class LogoutController {
 
   @Autowired
   private JdbcTemplate jdbcTemplate;
-
-  public String getEmail() {
-    return new UserInformation().getEmail();
-  }
-  @ApiOperation(value = "Logs out the given user ID")
   @RequestMapping(value = "{userid}/logout", method = RequestMethod.DELETE)
   public void logout(@ApiParam(value = "User ID", required = true)
                        @PathVariable("userid") int id) {

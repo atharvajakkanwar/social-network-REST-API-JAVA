@@ -1,13 +1,10 @@
 package com.npxception.demo.entity;
 
-import com.npxception.demo.service.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
- * Created by bryan on 6/2/2017.
+ * Created by RachelDi on 01/08/2017.
  */
-public class Post {
+public class DBPost {
+
   private int id;
   private String authorFirst;
   private String authorLast;
@@ -15,31 +12,21 @@ public class Post {
   private int likes;
   private int time;
   private int visibility;
-  private String wallName;
+  private int wall;
 
-  @Autowired
-  UserService userService;
-
-  public Post(String authorFirst, String authorLast, String content,
-              int likes, int time, int visibility, String wallName) {
+  public DBPost(String authorFirst,
+                String authorLast, String content, int likes,
+                int time, int visibility, int wall){
     this.authorFirst = authorFirst;
     this.authorLast = authorLast;
     this.content = content;
     this.likes = likes;
     this.time = time;
     this.visibility = visibility;
-    this.wallName = wallName;
+    this.wall = wall;
   }
 
-  public String getWallName() {
-    return wallName;
-  }
-
-  public void setWallName(String wallName) {
-    this.wallName = wallName;
-  }
-
-  public Post() {
+  public DBPost() {
   }
 
   public int getId() {
@@ -50,19 +37,19 @@ public class Post {
     this.id = id;
   }
 
-  public String getAuthorFirstName() {
-    return this.authorFirst;
+  public String getAuthorFirst() {
+    return authorFirst;
   }
 
-  public String getAuthorLastName() {
-    return this.authorLast;
-  }
-
-  public void setAuthorFirstName(String authorFirst) {
+  public void setAuthorFirst(String authorFirst) {
     this.authorFirst = authorFirst;
   }
 
-  public void setAuthorLastName(String authorLast) {
+  public String getAuthorLast() {
+    return authorLast;
+  }
+
+  public void setAuthorLast(String authorLast) {
     this.authorLast = authorLast;
   }
 
@@ -98,42 +85,49 @@ public class Post {
     this.visibility = visibility;
   }
 
+  public int getWall() {
+    return wall;
+  }
+
+  public void setWall(int wall) {
+    this.wall = wall;
+  }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    Post post = (Post) o;
+    DBPost dbPost = (DBPost) o;
 
-    if (id != post.id) return false;
-    if (authorFirst != post.authorFirst) return false;
-    if (authorLast != post.authorLast) return false;
-
-    if (likes != post.likes) return false;
-    if (time != post.time) return false;
-    if (visibility != post.visibility) return false;
-    if (wallName != post.wallName) return false;
-    return content != null ? content.equals(post.content) : post.content == null;
+    if (getId() != dbPost.getId()) return false;
+    if (getLikes() != dbPost.getLikes()) return false;
+    if (getTime() != dbPost.getTime()) return false;
+    if (getVisibility() != dbPost.getVisibility()) return false;
+    if (getWall() != dbPost.getWall()) return false;
+    if (getAuthorFirst() != null ? !getAuthorFirst().equals(dbPost.getAuthorFirst()) : dbPost.getAuthorFirst() != null)
+      return false;
+    if (getAuthorLast() != null ? !getAuthorLast().equals(dbPost.getAuthorLast()) : dbPost.getAuthorLast() != null)
+      return false;
+    return getContent() != null ? getContent().equals(dbPost.getContent()) : dbPost.getContent() == null;
   }
 
   @Override
   public int hashCode() {
     int result = getId();
-    result = 31 * result + (authorFirst != null ? authorFirst.hashCode() : 0);
-    result = 31 * result + (authorLast != null ? authorLast.hashCode() : 0);
+    result = 31 * result + (getAuthorFirst() != null ? getAuthorFirst().hashCode() : 0);
+    result = 31 * result + (getAuthorLast() != null ? getAuthorLast().hashCode() : 0);
     result = 31 * result + (getContent() != null ? getContent().hashCode() : 0);
     result = 31 * result + getLikes();
     result = 31 * result + getTime();
     result = 31 * result + getVisibility();
-    result = 31 * result + getVisibility();
-    result = 31 * result + (wallName != null ? wallName.hashCode() : 0);
+    result = 31 * result + getWall();
     return result;
   }
 
   @Override
   public String toString() {
-    return "Post{" +
+    return "DBPost{" +
         "id=" + id +
         ", authorFirst='" + authorFirst + '\'' +
         ", authorLast='" + authorLast + '\'' +
@@ -141,8 +135,7 @@ public class Post {
         ", likes=" + likes +
         ", time=" + time +
         ", visibility=" + visibility +
-        ", wallName='" + wallName + '\'' +
+        ", wall=" + wall +
         '}';
   }
 }
-
