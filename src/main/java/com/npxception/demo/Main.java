@@ -18,6 +18,6 @@ public class Main {
     flyway.migrate();
     SpringApplication.run(Main.class, args);
   }
-  }
+}
 
 //}
