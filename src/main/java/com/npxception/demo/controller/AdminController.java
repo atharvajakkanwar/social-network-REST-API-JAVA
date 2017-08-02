@@ -1,5 +1,6 @@
 package com.npxception.demo.controller;
 
+import com.npxception.demo.entity.DBPost;
 import com.npxception.demo.entity.FbGroup;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.entity.User;
@@ -57,7 +58,7 @@ public class AdminController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
   @RequestMapping(value = "/posts", method = RequestMethod.GET)
-  public Collection<Post> getAllPosts() {
+  public Collection<DBPost> getAllPosts() {
     return postService.getAllPosts();
   }
 
@@ -69,12 +70,9 @@ public class AdminController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
-  public Collection<Post> getPostsFromGroup(@ApiParam(value = "User ID", required = true)
-                                              @PathVariable("user") int id,
-                                            @ApiParam(value = "Name of the group", required = true)
-                                            @PathVariable("name") String name,
-                                            @RequestHeader("authorization") String token) {
-    Collection<Post> result = postService.getPostsFromGroup(name);
+  public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Name of the group", required = true)
+                                                @PathVariable("name") String name) {
+    Collection<DBPost> result = postService.getPostsFromGroup(name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
     }
@@ -89,12 +87,9 @@ public class AdminController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
-  public Collection<Post> getPostsFromGroup(@ApiParam(value = "User ID", required = true)
-                                            @PathVariable("user") int id,
-                                            @ApiParam(value = "Group ID", required = true)
-                                            @PathVariable("groupid") int groupid,
-                                            @RequestHeader("authorization") String token) {
-    Collection<Post> result = postService.getPostsFromGroup(groupid);
+  public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Group ID", required = true)
+                                                @PathVariable("groupid") int groupid) {
+    Collection<DBPost> result = postService.getPostsFromGroup(groupid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(groupid));
     }

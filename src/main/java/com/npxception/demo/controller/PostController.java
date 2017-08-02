@@ -1,5 +1,6 @@
 package com.npxception.demo.controller;
 
+import com.npxception.demo.entity.DBPost;
 import com.npxception.demo.entity.Post;
 import com.npxception.demo.exceptions.ResourceNotFoundException;
 import com.npxception.demo.helperMethods.AccessManager;
@@ -35,6 +36,18 @@ public class PostController {
   @Autowired
   AccessManager accessManager = new AccessManager();
 
+  @ApiOperation(value = "Return every post in the database")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Successfully retrieved list of post"),
+      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+  })
+  @RequestMapping(value = "/posts", method = RequestMethod.GET)
+  public Collection<DBPost> getAllPosts() {
+    return postService.getAllPosts();
+  }
+
+
   @ApiOperation(value = "Return post given ID")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved post"),
@@ -42,10 +55,10 @@ public class PostController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
   })
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-  public Post getPostsById(@ApiParam(value = "post ID", required = true)
+  public DBPost getPostsById(@ApiParam(value = "post ID", required = true)
                            @PathVariable("user") int id1,
-                           @PathVariable("id") int id,
-                           @RequestHeader("authorization") String token) {
+                             @PathVariable("id") int id,
+                             @RequestHeader("authorization") String token) {
     try {
       accessManager.checkUser(id1, token);
       return postService.getPostsById(id);
@@ -62,13 +75,13 @@ public class PostController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/group/{groupid}/member/{memberid}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUserFromGroup(@ApiParam(value = "group ID", required = true)
+  public Collection<DBPost> getPostsByUserFromGroup(@ApiParam(value = "group ID", required = true)
                                                   @PathVariable("user") int id1,
                                                   @PathVariable("memberid") int id2,
                                                   @PathVariable("groupid") int groupid,
                                                   @RequestHeader("authorization") String token) {
     accessManager.checkUser(id1, token);
-    Collection<Post> result = postService.getPostsByUserFromGroup(id1, id2, groupid);
+    Collection<DBPost> result = postService.getPostsByUserFromGroup(id1, id2, groupid);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(Integer.toString(groupid));
     }
@@ -83,12 +96,12 @@ public class PostController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(value = "/groupname/{name}/member/{memberid}", method = RequestMethod.GET)
-  public Collection<Post> getPostsByUserFromGroupName(@PathVariable("user") int id,
+  public Collection<DBPost> getPostsByUserFromGroupName(@PathVariable("user") int id,
                                                       @PathVariable("memberid") int id2,
                                                       @PathVariable("name") String name,
                                                       @RequestHeader("authorization") String token) {
     accessManager.checkUser(id, token);
-    Collection<Post> result = postService.getPostsByUserFromGroupName(id, id2, name);
+    Collection<DBPost> result = postService.getPostsByUserFromGroupName(id, id2, name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
     }
@@ -134,7 +147,6 @@ public class PostController {
   public void removePostById(@PathVariable("user") int id1,
                              @PathVariable("id") int id,
                              @RequestHeader("authorization") String token) {
-    //?????????
     accessManager.checkUser(id1, token);
     postService.removePostsById(id1, id);
   }
@@ -150,12 +162,11 @@ public class PostController {
   public void createPost(@ApiParam(value = "Post", required = true)
                          @RequestHeader("authorization") String token,
                          @RequestBody Post assignment) {
-    ///?????????
     postService.createPost(assignment);
   }
 
   @RequestMapping(value = "/wall", method = RequestMethod.GET)
-  public Collection<Post> getPostUserMainPage(@PathVariable("user") int id,
+  public Collection<DBPost> getPostUserMainPage(@PathVariable("user") int id,
                                               @RequestHeader("authorization") String token) {
     accessManager.checkUser(id, token);
     return postService.getPostUserMainPage(id);

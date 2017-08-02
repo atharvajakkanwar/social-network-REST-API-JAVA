@@ -2,6 +2,7 @@ package com.npxception.demo.service;
 
 import com.npxception.demo.dao.PostDao;
 import com.npxception.demo.dao.PostgreSQLPostDaoImpl;
+import com.npxception.demo.entity.DBPost;
 import com.npxception.demo.entity.Post;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class PostService {
   @Qualifier("PostgresPostRepo")
   private PostDao postDao;
 
-  public Collection<Post> getAllPosts() {
+  public Collection<DBPost> getAllPosts() {
     return this.postDao.getAllPosts();
   }
 
-  public Collection<Post> getPostsByUser(int userId) {
+  public Collection<DBPost> getPostsByUser(int userId) {
     return this.postDao.getPostsByUser(userId);
   }
 
@@ -41,20 +42,20 @@ public class PostService {
 
 //  public Collection<Post> getPostsByUser(String firstName, int time) { return this.postDao.getPostsByUser(firstName, time); }
 
-  public Collection<Post> getPostsFromGroup(int groupId) {
+  public Collection<DBPost> getPostsFromGroup(int groupId) {
     return this.postDao.getPostsFromGroup(groupId);
   }
 
-  public Collection<Post> getPostsFromGroup(String name) {
+  public Collection<DBPost> getPostsFromGroup(String name) {
     return this.postDao.getPostsFromGroup(name);
   }
 
-  public Collection<Post> getPostsByUserFromGroup(int id1, int id2, int groupId) {
+  public Collection<DBPost> getPostsByUserFromGroup(int id1, int id2, int groupId) {
     return this.postDao.getPostsByUserFromGroup(id1, id2, groupId);
   }
 
 
-  public Post getPostsById(int id) {
+  public DBPost getPostsById(int id) {
     return this.postDao.getPostsById(id);
   }
 
@@ -66,7 +67,7 @@ public class PostService {
     this.postDao.updatePosts(id, assignment);
   }
 
-  public Collection<Post> getPostUserMainPage(int userid) {
+  public Collection<DBPost> getPostUserMainPage(int userid) {
     return this.postDao.getPostUserMainPage(userid);
   }
 
@@ -76,12 +77,12 @@ public class PostService {
     this.postDao.createPost(assignment);
   }
 
-  public Collection<Post> getPostsByContent(String content) {
+  public Collection<DBPost> getPostsByContent(String content) {
     return this.postDao.getPostsByContent(content);
   }
 
 
-  public Collection<Post> getPostsByUserFromGroupName(int id1, int id2, String name) {
+  public Collection<DBPost> getPostsByUserFromGroupName(int id1, int id2, String name) {
     return this.postDao.getPostsByUserFromGroupName(id1, id2, name);
   }
 }

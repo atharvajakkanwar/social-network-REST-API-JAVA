@@ -46,6 +46,4 @@ public class RedirectLoginSuccessHandler extends SimpleUrlAuthenticationSuccessH
     jdbcTemplate.update(create_session_sql, new Object[]{userid, email, password, token, userid});
     super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
   }
-
-
 }
