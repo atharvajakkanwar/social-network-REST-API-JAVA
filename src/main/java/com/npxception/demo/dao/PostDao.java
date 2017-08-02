@@ -13,7 +13,7 @@ public interface PostDao {
    */
   void createPost(Post post);
 
-  void updatePosts(Post post);
+  void updatePosts(int id, Post post);
 
   void removePostsById(int id1, int id);
 

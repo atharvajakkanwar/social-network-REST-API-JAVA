@@ -15,9 +15,9 @@ public class PostTest {
   private Post newPost;
   @Before
   public void setUp() throws Exception {
-    this.post1 = new Post("Sally","Smith", "Hello World", 5, 12, 1);
+    this.post1 = new Post("Sally","Smith", "Hello World", 5, 12, 1,"a.b");
     this.mt = new Post();
-    this.newPost = new Post("Joe", "Apple","a", 37, 37, 37);
+    this.newPost = new Post("Joe", "Apple","a", 37, 37, 37,"c.d");
   }
 
   @Test

@@ -62,8 +62,8 @@ public class PostService {
     this.postDao.removePostsById(id1, id);
   }
 
-  public void updatePosts(Post assignment) {
-    this.postDao.updatePosts(assignment);
+  public void updatePosts(int id, Post assignment) {
+    this.postDao.updatePosts(id, assignment);
   }
 
   public Collection<Post> getPostUserMainPage(int userid) {

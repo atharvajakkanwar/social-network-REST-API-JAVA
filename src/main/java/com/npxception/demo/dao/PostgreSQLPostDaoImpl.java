@@ -166,8 +166,13 @@ public class PostgreSQLPostDaoImpl implements PostDao {
 
 
   @Override
-  public void updatePosts(Post assignment) {
-
+  public void updatePosts(int id, Post assignment) {
+    checkAuthor(id, assignment.getId());
+    int wall = userService.getUserByUserName(assignment.getWallName()).getId();
+    final String sql = "UPDATE posts SET content = ?, likes = ?, " +
+        "time = ?, visibility = ?, wall = ? WHERE id = ?";
+    jdbcTemplate.update(sql, new Object[]{assignment.getContent(), assignment.getLikes()
+        , assignment.getTime(), assignment.getVisibility(), wall, assignment.getId()});
   }
 
   @Override
