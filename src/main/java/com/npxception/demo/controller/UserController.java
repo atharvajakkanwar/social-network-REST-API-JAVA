@@ -44,17 +44,17 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/user/{userid}", method = RequestMethod.GET)
-  public User getUserById(@ApiParam(value = "User ID", required = true)
-                            @PathVariable("userid") int userid,
+  @RequestMapping(value = "/{userid2}", method = RequestMethod.GET)
+  public User getUserById(@ApiParam(value = "User ID that you are searching for", required = true)
+                            @PathVariable("userid2") int userid2,
                           @ApiParam(value = "User ID calling method", required = true)
-                          @PathVariable("userid2") int userid2,
+                          @PathVariable("userid") int userid,
                           @RequestHeader("authorization") String token) {
     try {
-      accessManager.checkUser(userid2, token);
-      return userService.getUserById(userid);
+      accessManager.checkUser(userid, token);
+      return userService.getUserById(userid2);
     } catch (EmptyResultDataAccessException e) {
-      throw new ResourceNotFoundException(Integer.toString(userid));
+      throw new ResourceNotFoundException(Integer.toString(userid2));
     }
   }
 
@@ -66,14 +66,14 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/remove/{userid}", method = RequestMethod.DELETE)
-  public void deleteUserById(@ApiParam(value = "User ID", required = true)
-                               @RequestBody int userid,
+  @RequestMapping(value = "/remove/{userid2}", method = RequestMethod.DELETE)
+  public void deleteUserById(@ApiParam(value = "User ID that is to be deleted", required = true)
+                               @RequestBody int userid2,
                              @ApiParam(value = "User ID calling method",required = true)
-                             @PathVariable("userid2") int userid2,
+                             @PathVariable("userid") int userid,
                              @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2, token);
-    userService.removeUserById(userid);
+    accessManager.checkUser(userid, token);
+    userService.removeUserById(userid2);
   }
 
   @ApiOperation(value = "Updates User")
@@ -86,9 +86,9 @@ public class UserController {
   @RequestMapping(method = RequestMethod.PUT, params = "id", consumes = MediaType.APPLICATION_JSON_VALUE)
   public void updateUserById(@ApiParam(value = "User ID", required = true) @RequestBody User user,
                              @ApiParam(value = "User ID calling method",required = true)
-                             @PathVariable("userid2") int userid2,
+                             @PathVariable("userid") int userid,
                              @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     userService.updateUser(user);
   }
 
@@ -104,9 +104,9 @@ public class UserController {
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
                                               @PathVariable("name") String name,
                                               @ApiParam(value = "User ID calling method",required = true)
-                                              @PathVariable("userid2") int userid2,
+                                              @PathVariable("userid") int userid,
                                               @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2, token);
+    accessManager.checkUser(userid, token);
     Collection<User> result = userService.getUsersByFirstName(name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
@@ -125,9 +125,9 @@ public class UserController {
   public Collection<User> getUsersByLastName(@ApiParam(value = "Last name", required = true)
                                              @PathVariable("name") String name,
                                              @ApiParam(value = "User ID calling method",required = true)
-                                             @PathVariable("userid2") int userid2,
+                                             @PathVariable("userid") int userid,
                                              @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2, token);
+    accessManager.checkUser(userid, token);
     Collection<User> result = userService.getUsersByLastName(name);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(name);
@@ -146,17 +146,17 @@ public class UserController {
   public User getUsersByFullName(@ApiParam(value = "name", required = true)
                                  @PathVariable("name") String name,
                                  @ApiParam(value = "User ID calling method",required = true)
-                                 @PathVariable("userid2") int userid2,
+                                 @PathVariable("userid") int userid,
                                  @RequestHeader("authorization") String token) {
     try {
-      accessManager.checkUser(userid2, token);
+      accessManager.checkUser(userid, token);
       return userService.getUsersByFullName(name);
     } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(name);
     }
   }
 
-  @ApiOperation(value = "Gets List of User given username")
+  @ApiOperation(value = "Gets User given username")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of user"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -170,10 +170,10 @@ public class UserController {
       @ApiParam(value = "Lastname", required = true)
       @PathVariable("lastname") String lastName,
       @ApiParam(value = "User ID calling method",required = true)
-      @PathVariable("userid2") int userid2,
+      @PathVariable("userid") int userid,
       @RequestHeader("authorization") String token)
   {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     try {
       return userService.getUserByUserName(firstName + "." + lastName);
     } catch (EmptyResultDataAccessException e) {
@@ -192,9 +192,9 @@ public class UserController {
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
                              @PathVariable("email") String email,
                              @ApiParam(value = "User ID calling method",required = true)
-                             @PathVariable("userid2") int userid2,
+                             @PathVariable("userid") int userid,
                              @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2, token);
+    accessManager.checkUser(userid, token);
     try {
       return userService.getUserByEmail(email);
     } catch (EmptyResultDataAccessException e) {
@@ -213,9 +213,9 @@ public class UserController {
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
                                        @PathVariable("age") int age,
                                        @ApiParam(value = "User ID calling method",required = true)
-                                       @PathVariable("userid2") int userid2,
+                                       @PathVariable("userid") int userid,
                                        @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     Collection<User> result = userService.getUsersByAge(age);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(age);
@@ -234,9 +234,9 @@ public class UserController {
   public Collection<User> getUsersByGender(@ApiParam(value = "Gender", required = true)
                                            @PathVariable("gender") String gender,
                                            @ApiParam(value = "User ID calling method",required = true)
-                                           @PathVariable("userid2") int userid2,
+                                           @PathVariable("userid") int userid,
                                            @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     Collection<User> result = userService.getUsersByGender(gender);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(gender);
@@ -255,9 +255,9 @@ public class UserController {
   public Collection<User> getUsersByCountry(@ApiParam(value = "Country", required = true)
                                             @PathVariable("country") String country,
                                             @ApiParam(value = "User ID calling method",required = true)
-                                            @PathVariable("userid2") int userid2,
+                                            @PathVariable("userid") int userid,
                                             @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     Collection<User> result = userService.getUsersByCountry(country);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(country);
@@ -276,9 +276,9 @@ public class UserController {
   public Collection<User> getUsersByCity(@ApiParam(value = "City", required = true)
                                          @PathVariable("city") String city,
                                          @ApiParam(value = "User ID calling method",required = true)
-                                         @PathVariable("userid2") int userid2,
+                                         @PathVariable("userid") int userid,
                                          @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     Collection<User> result = userService.getUsersByCity(city);
     if (result.size() == 0) {
       throw new ResourceNotFoundException(city);
@@ -324,94 +324,94 @@ public class UserController {
   // will prob need to add methods for country/city/password
 
   @ApiOperation(value = "Set the first name of the user")
-  @RequestMapping(value = "/setfirst/{first}", params = "first", method = RequestMethod.POST)
+  @RequestMapping(value = "/setfirst/{first}", method = RequestMethod.PUT)
   public void setFirst(@ApiParam(value = "First name", required = true)
                        @PathVariable("first") String first,
                        @ApiParam(value = "User ID calling method",required = true)
-                       @PathVariable("userid2") int userid2,
+                       @PathVariable("userid") int userid,
                        @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setFirst(userid2, first);
+    accessManager.checkUser(userid,token);
+    userService.setFirst(userid, first);
   }
 
   @ApiOperation(value = "Set the last name of the user")
-  @RequestMapping(value = "/setlast/{last}", params = "last", method = RequestMethod.POST)
+  @RequestMapping(value = "/setlast/{last}", method = RequestMethod.PUT)
   public void setLast(@ApiParam(value = "Last name", required = true)
                       @PathVariable("last") String last,
                       @ApiParam(value = "User ID calling method",required = true)
-                      @PathVariable("userid2") int userid2,
+                      @PathVariable("userid") int userid,
                       @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setLast(userid2, last);
+    accessManager.checkUser(userid,token);
+    userService.setLast(userid, last);
   }
 
   @ApiOperation(value = "Set email of the user")
-  @RequestMapping(value = "/setemail/{email}/", params = "email", method = RequestMethod.POST)
+  @RequestMapping(value = "/setemail/{email}/", method = RequestMethod.PUT)
   public void setEmail(@ApiParam(value = "Email", required = true)
                        @PathVariable("email") String email,
                        @ApiParam(value = "User ID calling method",required = true)
-                       @PathVariable("userid2") int userid2,
+                       @PathVariable("userid") int userid,
                        @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
+    accessManager.checkUser(userid,token);
     try {
-      userService.setEmail(userid2, email);
+      userService.setEmail(userid, email);
     } catch (DataIntegrityViolationException e) {
       throw new DuplicateEmailException(email);
     }
   }
 
   @ApiOperation(value = "Set age of the user")
-  @RequestMapping(value = "/setage/{age}", method = RequestMethod.POST)
+  @RequestMapping(value = "/setage/{age}", method = RequestMethod.PUT)
   public void setAge(@ApiParam(value = "Age", required = true)
                      @PathVariable("age") int age,
                      @ApiParam(value = "User ID calling method",required = true)
-                     @PathVariable("userid2") int userid2,
+                     @PathVariable("userid") int userid,
                      @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setAge(userid2, age);
+    accessManager.checkUser(userid,token);
+    userService.setAge(userid, age);
   }
 
   @ApiOperation(value = "Set gender of the user WHERE gender has to be Male or Female")
-  @RequestMapping(value = "/setgender/{gender}", params = "gender", method = RequestMethod.POST)
+  @RequestMapping(value = "/setgender/{gender}", method = RequestMethod.PUT)
   public void setGender(@ApiParam(value = "Gender", required = true)
                         @PathVariable("gender") String gender,
                         @ApiParam(value = "User ID calling method",required = true)
-                        @PathVariable("userid2") int userid2,
+                        @PathVariable("userid") int userid,
                         @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setGender(userid2, gender);
+    accessManager.checkUser(userid,token);
+    userService.setGender(userid, gender);
   }
 
   @ApiOperation(value = "Set country of the user")
-  @RequestMapping(value = "/setcountry/{country}", params = "country", method = RequestMethod.POST)
+  @RequestMapping(value = "/setcountry/{country}", method = RequestMethod.PUT)
   public void setCountry(@ApiParam(value = "Country", required = true)
                          @PathVariable("country") String country,
                          @ApiParam(value = "User ID calling method",required = true)
-                         @PathVariable("userid2") int userid2,
+                         @PathVariable("userid") int userid,
                          @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setCountry(userid2, country);
+    accessManager.checkUser(userid,token);
+    userService.setCountry(userid, country);
   }
 
   @ApiOperation(value = "Set city of the user")
-  @RequestMapping(value = "/setcity/{city}", params = "city", method = RequestMethod.POST)
+  @RequestMapping(value = "/setcity/{city}", method = RequestMethod.PUT)
   public void setCity(@ApiParam(value = "City", required = true)
                       @PathVariable("city") String city,
                       @ApiParam(value = "User ID calling method",required = true)
-                      @PathVariable("userid2") int userid2,
+                      @PathVariable("userid") int userid,
                       @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setCity(userid2, city);
+    accessManager.checkUser(userid,token);
+    userService.setCity(userid, city);
   }
 
   @ApiOperation(value = "Set password for the user")
-  @RequestMapping(value = "/setpassword/{password}", params = "password", method = RequestMethod.POST)
+  @RequestMapping(value = "/setpassword/{password}", method = RequestMethod.PUT)
   public void setPassword(@ApiParam(value = "Password", required = true)
                           @PathVariable("password") String password,
                           @ApiParam(value = "User ID calling method",required = true)
-                          @PathVariable("userid2") int userid2,
+                          @PathVariable("userid") int userid,
                           @RequestHeader("authorization") String token) {
-    accessManager.checkUser(userid2,token);
-    userService.setPassword(userid2, password);
+    accessManager.checkUser(userid,token);
+    userService.setPassword(userid, password);
   }
 }

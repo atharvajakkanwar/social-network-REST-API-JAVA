@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
  * Represents a controller for the Friends Service.
  */
 @RestController
-@RequestMapping("/{user}/friend")
+@RequestMapping("/{userid}/friend")
 @Api(description = "Friends Controller")
 public class FriendsController {
   @Autowired
@@ -44,7 +44,7 @@ public class FriendsController {
   @RequestMapping(value = "/all",
       method = RequestMethod.GET)
   public Collection<User> getAllFriends(@ApiParam(value = "User ID", required = true)
-                                        @PathVariable("user") int id,
+                                        @PathVariable("userid") int id,
                                         @RequestHeader("authorization") String token) {
     accessManager.checkUser(id, token);
     return service.getAllFriends(id);
@@ -61,7 +61,7 @@ public class FriendsController {
   @RequestMapping(value = "/all",
       method = RequestMethod.DELETE)
   public void removeAllFriends(@ApiParam(value = "User ID", required = true)
-                               @PathVariable("user") int id,
+                               @PathVariable("userid") int id,
                                @RequestHeader("authorization") String token) {
 
     accessManager.checkUser(id, token);
@@ -77,7 +77,7 @@ public class FriendsController {
   })
   @RequestMapping(value = "/unfriend/{username}/",
       method = RequestMethod.PUT)
-  public void unFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+  public void unFriend(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id1,
                        @ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                        @RequestHeader("authorization") String token) {
     accessManager.checkUser(id1, token);
@@ -94,7 +94,7 @@ public class FriendsController {
   @RequestMapping(value = "/count",
       method = RequestMethod.GET)
   public int countFriends(@ApiParam(value = "User ID", required = true)
-                          @PathVariable("user") int id,
+                          @PathVariable("userid") int id,
                           @RequestHeader("authorization") String token) {
     try {
       accessManager.checkUser(id, token);
@@ -113,7 +113,7 @@ public class FriendsController {
   })
   @RequestMapping(value = "/request/{username}/",
       method = RequestMethod.PUT)
-  public void sendRequest(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+  public void sendRequest(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id1,
                           @ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                           @RequestHeader("authorization") String token) {
     accessManager.checkUser(id1, token);
@@ -131,7 +131,7 @@ public class FriendsController {
   // will only be consumed as FIRST only
   @RequestMapping(value = "/accept/{username}/",
       method = RequestMethod.PUT)
-  public void becomeFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+  public void becomeFriend(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id1,
                            @ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                            @RequestHeader("authorization") String token) {
     accessManager.checkUser(id1, token);
@@ -147,7 +147,7 @@ public class FriendsController {
   })
   @RequestMapping(value = "/block/{username}/",
       method = RequestMethod.PUT)
-  public void blockFriend(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+  public void blockFriend(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id1,
                           @ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                           @RequestHeader("authorization") String token) {
     accessManager.checkUser(id1, token);
@@ -163,7 +163,7 @@ public class FriendsController {
   })
   @RequestMapping(value = "/common/{username}/",
       method = RequestMethod.GET)
-  public Collection<User> commonFriends(@ApiParam(value = "User ID", required = true) @PathVariable("user") int id1,
+  public Collection<User> commonFriends(@ApiParam(value = "User ID", required = true) @PathVariable("userid") int id1,
                                         @ApiParam(value = "Username", required = true) @PathVariable("username") String username,
                                         @RequestHeader("authorization") String token) {
     try {
@@ -174,7 +174,7 @@ public class FriendsController {
     }
   }
 
-  @ApiOperation(value = "Get friends with given username EVEN THOUGH THEY ARE UNIQUE")
+  @ApiOperation(value = "Return every friend with the given username EVEN THOUGH THEY ARE NOT UNIQUE")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved friend"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -184,7 +184,7 @@ public class FriendsController {
   @RequestMapping(value = "/{username}/",
       method = RequestMethod.GET)
   public Collection<User> getFriendsByName(@ApiParam(value = "Username", required = true) @PathVariable("username") String username,
-                                           @ApiParam(value = "User ID", required = true) @PathVariable("user") int id,
+                                           @ApiParam(value = "User ID", required = true) @PathVariable("userid") int id,
                                            @RequestHeader("authorization") String token) {
     try {
       accessManager.checkUser(id, token);
@@ -201,10 +201,10 @@ public class FriendsController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/pending-invations",
+  @RequestMapping(value = "/pending-invitation",
       method = RequestMethod.GET)
   public Collection<User> getInvitationList(@ApiParam(value = "User ID", required = true)
-                                            @PathVariable("user") int id,
+                                            @PathVariable("userid") int id,
                                             @RequestHeader("authorization") String token) {
     try {
       accessManager.checkUser(id, token);
@@ -224,7 +224,7 @@ public class FriendsController {
   @RequestMapping(value = "/blocked",
       method = RequestMethod.GET)
   public Collection<User> getBlockList(@ApiParam(value = "User ID", required = true)
-                                       @PathVariable("user") int id,
+                                       @PathVariable("userid") int id,
                                        @RequestHeader("authorization") String token) {
     try {
       accessManager.checkUser(id, token);

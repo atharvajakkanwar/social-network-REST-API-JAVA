@@ -146,14 +146,14 @@ public class PostgreSQLUserDaoImpl implements UserDao {
 
   @Override
   public void setFirstName(int userid, String first) {
-    final String sql = "UPDATE users SET first = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, first});
+    final String sql = "UPDATE users SET firstname = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{first, userid});
   }
 
   @Override
   public void setLastName(int userid, String last) {
-    final String sql = "UPDATE users SET last = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, last});
+    final String sql = "UPDATE users SET lastname = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{last, userid});
   }
 
   @Override
@@ -164,37 +164,37 @@ public class PostgreSQLUserDaoImpl implements UserDao {
       throw new DuplicateEmailException(user.getEmail());
     } catch (EmptyResultDataAccessException e) {
       final String sql = "UPDATE users SET email = ? WHERE userid = ?";
-      jdbcTemplate.update(sql, new Object[]{userid, email});
+      jdbcTemplate.update(sql, new Object[]{email, userid});
     }
   }
 
   @Override
   public void setAge(int userid, int age) {
     final String sql = "UPDATE users SET age = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, age});
+    jdbcTemplate.update(sql, new Object[]{age, userid});
   }
 
   @Override
   public void setGender(int userid, String gender) {
     final String sql = "UPDATE users SET gender = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, gender});
+    jdbcTemplate.update(sql, new Object[]{gender, userid});
   }
 
   @Override
   public void setCountry(int userid, String country) {
     final String sql = "UPDATE users SET country = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, country});
+    jdbcTemplate.update(sql, new Object[]{country, userid});
   }
 
   @Override
   public void setCity(int userid, String city) {
     final String sql = "UPDATE users SET city = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, city});
+    jdbcTemplate.update(sql, new Object[]{city, userid});
   }
 
   @Override
   public void setPassword(int userid, String pass) {
-    final String sql = "UPDATE users SET pas = ? WHERE userid = ?";
-    jdbcTemplate.update(sql, new Object[]{userid, pass});
+    final String sql = "UPDATE users SET password = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{pass, userid});
   }
 }
