@@ -18,6 +18,5 @@ public class Main {
     flyway.clean();
     flyway.migrate();
     SpringApplication.run(Main.class, args);
-
   }
 }
