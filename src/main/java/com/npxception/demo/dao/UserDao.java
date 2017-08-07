@@ -46,19 +46,19 @@ public interface UserDao {
   // City
   Collection<User> getUserByCity(String city);
 
-  void setFirstName(String first);
+  void setFirstName(int userId, String first);
 
-  void setLastName(String last);
+  void setLastName(int userID, String last);
 
-  void setEmail(String email);
+  void setEmail(int userID, String email);
 
-  void setAge(int age);
+  void setAge(int userID, int age);
 
-  void setGender(String gender);
+  void setGender(int userID, String gender);
 
-  void setCountry(String country);
+  void setCountry(int userID, String country);
 
-  void setCity(String city);
+  void setCity(int userID, String city);
 
-  void setPassword(String password);
+  void setPassword(int userID, String password);
 }

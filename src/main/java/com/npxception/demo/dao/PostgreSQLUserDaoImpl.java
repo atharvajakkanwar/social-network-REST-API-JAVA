@@ -1,10 +1,12 @@
 package com.npxception.demo.dao;
 
 import com.npxception.demo.entity.User;
+import com.npxception.demo.exceptions.DuplicateEmailException;
 import com.npxception.demo.helperMethods.UserInformation;
 import com.npxception.demo.helperMethods.UserRowMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
@@ -143,50 +145,56 @@ public class PostgreSQLUserDaoImpl implements UserDao {
   }
 
   @Override
-  public void setFirstName(String first) {
-    final String sql = "UPDATE users SET firstname = ?";
-    jdbcTemplate.update(sql, first);
+  public void setFirstName(int userid, String first) {
+    final String sql = "UPDATE users SET first = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, first});
   }
 
   @Override
-  public void setLastName(String last) {
-    final String sql = "UPDATE users SET lastname = ?";
-    jdbcTemplate.update(sql, last);
+  public void setLastName(int userid, String last) {
+    final String sql = "UPDATE users SET last = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, last});
   }
 
   @Override
-  public void setEmail(String email) {
-    final String sql = "UPDATE users SET email = ?";
-    jdbcTemplate.update(sql, email);
+  public void setEmail(int userid, String email) {
+    try {
+      final String sql1 = "SELECT * FROM users WHERE email = ?";
+      User user = jdbcTemplate.queryForObject(sql1, new UserRowMapper(), new Object[]{email});
+      throw new DuplicateEmailException(user.getEmail());
+    } catch (EmptyResultDataAccessException e) {
+      final String sql = "UPDATE users SET email = ? WHERE userid = ?";
+      jdbcTemplate.update(sql, new Object[]{userid, email});
+    }
   }
 
   @Override
-  public void setAge(int age) {
-    final String sql = "UPDATE users SET age = ?";
-    jdbcTemplate.update(sql, age);
+  public void setAge(int userid, int age) {
+    final String sql = "UPDATE users SET age = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, age});
   }
 
   @Override
-  public void setGender(String gender) {
-    final String sql = "UPDATE users SET gender = ?";
-    jdbcTemplate.update(sql, gender);
+  public void setGender(int userid, String gender) {
+    final String sql = "UPDATE users SET gender = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, gender});
   }
 
   @Override
-  public void setCountry(String country) {
-    final String sql = "UPDATE users SET country = ?";
-    jdbcTemplate.update(sql, country);
+  public void setCountry(int userid, String country) {
+    final String sql = "UPDATE users SET country = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, country});
   }
 
   @Override
-  public void setCity(String city) {
-    final String sql = "UPDATE users SET city = ?";
-    jdbcTemplate.update(sql, city);
+  public void setCity(int userid, String city) {
+    final String sql = "UPDATE users SET city = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, city});
   }
 
   @Override
-  public void setPassword(String pass) {
-    final String sql = "UPDATE users SET password = ?";
-    jdbcTemplate.update(sql, pass);
+  public void setPassword(int userid, String pass) {
+    final String sql = "UPDATE users SET pas = ? WHERE userid = ?";
+    jdbcTemplate.update(sql, new Object[]{userid, pass});
   }
 }
