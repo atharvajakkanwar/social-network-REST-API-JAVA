@@ -88,35 +88,35 @@ public class UserService {
     this.userDao.insertUserToDb(user);
   }
 
-  public void setFirst(String first) {
-    this.userDao.setFirstName(first);
+  public void setFirst(int userid, String first) {
+    this.userDao.setFirstName(userid, first);
   }
 
-  public void setLast(String last) {
-    this.userDao.setLastName(last);
+  public void setLast(int userid, String last) {
+    this.userDao.setLastName(userid, last);
   }
 
-  public void setEmail(String email) {
-    this.userDao.setEmail(email);
+  public void setEmail(int userid, String email) {
+    this.userDao.setEmail(userid, email);
   }
 
-  public void setAge(int age) {
-    this.userDao.setAge(age);
+  public void setAge(int userid, int age) {
+    this.userDao.setAge(userid, age);
   }
 
-  public void setGender(String gender) {
-    this.userDao.setGender(gender);
+  public void setGender(int userid, String gender) {
+    this.userDao.setGender(userid, gender);
   }
 
-  public void setCountry(String country) {
-    this.userDao.setCountry(country);
+  public void setCountry(int userid, String country) {
+    this.userDao.setCountry(userid, country);
   }
 
-  public void setCity(String city) {
-    this.userDao.setCity(city);
+  public void setCity(int userid, String city) {
+    this.userDao.setCity(userid, city);
   }
 
-  public void setPassword(String password) {
-    this.userDao.setPassword(password);
+  public void setPassword(int userid, String password) {
+    this.userDao.setPassword(userid, password);
   }
 }

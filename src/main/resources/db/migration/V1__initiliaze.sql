@@ -406,7 +406,7 @@ insert into posts (authorfirst, authorlast, content, likes, time, visibility) va
 /*
   User details
  */
-insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Rolfe', 'Cryer', 'rcryer0@feedburner.com', 42, 'Male', 'China', 'Shatian', 'uVHH3SQ', 'USER');
+insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Rolfe', 'Cryer', 'hello', 42, 'Male', 'China', 'Shatian', 'world', 'USER');
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Cissiee', 'Le Maitre', 'clemaitre1@xrea.com', 54, 'Female', 'China', 'Suqin Huimin', 'xhaEB8EU', 'USER');
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Moishe', 'Grewe', 'mgrewe2@zimbio.com', 31, 'Male', 'Saudi Arabia', 'Tabālah', 'i3NBUP', 'USER');
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Babbie', 'Mapholm', 'bmapholm3@squidoo.com', 20, 'Female', 'Honduras', 'Petoa', 'hZYUPn', 'USER');
@@ -439,6 +439,7 @@ insert into users (firstname, lastname, email, age, gender, country, city, passw
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Rowney', 'Menel', 'rmenelu@nasa.gov', 36, 'Male', 'Philippines', 'Lourdes', 'P5FaTWu', 'USER');
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Titus', 'Sinnett', 'tsinnettv@bing.com', 25, 'Male', 'Philippines', 'Camangcamang', 'cVVTQhpfeihB', 'USER');
 insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Palm', 'Mealham', 'pmealhamw@bbb.org', 26, 'Male', 'Colombia', 'Envigado', 'uQsi4Ly', 'USER');
+insert into users (firstname, lastname, email, age, gender, country, city, password, role) values ('Ad', 'Min', 'ADMIN', 26, 'Male', 'Colombia', 'Envigado', 'PASSWORD', 'ADMIN');
 
 /*
   User Privilages
