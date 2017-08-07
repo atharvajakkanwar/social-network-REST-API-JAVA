@@ -15,7 +15,7 @@ public class Main {
     //flyway.setDataSource("jdbc:postgresql://localhost/", "postgres", "1234");
     flyway.setValidateOnMigrate(false);
 //    flyway.repair();
-    flyway.clean();
+//    flyway.clean();
     flyway.migrate();
     SpringApplication.run(Main.class, args);
   }
