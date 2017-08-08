@@ -68,7 +68,7 @@ public class PostController {
     }
   }
 
-  @ApiOperation(value = "Return every post in group given User ID, Member ID, and Group ID")
+  @ApiOperation(value = "Return every post in a group by a particular user.")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of posts"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -91,7 +91,7 @@ public class PostController {
     return result;
   }
 
-  @ApiOperation(value = "Return every post in group given User ID, Member ID, Group Name")
+  @ApiOperation(value = "Return every post in group by a particular user")
   @ApiResponses(value = {
       @ApiResponse(code = 200, message = "Successfully retrieved list of posts"),
       @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
