@@ -170,12 +170,14 @@ public class PostController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
   @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void createPost(//@ApiParam(value = "Post", required = true)
-                         @RequestHeader("authorization") String token,
-                         @ApiParam(value = "Post", required = true)
-                         @RequestBody Post assignment) {
+  public void createPost( @ApiParam(value = "Post", required = true) @RequestBody Post assignment,
+                          @ApiParam(value = "User ID calling method", required = true)
+                          @PathVariable("userid") int userid,
+                          @RequestHeader("authorization") String token) {
+    accessManager.checkUser(userid,token);
     postService.createPost(assignment);
   }
+
 
   @RequestMapping(value = "/wall/", method = RequestMethod.GET)
   public Collection<DBPost> getPostUserMainPage(@ApiParam(value = "User ID", required = true)
