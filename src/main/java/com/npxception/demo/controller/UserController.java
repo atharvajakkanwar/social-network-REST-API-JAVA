@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiResponses;
  */
 
 @RestController
+@RequestMapping("/{userid}/user")
 @Api(description = "User Controller")
 public class UserController {
 
@@ -43,7 +44,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/{userid2}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{userid2}", method = RequestMethod.GET)
   public User getUserById(@ApiParam(value = "User ID that you are searching for", required = true)
                             @PathVariable("userid2") int userid2,
                           @ApiParam(value = "User ID calling method", required = true)
@@ -65,7 +66,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/remove/{userid2}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/remove/{userid2}", method = RequestMethod.DELETE)
   public void deleteUserById(@ApiParam(value = "User ID that is to be deleted", required = true)
                                @RequestBody int userid2,
                              @ApiParam(value = "User ID calling method",required = true)
@@ -99,7 +100,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/first/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/first/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByFirstName(@ApiParam(value = "First name", required = true)
                                               @PathVariable("name") String name,
                                               @ApiParam(value = "User ID calling method",required = true)
@@ -120,7 +121,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/last/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/last/{name}", method = RequestMethod.GET)
   public Collection<User> getUsersByLastName(@ApiParam(value = "Last name", required = true)
                                              @PathVariable("name") String name,
                                              @ApiParam(value = "User ID calling method",required = true)
@@ -141,7 +142,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/fullname/{name}", method = RequestMethod.GET)
+  @RequestMapping(value = "/fullname/{name}", method = RequestMethod.GET)
   public User getUsersByFullName(@ApiParam(value = "name", required = true)
                                  @PathVariable("name") String name,
                                  @ApiParam(value = "User ID calling method",required = true)
@@ -162,7 +163,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/username/{firstname}.{lastname}", method = RequestMethod.GET)
+  @RequestMapping(value = "/username/{firstname}.{lastname}", method = RequestMethod.GET)
   public User personalPage(
       @ApiParam(value = "Firstname", required = true)
       @PathVariable("firstname") String firstName,
@@ -187,7 +188,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/email/{email}/", method = RequestMethod.GET)
+  @RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
   public User getUserByEmail(@ApiParam(value = "Email address", required = true)
                              @PathVariable("email") String email,
                              @ApiParam(value = "User ID calling method",required = true)
@@ -208,7 +209,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/age/{age}", method = RequestMethod.GET)
+  @RequestMapping(value = "/age/{age}", method = RequestMethod.GET)
   public Collection<User> getUserByAge(@ApiParam(value = "Age", required = true)
                                        @PathVariable("age") int age,
                                        @ApiParam(value = "User ID calling method",required = true)
@@ -229,7 +230,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/gender/{gender}", method = RequestMethod.GET)
+  @RequestMapping(value = "/gender/{gender}", method = RequestMethod.GET)
   public Collection<User> getUsersByGender(@ApiParam(value = "Gender", required = true)
                                            @PathVariable("gender") String gender,
                                            @ApiParam(value = "User ID calling method",required = true)
@@ -250,7 +251,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/country/{country}", method = RequestMethod.GET)
+  @RequestMapping(value = "/country/{country}", method = RequestMethod.GET)
   public Collection<User> getUsersByCountry(@ApiParam(value = "Country", required = true)
                                             @PathVariable("country") String country,
                                             @ApiParam(value = "User ID calling method",required = true)
@@ -271,7 +272,7 @@ public class UserController {
       @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
-  @RequestMapping(value = "/{userid}/user/city/{city}", method = RequestMethod.GET)
+  @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
   public Collection<User> getUsersByCity(@ApiParam(value = "City", required = true)
                                          @PathVariable("city") String city,
                                          @ApiParam(value = "User ID calling method",required = true)
@@ -293,7 +294,7 @@ public class UserController {
       @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
   })
 
-  @RequestMapping(value = "/user/register", method = RequestMethod.POST,
+  @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(
       //@ApiParam(value = "User", required = true)
@@ -323,7 +324,7 @@ public class UserController {
   // will prob need to add methods for country/city/password
 
   @ApiOperation(value = "Set the first name of the user")
-  @RequestMapping(value = "/{userid}/user/setfirst/{first}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setfirst/{first}", method = RequestMethod.PUT)
   public void setFirst(@ApiParam(value = "First name", required = true)
                        @PathVariable("first") String first,
                        @ApiParam(value = "User ID calling method",required = true)
@@ -334,7 +335,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set the last name of the user")
-  @RequestMapping(value = "/{userid}/user/setlast/{last}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setlast/{last}", method = RequestMethod.PUT)
   public void setLast(@ApiParam(value = "Last name", required = true)
                       @PathVariable("last") String last,
                       @ApiParam(value = "User ID calling method",required = true)
@@ -345,7 +346,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set email of the user")
-  @RequestMapping(value = "/{userid}/user/setemail/{email}/", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setemail/{email}/", method = RequestMethod.PUT)
   public void setEmail(@ApiParam(value = "Email", required = true)
                        @PathVariable("email") String email,
                        @ApiParam(value = "User ID calling method",required = true)
@@ -360,7 +361,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set age of the user")
-  @RequestMapping(value = "/{userid}/user/setage/{age}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setage/{age}", method = RequestMethod.PUT)
   public void setAge(@ApiParam(value = "Age", required = true)
                      @PathVariable("age") int age,
                      @ApiParam(value = "User ID calling method",required = true)
@@ -371,7 +372,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set gender of the user WHERE gender has to be Male or Female")
-  @RequestMapping(value = "/{userid}/user/setgender/{gender}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setgender/{gender}", method = RequestMethod.PUT)
   public void setGender(@ApiParam(value = "Gender", required = true)
                         @PathVariable("gender") String gender,
                         @ApiParam(value = "User ID calling method",required = true)
@@ -382,7 +383,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set country of the user")
-  @RequestMapping(value = "/{userid}/user/setcountry/{country}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setcountry/{country}", method = RequestMethod.PUT)
   public void setCountry(@ApiParam(value = "Country", required = true)
                          @PathVariable("country") String country,
                          @ApiParam(value = "User ID calling method",required = true)
@@ -393,7 +394,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set city of the user")
-  @RequestMapping(value = "/{userid}/user/setcity/{city}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setcity/{city}", method = RequestMethod.PUT)
   public void setCity(@ApiParam(value = "City", required = true)
                       @PathVariable("city") String city,
                       @ApiParam(value = "User ID calling method",required = true)
@@ -404,7 +405,7 @@ public class UserController {
   }
 
   @ApiOperation(value = "Set password for the user")
-  @RequestMapping(value = "/{userid}/user/setpassword/{password}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/setpassword/{password}", method = RequestMethod.PUT)
   public void setPassword(@ApiParam(value = "Password", required = true)
                           @PathVariable("password") String password,
                           @ApiParam(value = "User ID calling method",required = true)
