@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -53,7 +54,7 @@ public class LoginController {
   @RequestMapping(value = "/register", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_JSON_VALUE)
   public void register(
-      //@ApiParam(value = "User", required = true)
+      @ApiParam(value = "User information", required = true)
       @RequestBody User user) {
     try {
       System.out.println(user.getFirstName());
