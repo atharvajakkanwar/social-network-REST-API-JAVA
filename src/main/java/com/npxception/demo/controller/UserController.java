@@ -286,27 +286,7 @@ public class UserController {
     return result;
   }
 
-  @ApiOperation(value = "Registers User WHERE: id is not required AND gender must be Male or Female")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Successfully registered user"),
-      @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-      @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-      @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-  })
 
-  @RequestMapping(value = "/register", method = RequestMethod.POST,
-      consumes = MediaType.APPLICATION_JSON_VALUE)
-  public void register(
-      //@ApiParam(value = "User", required = true)
-      @RequestBody User user) {
-    try {
-      System.out.println(user.getFirstName());
-      System.out.println(user.getLastName());
-      userService.register(user);
-    } catch (DataIntegrityViolationException e) {
-      throw new DuplicateEmailException(user);
-    }
-  }
 
 //  @ApiOperation(value = "Login")
 //  @ApiResponses(value = {
