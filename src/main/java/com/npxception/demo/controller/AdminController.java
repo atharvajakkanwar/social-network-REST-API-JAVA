@@ -10,6 +10,7 @@ import com.npxception.demo.service.PostService;
 import com.npxception.demo.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,12 +72,17 @@ public class AdminController {
   })
   @RequestMapping(value = "/groupname/{name}", method = RequestMethod.GET)
   public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Name of the group", required = true)
-                                                @PathVariable("name") String name) {
-    Collection<DBPost> result = postService.getPostsFromGroup(name);
-    if (result.size() == 0) {
+                                              @PathVariable("name") String name) {
+
+    try {
+      Collection<DBPost> result = postService.getPostsFromGroup(name);
+      return result;
+
+    } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(name);
     }
-    return result;
+
+
   }
 
   @ApiOperation(value = "Return every post in group given Group ID")
@@ -88,12 +94,14 @@ public class AdminController {
   })
   @RequestMapping(value = "/group/{groupid}", method = RequestMethod.GET)
   public Collection<DBPost> getPostsFromGroup(@ApiParam(value = "Group ID", required = true)
-                                                @PathVariable("groupid") int groupid) {
-    Collection<DBPost> result = postService.getPostsFromGroup(groupid);
-    if (result.size() == 0) {
+                                              @PathVariable("groupid") int groupid) {
+    try {
+      Collection<DBPost> result = postService.getPostsFromGroup(groupid);
+      return result;
+
+    } catch (EmptyResultDataAccessException e) {
       throw new ResourceNotFoundException(Integer.toString(groupid));
     }
-    return result;
   }
 
   @ApiOperation(value = "Return every group in the database")
