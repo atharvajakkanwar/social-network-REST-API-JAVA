@@ -1,23 +1,13 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+A RESTful web API built in JAVA. Emulates the funcitoning of a social network. Can create user accounts, make friends, groups, share messages. Search friends or groups based on different filters. Also has user authentication/authorization functionality.
 
-### What is this repository for? ###
+Used PostgreSQL as the database.
+Hosted on Heroku
 
-* Template repo
-* 1
+Endpoint:
+https://npx-social-network.herokuapp.com/
 
-### How do I get set up? ###
-
-* Open repo in Intellij
-* Install Postman Chrome Extension for http requests
-* https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop/related?hl=en
-* localhost:8081
-
-### Contribution guidelines ###
-
-* Do not merge until 29th May 10:00 pm
-
-### Who do I talk to? ###
-
-* Repo owner or admin
+Documentation available on :
+https://npx-social-network.herokuapp.com/swagger-ui.html
+(documentation may take time to load up, current availablity subject to account activity status on Heroku)
