@@ -10,4 +10,4 @@ https://npx-social-network.herokuapp.com/
 
 Documentation available on :
 https://npx-social-network.herokuapp.com/swagger-ui.html
-(documentation may take time to load up, current availablity subject to account activity status on Heroku)
+(**documentation may take time to load up**, current availablity subject to account activity status on Heroku)
